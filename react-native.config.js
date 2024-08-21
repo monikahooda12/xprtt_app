@@ -4,7 +4,10 @@ module.exports = {
         ios:{},
         android:{}
     },
-    assets:["./assests/fonts/"]
+    assets:["./src/assets/fonts"]
 
 }
+//  require('./src/assets/fonts')
+
+
 

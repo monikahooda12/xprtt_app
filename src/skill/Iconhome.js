@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { FONTS } from '../constants';
 
 const { width } = Dimensions.get('window');
 const services = [
-  { title: 'Logo & Brand Identity', image: require('../assets/icons/Rect.png') },
-  { title: 'Web & App Design', image: require('../assets/icons/Rect.png') },
-  { title: 'Visual Design', image: require('../assets/icons/Rect.png') },
+  { title: 'Graphic & Design', image: require('../assets/icons/Rect.png') },
+  { title: 'Programming & Tech', image: require('../assets/icons/Rect.png') },
+  { title: 'Video $ Animation', image: require('../assets/icons/Rect.png') },
   { title: 'Writing & Translation', image: require('../assets/icons/Rect.png') },
   { title: 'Video & Animations', image: require('../assets/icons/Rect.png') },
   { title: 'Digital Marketing', image: require('../assets/icons/Rect.png') },
@@ -26,6 +27,8 @@ const Iconhome = () => {
 
 
 <View>
+<View style={{width:321,backgroundColor:'##D0D0D0',height:1,alignSelf:'center',marginBottom:10}}/>
+
 <Text style={styles.sectionTitle}>Graphices & Design</Text>
             <View style={styles.sectionHeader}>
          <Text style={{ fontWeight: 'bold',marginStart:-8}} >we provide best service</Text>
@@ -82,11 +85,12 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 23,
-    fontWeight: 'bold',
+     fontWeight: 'bold',
     color: '#000000',
     marginBottom: -16,
      marginLeft:5,
-
+//  fontFamily: FONTS.SEMI_BOLD,
+ fontFamily:FONTS.ROBOTO_BLACK
   },
   viewAllText: {
      color: '#333',

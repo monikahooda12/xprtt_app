@@ -340,7 +340,7 @@ const Detailsuser = () => {
 //           </TouchableOpacity>
 //         </View>
 //       </Modal>
-//       <Review id ={36}/>
+      // <Review id ={36}/>
 //     </ScrollView>
 <ScrollView style={styles.container}>
       <Card>
@@ -365,22 +365,15 @@ const Detailsuser = () => {
              </View>
            </View>
            <View style={styles.skillsContainer}>
-             <TouchableOpacity style={styles.skill}>
-               <Text style={styles.skillText}>Mock Design</Text>
-             </TouchableOpacity>
-             <TouchableOpacity style={styles.skill}>
-               <Text style={styles.skillText}>Video Editing</Text>
-            </TouchableOpacity>
-             <TouchableOpacity style={styles.skill}>
-               <Text style={styles.skillText}>Vector Maker</Text>
-             </TouchableOpacity>
-             <TouchableOpacity style={styles.skill}>
-               <Text style={styles.skillText}>Create Animations</Text>
-             </TouchableOpacity>
-             <TouchableOpacity style={styles.skill}>
-               <Text style={styles.moreButtonText}>More...</Text>
-             </TouchableOpacity>
-           </View>
+        {['Mock Design', 'Video Editing', 'Vector Maker', 'Create Animations'].map((skill) => (
+          <TouchableOpacity key={skill} style={styles.skill}>
+            <Text style={styles.skillText}>{skill}</Text>
+          </TouchableOpacity>
+        ))}
+        <TouchableOpacity style={styles.moreButton}>
+          <Text style={styles.moreButtonText}>More...</Text>
+        </TouchableOpacity>
+      </View>
          </View>
       </View>  
 
@@ -397,17 +390,20 @@ const Detailsuser = () => {
 
 {/* ///////////////Professional/////////////// */}
  <Card>
+ <View >  
+       <Text style={styles.title}>{data.professional.job_title}</Text>  
+         
+     </View>
         <Section title="Professional Details">
+        <View style={styles.detailItemskill}>
            <DetailItem label="Job Title" value={data.professional.job_title} />
            <DetailItem label="Bio" value={data.professional.bio} />
+           </View>
          </Section>
        </Card> 
 
        <Card>
-       <View >  
-       <Text style={styles.title}>{data.professional.job_title}</Text>  
-         
-     </View> 
+       
 
        </Card>
 
@@ -415,6 +411,7 @@ const Detailsuser = () => {
 
 {/* ////////////////Availability//////////////////// */}
                <Card>
+                <View style={{backgroundColor:'#FOFOFO',padding:13,borderRadius:10}}>
    <Section title="Availability" >
      {Object.entries(data.professional.availability).map(([day, { isOpen }]) => (
  <DetailItemAbl
@@ -434,6 +431,7 @@ const Detailsuser = () => {
        />
      ))}
    </Section>
+   </View>
  </Card>
 {/* /////////////////////////////service///////// */}
   <Card>
@@ -458,8 +456,12 @@ const Detailsuser = () => {
    <Section title="Skills">
      {data.professional.skill.map((skill, index) => (
        <View key={index} style={styles.detailItemskill}>
+        
          <Text style={styles.detailLabel}>{skill.name}</Text>
+         {/* </View> */}
+          {/* <View style={{backgroundColor:'#FFFFFF',padding:15,borderRadius:8}}> */}
          <Text style={styles.detailValue}>{skill.level}</Text>
+         {/* </View> */}
        </View>
      ))}
    </Section>
@@ -467,10 +469,12 @@ const Detailsuser = () => {
  {/* //////language///// */}
  <Card>
    <Section title="Language">
-     <View style={styles.detailItemskill}>
-       <Text style={styles.detailLabel}>Language</Text>
-       <Text style={styles.detailValue}>{data.language}</Text>
+   {data.professional.language.map((language, index) => (
+     <View key={index} style={styles.detailItemskill}>
+       <Text style={styles.detailLabel}>Language</Text> 
+       <Text style={styles.detailValue}>{language.level}</Text>
      </View>
+      ))}
    </Section>
 
  </Card>
@@ -521,11 +525,14 @@ const Detailsuser = () => {
 
        {/* /////////////////////////total///////////////// */}
        <Card>
+      
         <Section title='Totalexpercience'>
+        <View  style={styles.detailItemskill}>
          <View styles= {styles.detailItemskill}>
           {/* <DetailItem> */}
          <Text style={styles.detailValue}>Total Experience: {data.professional.total_experience} years</Text>
          {/* </DetailItem> */}
+         </View>
          </View>
         </Section>
        </Card>
@@ -582,17 +589,6 @@ const Detailsuser = () => {
                ))}
             </View>
 
-
-      
-
-       
-
-
-
-
-
-
-      
       
       </ScrollView>
     
@@ -624,10 +620,13 @@ const styles = StyleSheet.create({
   },
 
   detailItemskill: {
-    padding: 10,
-    backgroundColor: '#e0e0e0',
-    borderRadius: 5,
-    marginBottom: 10,
+    // flexDirection: 'row',
+justifyContent: 'space-between',
+  // alignItems: 'center',
+  backgroundColor: '#F0F0F0',
+  borderRadius: 8,
+  marginBottom: 10,
+  padding: 12,
   },
   subDetailItem: {
     flexDirection: 'row',
@@ -636,9 +635,9 @@ const styles = StyleSheet.create({
   },
 
   title: {  
-    fontSize: 24,  
+    fontSize: 20,  
     fontWeight: 'bold',  
-    color: '#333',  
+    // color: '#333',  
     marginBottom: 10,  
   },  
   description: {  
@@ -649,63 +648,81 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     backgroundColor: '#f8f9fa',
-    margin:15,
+     margin:15,
   },
   profileHeader: {
     position: 'relative',
+    borderRadius:16,
+    overflow:'hidden',
   },
   profileImage: {
     width: '100%', // Set the width to 100% of the container
-    height: 300, // Set the height as undefined
+    //  height: 300, // Set the height as undefined
     aspectRatio: 11.5 / 9, // Maintain a specific aspect ratio, for example, 16:9
-    borderRadius: 25, // Border radius for rounded corners
-    marginBottom: 10,
+    //  borderRadius: 2, // Border radius for rounded corners
+    // marginBottom: 10,
     
   },
   overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
     justifyContent: 'space-between',
-    padding: 10,
+    padding: 20,
+    // position: 'absolute',
+    // top: 0,
+    // left: 0,
+    // right: 0,
+    // bottom: 0,
+    // justifyContent: 'space-between',
+    // padding: 10,
   },
   nameLocationContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    paddingTop:180,
+    // flexDirection: 'row',
+    // alignItems: 'flex-end',
+    // paddingTop:180,
+    marginTop: 'auto',
   },
   name: {
-     fontSize: 20,
+    //  fontSize: 20,
+    // fontWeight: 'bold',
+    // color: '#fff',
+    fontSize: 24,
     fontWeight: 'bold',
     color: '#fff',
+    marginBottom: 5,
   },
   locationContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 5,
+    // marginTop: 5,
   },
   location: {
     fontSize: 16,
     color: '#fff',
-    marginLeft: 5,
+   // marginLeft: 5,
   },
   skillsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    marginTop: 10,
+
   },
   skill: {
-    backgroundColor: '#e0e0e0',
-    borderRadius: 10,
-    padding: 8,
-    margin: 5,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderRadius: 20,
+    paddingVertical: 5,
+     paddingHorizontal: 10,
+    marginRight: 8,
+    // marginBottom: -19,
   },
   skillText: {
-    color: '#333',
+    color: '#fff',
+    fontSize: 14,
   },
   moreButtonText: {
-    color: '#007AFF',
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: 'bold',
   },
   coverImagesButton: {
     position: 'absolute',
@@ -719,14 +736,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: 18,
+    fontFamily:'Roboto-Black',
+     color: '#363C45',
+    fontWeight:'500',
+    height:21.09,
     marginBottom: 10,
   },
   sectionUnderline: {
     height: 2,
-    backgroundColor: '#007AFF',
+    Width:33,
+    border:1,
+    backgroundColor: '#D5D5D5',
     width: 50,
     marginBottom: 15,
   },
@@ -927,6 +948,10 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     fontWeight:'bold'
   },
+  portfolioImage:{
+    height:50,
+    width:40,
+  }  
 
 });
 

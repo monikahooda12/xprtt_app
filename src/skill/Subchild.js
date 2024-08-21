@@ -122,10 +122,11 @@ const Subchild = ({ route, navigation }) => {
     navigation.navigate('SuperSubchild',{id:service.id});
   };
 
+  
   const handleSearch = (text) => {
     const filtered = servicesData.filter(service => 
       service.name.toLowerCase().includes(text.toLowerCase())
-    );
+    );  
     setFilteredServices(filtered);
     //  setModalVisible(true); // Open the modal on search
   };

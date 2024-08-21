@@ -69,19 +69,20 @@ export default Homechild
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        padding: 16,
+        // flex: 1,
+        padding:16,
+        
         // backgroundColor: '#f8f8f8',
     },
     header: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 16,
+         marginBottom: 16,
     },
     categoryItem: {
         marginRight: 16,
         alignItems: 'center',
-        width: 120,
+         width: 120,
     },
     serviceIcon: {
         width: (width - 75) / 3,

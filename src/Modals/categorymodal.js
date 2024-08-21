@@ -1,10 +1,16 @@
 // Modal.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Modal } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import { COLORS } from '../constants';
 
 const CategoryModal = ({ visible, onClose, services, selectedServices, label,onCheckboxToggle }) => {
+  const [isApplyEnabled, setIsApplyEnabled] = useState(false);
+  useEffect(() => {
+    // Check if any service is selected
+    const anySelected = Object.values(selectedServices).some((isSelected) => isSelected);
+    setIsApplyEnabled(anySelected);
+  }, [selectedServices]);
   return (
     <Modal
       animationType="slide"
@@ -44,7 +50,18 @@ const CategoryModal = ({ visible, onClose, services, selectedServices, label,onC
           />
           
             <TouchableOpacity
-            style={{backgroundColor:'#6C63FF',alignItems:'center',justifyContent:'center',padding:10,borderRadius:10,width:'50%',alignSelf:'center',}}>
+            style={[styles.applybutn,
+              {backgroundColor:isApplyEnabled? '#6C63FF' :'#999'}
+            ]}
+            onPress={()=>{
+              if(isApplyEnabled){
+                onApply();
+                onClose();
+              }
+            }}
+            disabled={!isApplyEnabled}
+            // style={{backgroundColor:'#6C63FF',alignItems:'center',justifyContent:'center',padding:10,borderRadius:10,width:'50%',alignSelf:'center',}}
+            >
            
               <Text>Apply</Text>
               </TouchableOpacity>
@@ -97,6 +114,16 @@ const styles = StyleSheet.create({
     color: '#6C63FF',
     fontSize: 16,
   },
+applybutn:{
+  backgroundColor:'#6C63FF',
+    
+    alignItems:'center',justifyContent:'center',
+    padding:10,
+    borderRadius:10,
+    width:'50%',
+    alignSelf:'center',
+}
+
 });
 
 export default CategoryModal;

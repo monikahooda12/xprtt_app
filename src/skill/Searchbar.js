@@ -11,6 +11,10 @@ const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredCategories, setFilteredCategories] = useState([]);
 
+  const handleProfileOpen = () => {
+    navigation.navigate('Welcome'); // Replace 'Profile' with the name of your profile screen
+  };
+
   useEffect(() => {
     setFilteredCategories(categoriesData);
   }, [categoriesData]);
@@ -27,7 +31,7 @@ const SearchBar = () => {
            <Image source={require('../assets/icons/logo.png')} style={styles.icon} />
          </TouchableOpacity>
          <Text style={styles.title}>Home</Text>
-         <TouchableOpacity>
+         <TouchableOpacity    onPress={handleProfileOpen}>
            <Image source={require('../assets/icons/account.png')} style={styles.icon} />
          </TouchableOpacity>
        </View>

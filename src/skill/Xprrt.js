@@ -1,4 +1,3 @@
-import FilterModal from './FilterModal';
 import React, {useEffect, useState} from 'react';
 import {
   View,
@@ -10,18 +9,17 @@ import {
   TouchableOpacity,
   Dimensions,
   SafeAreaView,
+  Modal,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {API} from '../constants';
 import {httpRequest} from '../api/http';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {parse} from 'react-native-svg';
-import {Card} from 'react-native-paper';
-import {red} from 'react-native-reanimated/lib/typescript/Colors';
+import Userfilter from './FilterModal';
 
 const {width} = Dimensions.get('window');
-const cardWidth = width * 0.91; // 70% of screen width
+const cardWidth = width * 0.91;
 
 const Xprrt = () => {
   const navigation = useNavigation();
@@ -32,9 +30,10 @@ const Xprrt = () => {
   const [categories, setCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
-  const [professionalObj, setProfessionalObj] = useState([]);
 
+
+
+  const [isFilterVisible, setFilterVisible] = useState(false);
   const [filters, setFilters] = useState({
     experience: '',
     gender: '',
@@ -42,37 +41,20 @@ const Xprrt = () => {
     category: '',
   });
 
-  // const applyFilters = () => {
-  //   setIsFilterModalVisible(false);
-  //   const filteredData = data.filter(item => {
-  //     return (
-  //       // (!filters.experience || item.professional?.experience?.length >= parseInt(filters.experience)) &&
-  //       // (!filters.gender || item.gender === filters.gender) &&
-  //       // (!filters.location || item.city.toLowerCase().includes(filters.location.toLowerCase()) || item.state.toLowerCase().includes(filters.location.toLowerCase())) &&
-  //       (!filters.category || item.categories?.some(cat => cat.name === filters.category))
-  //     );
-  //   });
-  //   setData(filteredData);
-  // };
-
-  // Fetch and filter data based on user inputs-----------------------
   const applyFilter = async filters => {
     try {
-      // Fetch categories and users data
-      const categories = await fetchItems(); // Fetch categories
-      const flattenedCategories = flattenItems(categories); // Flatten the categories if nested
+      const categories = await fetchItems();
+      const flattenedCategories = flattenItems(categories);
 
-      const usersResponse = await httpRequest({url: API.USERS, method: 'GET'}); // Fetch users
+      const usersResponse = await httpRequest({url: API.USERS, method: 'GET'});
       const users = usersResponse?.data?.list || [];
 
-      // Filter users based on experience and gender
       const filteredUsers = users.filter(user => {
         const matchesExperience = user.experience >= filters.experience;
         const matchesGender = !filters.gender || user.gender === filters.gender;
         return matchesExperience && matchesGender;
       });
 
-      // Extract categories from filtered users
       const userCategories = filteredUsers.flatMap(
         user => user.categories || [],
       );
@@ -80,7 +62,6 @@ const Xprrt = () => {
         ...new Set(userCategories.map(cat => JSON.stringify(cat))),
       ].map(str => JSON.parse(str));
 
-      // Further filter categories based on user selection (if any)
       const filteredCategories = flattenedCategories.filter(category => {
         return uniqueCategories.some(uniqueCat => uniqueCat.id === category.id);
       });
@@ -114,12 +95,17 @@ const Xprrt = () => {
     }
   };
 
+  const handleFilterApplied = (users) => {
+    console.log('Filtered users:', users);
+    setData(users|| []);
+    // setFilteredUsers(users); // Store the filtered users in state or use as needed
+  };
+
   const handleSearch = () => {
     console.log('Search Query:', searchQuery);
   };
-  //////////////////////////////////////////////////////////////////////////////////////////////////////{itemNmae}
+
   const renderProfileCard = () => {
-    const navigation = useNavigation();
     return (
       <ScrollView>
         {data.map(item => (
@@ -133,11 +119,19 @@ const Xprrt = () => {
               />
 
               <View style={styles.overlay}>
-                {/* <Text style={styles.experienceText}>2 Years Experience</Text> */}
                 <Text style={styles.experienceText}>
-                  Total Experience: {item.professional.total_experience} years
+                  {item.professional.total_experience} years exp.
                 </Text>
-                <Text style={styles.priceText}>$12/Project</Text>
+
+                <View style={styles.servicesContainer}>
+                  {item.professional.service.map((service, index) => (
+                    <View key={index} style={styles.serviceBadge}>
+                      <Text style={styles.priceText}>
+                        ${service.min_price} - ${service.max_price}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
               </View>
 
               <View style={styles.profileInfo}>
@@ -147,135 +141,40 @@ const Xprrt = () => {
                     style={styles.profileImage}
                   />
                 </View>
-                <View style={{flexDirection:'row',flex:1,justifyContent:"space-between"}}>
+                <View style={{flexDirection: 'row', flex: 1, justifyContent: 'space-between'}}>
                   <View>
-                  <Text style={styles.name}>{item.name}</Text>
-                  <View style={styles.location}>
-                    <Image
-                      source={require('../assets/icons/carbon_location-filled.png')}
-                      style={{height: 19, width: 17}}
-                    />
-                    <Text style={styles.city}>{item.city}</Text>
-
-                  
-                   
+                    <Text style={styles.name}>{item.name}</Text>
+                    <View style={styles.location}>
+                      <Image
+                        source={require('../assets/icons/carbon_location-filled.png')}
+                        style={{height: 19, width: 17}}
+                      />
+                      <Text style={styles.city}>{item.city},</Text>
+                      <Text style={styles.city}>{item.state}</Text>
+                    </View>
                   </View>
+                  <View style={styles.ratingContainer}>
+                    <Text style={styles.ratingText}>(12)</Text>
                   </View>
-                   <View style={styles.ratingContainer}>
-                     
-                      <Text style={styles.ratingText}>(12)</Text>
-                    </View>
-                  {/* <View style={styles.skillsContainer}>
-                    <View style={styles.skillBadge}>
-                      <Text style={styles.skillText}>
-                        {item.professional.skill.name}name
-                      </Text>
-                    </View>
-                    <View style={styles.skillBadge}>
-                      <Text style={styles.skillText}>
-                        {item.professional.skill.level}level
-                      </Text>
-                    </View>
-
-                  
-                  </View> */}
-                  {/* <Image
-                  source={require('../assets/icons/carbon_location-filled.png')}
-                  style={{ height: 19, width: 17 }}
-                /> */}
-                  {/* <Text style={styles.city}>{item.city}</Text> */}
                 </View>
-                {/* <Text style={styles.state}>{item.state}</Text> */}
-                {/* <View style={styles.statsContainer}> */}
-                {/* <View style={styles.statItem}> */}
-                {/* <Icon name="star" size={16} color="#FFD700" /> */}
-                {/* <Text style={styles.statText}>4.8</Text> */}
+              </View>
+              <View style={styles.skillsContainer}>
+              {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}> */}
+                {item.professional.skill.map((skill, index) => (
+                  <View key={index} style={styles.skillBadge}>
+                    <Text style={styles.skillText}>{skill.name}</Text>
+                  </View>
+                ))}
+                {/* </ScrollView> */}
               </View>
             </View>
-            {/* </View> */}
-            {/* </View> */}
           </TouchableOpacity>
         ))}
+
+      
       </ScrollView>
     );
   };
-
-  // return (
-  //   <SafeAreaView style={styles.container}>
-  //     {renderProfileCard()}
-  //   </SafeAreaView>
-  // );
-  // };
-
-  // const renderProfileCard = (item, index, type) => (
-  //   <TouchableOpacity
-  //     onPress={() => navigation.navigate('Detailsuser', { user: item })}
-  //     key={item.registration_id || index}
-  //     style={[styles.profileCard, { width: cardWidth }]}
-  //   >
-  //     <Image source={{ uri: item.profile_image || 'default_image_url' }} style={styles.profileImage} />
-  //     <View style={styles.cardContent}>
-  //       <Text style={styles.name}>{item.name || 'No Name'}</Text>
-  //       <View style={styles.locationContainer}>
-  //         <Image
-  //           source={require('../assets/icons/carbon_location-filled.png')}
-  //           style={{height:17,width:15}}
-  //         />
-  //         <Text style={styles.location}>{item.city || 'Unknown'}, {item.state || 'Unknown'}</Text>
-  //       </View>
-  //       <View style={styles.statsContainer}>
-  //         <View style={styles.statItem}>
-  //           <Icon name="star" size={16} color="#FFD700" />
-  //           <Text style={styles.statText}>4.8</Text>
-  //         </View>
-  //         <View style={styles.statItem}>
-  //           <Icon name="briefcase-outline" size={16} color="#007AFF" />
-  //           <Text style={styles.statText}>{item.professional?.experience?.length || 0} jobs</Text>
-  //         </View>
-  //       </View>
-  //     </View>
-  //     <View style={[styles.cardType, styles[`${type.toLowerCase()}Type`]]}>
-  //       <Text style={styles.cardTypeText}>{type}</Text>
-  //     </View>
-  //   </TouchableOpacity>
-  // );
-
-  // const renderCategories = () => (
-  //   <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoriesContainer}>
-  //     <TouchableOpacity
-  //       style={[styles.categoryItem, !selectedCategory && styles.selectedCategory]}
-  //       onPress={() => setSelectedCategory(null)}
-  //     >
-  //       <Text style={styles.categoryText}>All</Text>
-  //     </TouchableOpacity>
-  //     {categories.map((category) => (
-  //       <TouchableOpacity
-  //         key={category.id}
-  //         style={[styles.categoryItem, selectedCategory === category.name && styles.selectedCategory]}
-  //         onPress={() => setSelectedCategory(category.name)}
-  //       >
-  //         <Text style={styles.categoryText}>{category.name}</Text>
-  //       </TouchableOpacity>
-  //     ))}
-  //   </ScrollView>
-  // );
-
-  // const renderSection = (title, data, type) => {
-  //   const filteredData = selectedCategory
-  //     ? data.filter(item => item.categories?.some(cat => cat.name === selectedCategory))
-  //     : data;
-
-  //   return (
-  //     <View style={styles.section}>
-  //       <Text style={styles.sectionTitle}>{title}</Text>
-  //       <ScrollView>
-  //         {filteredData.map((item, index) => renderProfileCard(item, index, type))}
-  //       </ScrollView>
-  //     </View>
-  //   );
-  // };
-
-  /////////////////////////catergory wali////////////////////s
 
   const renderCategories = () => (
     <ScrollView
@@ -298,115 +197,98 @@ const Xprrt = () => {
             selectedCategory === category.name && styles.selectedCategory,
           ]}
           onPress={() => setSelectedCategory(category.name)}>
-          <Text style={styles.categoryText}>{category.name}</Text>
-          {selectedCategory === category.name && (
-            <TouchableOpacity
-              style={styles.removeCategory}
-              onPress={() => setSelectedCategory(null)}>
-              <Text style={styles.removeCategoryText}>×</Text>
-            </TouchableOpacity>
-          )}
+          
+            <Text style={styles.categoryText}>{category.name}</Text>
+            {selectedCategory === category.name && (
+              <TouchableOpacity
+                style={styles.removeCategory}
+                onPress={() => setSelectedCategory(null)}>
+                <Text style={styles.removeCategoryText}>×</Text>
+              </TouchableOpacity>
+            )}
+          
         </TouchableOpacity>
       ))}
     </ScrollView>
   );
 
-  const renderSection = (title, data, type) => {
-    const filteredData = selectedCategory
-      ? data.filter(item =>
-          item.categories?.some(cat => cat.name === selectedCategory),
-        )
-      : data;
-
-    return (
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>{title}</Text>
-        <ScrollView>
-          {/* {filteredData.map((item, index) => renderProfileCard(item, index, type))} */}
-        </ScrollView>
-      </View>
-    );
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        {/* <Text style={styles.itemName}>{item.name}</Text>
-      {item.professional?.job_title && (
-        <Text style={styles.itemDescription}>{item.professional.job_title}</Text>   
-      )} */}
+        {/* Header content can go here */}
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginRight: 10,
-          paddingRight: 40,
-        }}>
+      <View style={{flexDirection: 'row', alignItems: 'center', marginRight: 10, paddingRight: 40}}>
         <View style={styles.searchSection}>
-          {/* <Image
-          source={require('../assets/icons/Icon.png')}
-          style={{height:19, width:19}}
-        /> */}
-          {/* //////////////////////////////////////////////////////////// */}
-          {/* <Text style={styles.title}>Details for: {itemName}</Text> */}
-
           <TouchableOpacity
             onPress={() => navigation.navigate(Homesubchild, {itemName})}>
             <Text style={styles.title}>Details for: {itemName}</Text>
           </TouchableOpacity>
-
           <TextInput
             style={styles.searchInput}
-            // placeholder="Search ..."
             value={searchQuery}
             onChangeText={setSearchQuery}
             onSubmitEditing={handleSearch}
           />
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingHorizontal: 19,
-            height: 48,
-            width: 60,
-            borderRadius: 6,
-            backgroundColor: '#6C63FF',
-          }}>
-          <TouchableOpacity
-            style={styles.filterButton}
-            onPress={() => setIsFilterModalVisible(true)}>
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 19,
+          height: 48,
+          width: 60,
+          borderRadius: 6,
+          backgroundColor: '#6C63FF',
+        }}>
+          <TouchableOpacity style={styles.filterButton}
+            onPress={() => setFilterVisible(true)} // Show the Userfilter when filter button is pressed
+          >
             <Image
-              source={require('../assets/icons/whitefilter.png')} ///////filter/////////
+              source={require('../assets/icons/whitefilter.png')}
               style={{height: 16, width: 16}}
             />
           </TouchableOpacity>
         </View>
       </View>
-      <FilterModal
-        visible={isFilterModalVisible}
-        onClose={() => setIsFilterModalVisible(false)}
-        filters={filters}
-        setFilters={setFilters}
-        categories={categories}
-        applyFilters={applyFilter}
-      />
       {renderCategories()}
       {renderProfileCard()}
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {renderSection('Featured Experts', data.slice(0, 5), 'Featured')}
-        {renderSection('New Joiners', data.slice(5, 10), 'New')}
-        {renderSection('Top Rated', data.slice(10, 15), 'Top')}
-        {renderSection(
-          'Recommended for You',
-          data.slice(15, 20),
-          'Recommended',
-        )}
-      </ScrollView>
+
+  {/* Modal to display the Userfilter */}
+  <Modal
+        visible={isFilterVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setFilterVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          {/* <Userfilter 
+          
+          onClose={()=>setFilterVisible(false)}
+          onFilterApplied={(filteredUsers)=>{
+            console.log('filterusers:',filteredUsers);
+            setFilterVisible(false);
+          }}
+          
+          /> */}
+           <Userfilter
+          onClose={() => setFilterVisible(false)}
+          onFilterApplied={handleFilterApplied}
+        />
+  
+
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => setFilterVisible(false)} // Close the filter modal
+          >
+            <Text style={styles.closeButtonText}>Close</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+
+
     </SafeAreaView>
   );
 };
+
 
 const styles = StyleSheet.create({
   card: {
@@ -455,18 +337,19 @@ const styles = StyleSheet.create({
     paddingVertical:15,
   },
   profileImage: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height:40,
     borderRadius: 40,
     marginTop: 5,
     borderWidth: 3,
-    borderColor: 'red',
+    borderColor: 'black',
     
   },
   name: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: 'bold',
     //  marginTop: 10,
+    
   },
   location: {
     fontSize: 14,
@@ -486,10 +369,12 @@ const styles = StyleSheet.create({
   },
   skillsContainer: {
     flexDirection: 'row',
-    marginTop: 10,
+    // marginTop: 11,
+    marginBottom:15,
+    left:13,
   },
   skillBadge: {
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#C5DBF5',
     borderRadius: 15,
     paddingVertical: 5,
     paddingHorizontal: 10,
@@ -497,6 +382,8 @@ const styles = StyleSheet.create({
   },
   skillText: {
     fontSize: 12,
+    Color: '#3B33B7',
+
   },
 
   // ///////////////////////////
@@ -505,51 +392,62 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F9Fa',
     margin: 10,
   },
-  // removeCategory: {
-  //   position: 'absolute',
-  //   top: -5,
-  //   right: -5,
-  //   width: 20,
-  //   height: 20,
-  //   borderRadius: 10,
+   removeCategory: {
+    //  position: 'absolute',
 
-  //  backgroundColor: '#999', /////background dark
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  // },
-  // removeCategoryText: {
-  //   color: 'white',
-  //   fontSize: 16,
-  //   fontWeight: 'bold',
-  //   lineHeight: 20,
-  //   textAlign: 'right',
+      // top: -5,
+      // right:-10,
+    //  right: -25,
+     width: 18,
+     height: 18,
+     borderRadius: 9,
 
-  // },
-  // categoriesContainer: {
+    backgroundColor: '#FDC1C1', /////background dark pink
+     justifyContent: 'center',
+     alignItems: 'center',
+    //  zIndex:1,
+    marginLeft:8,
+   },
+   removeCategoryText: {
+     color: '#D90808',
+     fontSize: 14,
+     fontWeight: 'bold',
+     lineHeight: 18,
+     textAlign: 'center',
+     
 
-  //    height:80,
-  //   paddingVertical: 7,
-  //   paddingHorizontal: 15,
-  //   backgroundColor: '#f5f5f5',
-  // },
+  },
+   categoriesContainer: {
+
+      height:80,
+     paddingVertical: 7,
+     paddingHorizontal: 15,
+      backgroundColor: '#f5f5f5',
+   },
   categoryItem: {
-    height: 50,
-    marginRight: 10, // Space between category items
-    paddingVertical: 8,
-    paddingHorizontal: 10,
-    borderRadius: 10, // Rounded corners
-    backgroundColor: '#ffffff', // Background color for unselected categories
-    borderWidth: 1,
-    borderColor: '#ddd', // Border color for unselected categories
+    height: 40,
+  marginRight: 10,
+  paddingVertical: 8,
+  paddingHorizontal: 16, // Increase horizontal padding
+  paddingRight: 24, // Add extra padding on the right for the close button
+  borderRadius: 6, // Make it more rounded
+  backgroundColor: '#ffffff',
+  borderWidth: 1,
+  borderColor: '#ddd',
+  flexDirection: 'row', // Align text and close button horizontally
+  alignItems: 'center', // Center items vertically
+  justifyContent:'space-between',
+  gap:5,
   },
   selectedCategory: {
-    height: 50,
-    backgroundColor: '#ccc', // Background color for selected categories
+    height: 40,
+    backgroundColor: '#F1F1F1', // Background color for selected categories
     borderColor: '#fff', // Border color for selected categories
   },
   categoryText: {
     fontSize: 16,
     color: '#333', // Text color for unselected categories
+    
   },
   header: {
     flexDirection: 'row',

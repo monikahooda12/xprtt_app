@@ -74,7 +74,7 @@ LIGHTGRAY:'#999',
     PRIMARY_LIGHTER: '#21342f',
 
    // SECONDARY:'#00D094', ORGINAL==========(GREEEN)
-SECONDARY :'rgb(60,235,230)',
+SECONDARY :'#6C63FF',
     
    DESCRIPTION:'#0a1e18',
   // DESCRIPTION:'#000000',
@@ -136,6 +136,13 @@ export const FONTS = Object.freeze({
     REGULAR: 'Nunito-Regular',
     LIGHT: 'Nunito-Light',
     ITALIC: 'Nunito-Italic',
+    BlackITALIC:'Roboto-BlackItalic',
+    ROBOTO_BOLD:'Roboto-Bold',
+    ROBOTO_LIGHT:'Roboto-LighhtItalic',
+    ROBOTO_REGULAR:'Roboto-Regular',
+    ROBOTO_THIN:'Roboto-Thin',
+    ROBOTO_THINITALIC:'Roboto_ThinItalic',
+ROBOTO_BLACK:'Roboto_Black',
 });
 
 export const firebaseConfig = {
