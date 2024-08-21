@@ -7,7 +7,7 @@ import { API } from '../constants';
 import { useDispatch } from 'react-redux';
 import {
   setCategories,
-  setSelectedCategoryID,
+  setSelectedCategoryID,setselectedServiceNames
 } from '../redux/categories/categorySlice';
 
 import { CardGrid, SearchBar } from '../components/card';
@@ -21,6 +21,7 @@ const Home1 = () => {
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedServices, setSelectedServices] = useState({});
+  const [selectedServicesNames, setSelectedServicesNames] = useState([]);
   const dispatch = useDispatch();
 
   const addToCart = service => {
@@ -62,11 +63,24 @@ const Home1 = () => {
     console.log("filteredCategories",filteredCategories)
   };
 
-  const handleCheckboxToggle = serviceId => {
+  const handleCheckboxToggle = (serviceId, item) => {
+    setSelectedServicesNames(prevState => {
+      if (prevState.includes(item.title)) {
+        return prevState.filter(serviceName => serviceName !== item.title);
+      } else {
+        return [...prevState, item.title];
+      }
+    });
+console.log("selectedServicesNames",selectedServicesNames)
     setSelectedServices(prevState => ({
       ...prevState,
       [serviceId]: !prevState[serviceId],
     }));
+  };
+
+  const handleOnApply = () => {
+    dispatch(setselectedServiceNames(selectedServicesNames));
+    console.log(selectedServicesNames);
   };
 
   return (
@@ -89,6 +103,8 @@ const Home1 = () => {
         selectedServices={selectedServices}
         label="Select Categories"
         onCheckboxToggle={handleCheckboxToggle}
+        onApply={handleOnApply}
+        
       />
     </View>
   );

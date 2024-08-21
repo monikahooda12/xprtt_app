@@ -5,7 +5,7 @@ const initialState = {
   selectedCategoryID:null,
   selectedService: null,
   searchTerm: '',
-
+ selectedServiceName:null,
 };
 
 const categorySlice = createSlice({
@@ -27,6 +27,9 @@ const categorySlice = createSlice({
 
 setCats:(state,action)=>{
   state.cats = action.payload;
+},
+setselectedServiceNames:(state,action)=>{
+  state.selectedServiceNames = action.payload;
 }
 
   
@@ -34,5 +37,5 @@ setCats:(state,action)=>{
   },
 });
 
-export const { setCategories,setSelectedCategoryID,setselectedService,setSearchTerm } = categorySlice.actions;
+export const { setCategories,setSelectedCategoryID,setselectedService,setSearchTerm ,setselectedServiceNames} = categorySlice.actions;
 export default categorySlice.reducer;

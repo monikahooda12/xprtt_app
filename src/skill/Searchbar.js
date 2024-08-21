@@ -4,20 +4,37 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import { responsiveWidth } from 'react-native-responsive-dimensions';
 import { useSelector } from 'react-redux';
+import { getLocalData } from '../utils';
+import { COLORS, ICONS, LOCAL_DB } from '../constants';
 
 const SearchBar = () => {
   const navigation = useNavigation();
   const categoriesData = useSelector(state => state.categories);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredCategories, setFilteredCategories] = useState([]);
+  const [image,setImage] = useState('');
 
   const handleProfileOpen = () => {
-    navigation.navigate('Welcome'); // Replace 'Profile' with the name of your profile screen
+    navigation.navigate('Account2'); // Replace 'Profile' with the name of your profile screen
   };
 
   useEffect(() => {
     setFilteredCategories(categoriesData);
   }, [categoriesData]);
+
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+        const user = await getLocalData(LOCAL_DB.USER);
+        setImage(user.profile_image);
+
+       
+    };
+    fetchData();
+    
+},[]);
+console.log("image",image)
 
   const navigateToSearchResults = () => {
     navigation.navigate('SearchResults', { searchTerm });
@@ -32,7 +49,14 @@ const SearchBar = () => {
          </TouchableOpacity>
          <Text style={styles.title}>Home</Text>
          <TouchableOpacity    onPress={handleProfileOpen}>
-           <Image source={require('../assets/icons/account.png')} style={styles.icon} />
+           {/* <Image source={require('../assets/icons/account.png')} style={styles.icon} /> */}
+           <View style={{ ...styles.imageContainer, overflow: 'hidden' }}>
+                                <Image
+                                    source={image ? { uri: image } : ICONS.AVATAR}
+                                    style={{ height: 60, width: 60, resizeMode: 'contain' }}
+                                />
+                            </View>
+
          </TouchableOpacity>
        </View>
    
@@ -86,6 +110,14 @@ const SearchBar = () => {
 };
 
 const styles = StyleSheet.create({
+
+  imageContainer: {
+    borderRadius: 100,
+    backgroundColor: COLORS.WHITE,
+    borderWidth: 1,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+},
+
   container: {
 
     flex: 1,

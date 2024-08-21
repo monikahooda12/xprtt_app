@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Modal } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import { COLORS } from '../constants';
-
-const CategoryModal = ({ visible, onClose, services, selectedServices, label,onCheckboxToggle }) => {
+ 
+const CategoryModal = ({ visible, onClose, services, selectedServices, label,onCheckboxToggle, onApply }) => {
   const [isApplyEnabled, setIsApplyEnabled] = useState(false);
   useEffect(() => {
     // Check if any service is selected
@@ -41,7 +41,7 @@ const CategoryModal = ({ visible, onClose, services, selectedServices, label,onC
               <View style={styles.checkboxContainer}>
                 <CheckBox
                   value={!!selectedServices[item.id]}
-                  onValueChange={() => onCheckboxToggle(item.id)}
+                  onValueChange={() => onCheckboxToggle(item.id, item)}
                   tintColors={{ true: '#6C63FF', false: '#999' }} // Red color for both checked and unchecked states
                 />
                 <Text style={styles.checkboxLabel}>{item.name}</Text>

@@ -11,7 +11,7 @@ import {
   SafeAreaView,
   Modal,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {API} from '../constants';
 import {httpRequest} from '../api/http';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -31,7 +31,7 @@ const Xprrt = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-
+  
 
   const [isFilterVisible, setFilterVisible] = useState(false);
   const [filters, setFilters] = useState({
@@ -40,6 +40,8 @@ const Xprrt = () => {
     location: '',
     category: '',
   });
+
+  const selectedServiceNames = useSelector(state => state.categories.selectedServiceNames);
 
   const applyFilter = async filters => {
     try {
@@ -82,7 +84,16 @@ const Xprrt = () => {
         url: API.USERS,
         method: 'GET',
       });
-      setData(response?.data?.list || []);
+      const userData = response?.data?.list;
+      //const mainCategories = data.map(user => user.professional.main_category);
+      const filteredUsers = userData.filter(user =>
+        selectedServiceNames.includes(
+          user.professional.main_category,
+        ),
+      );
+
+      setData(userData || []);
+      console.log('data', filteredUsers);
       const allCategories = response?.data?.list.flatMap(
         user => user.categories || [],
       );
@@ -95,15 +106,17 @@ const Xprrt = () => {
     }
   };
 
-  const handleFilterApplied = (users) => {
+  const handleFilterApplied = users => {
     console.log('Filtered users:', users);
-    setData(users|| []);
+    setData(users || []);
     // setFilteredUsers(users); // Store the filtered users in state or use as needed
   };
 
   const handleSearch = () => {
     console.log('Search Query:', searchQuery);
   };
+
+  const defaultImage = 'https://via.placeholder.com/150'; // URL of the default image
 
   const renderProfileCard = () => {
     return (
@@ -114,7 +127,7 @@ const Xprrt = () => {
             onPress={() => navigation.navigate('Detailsuser', {data: item})}>
             <View style={styles.card}>
               <Image
-                source={{uri: item.profile_image}}
+                source={{uri: item.profile_image || defaultImage}}
                 style={styles.backgroundImage}
               />
 
@@ -124,24 +137,29 @@ const Xprrt = () => {
                 </Text>
 
                 <View style={styles.servicesContainer}>
-                  {item.professional.service.map((service, index) => (
+                  {item.professional.service?.map((service, index) => (
                     <View key={index} style={styles.serviceBadge}>
                       <Text style={styles.priceText}>
                         ${service.min_price} - ${service.max_price}
                       </Text>
                     </View>
-                  ))}
+                  )) || <Text>No services available</Text>}
                 </View>
               </View>
 
               <View style={styles.profileInfo}>
                 <View>
                   <Image
-                    source={{uri: item.profile_image}}
+                    source={{uri: item.profile_image || defaultImage}}
                     style={styles.profileImage}
                   />
                 </View>
-                <View style={{flexDirection: 'row', flex: 1, justifyContent: 'space-between'}}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flex: 1,
+                    justifyContent: 'space-between',
+                  }}>
                   <View>
                     <Text style={styles.name}>{item.name}</Text>
                     <View style={styles.location}>
@@ -158,20 +176,17 @@ const Xprrt = () => {
                   </View>
                 </View>
               </View>
+
               <View style={styles.skillsContainer}>
-              {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}> */}
-                {item.professional.skill.map((skill, index) => (
+                {item.professional.skill?.map((skill, index) => (
                   <View key={index} style={styles.skillBadge}>
                     <Text style={styles.skillText}>{skill.name}</Text>
                   </View>
-                ))}
-                {/* </ScrollView> */}
+                )) || <Text>No skills listed</Text>}
               </View>
             </View>
           </TouchableOpacity>
         ))}
-
-      
       </ScrollView>
     );
   };
@@ -189,24 +204,22 @@ const Xprrt = () => {
         onPress={() => setSelectedCategory(null)}>
         <Text style={styles.categoryText}>All</Text>
       </TouchableOpacity>
-      {categories.map(category => (
+      {categories.map((category, index) => (
         <TouchableOpacity
-          key={category.id}
+          key={`${category.id}-${index}`}
           style={[
             styles.categoryItem,
             selectedCategory === category.name && styles.selectedCategory,
           ]}
           onPress={() => setSelectedCategory(category.name)}>
-          
-            <Text style={styles.categoryText}>{category.name}</Text>
-            {selectedCategory === category.name && (
-              <TouchableOpacity
-                style={styles.removeCategory}
-                onPress={() => setSelectedCategory(null)}>
-                <Text style={styles.removeCategoryText}>×</Text>
-              </TouchableOpacity>
-            )}
-          
+          <Text style={styles.categoryText}>{category.name}</Text>
+          {selectedCategory === category.name && (
+            <TouchableOpacity
+              style={styles.removeCategory}
+              onPress={() => setSelectedCategory(null)}>
+              <Text style={styles.removeCategoryText}>×</Text>
+            </TouchableOpacity>
+          )}
         </TouchableOpacity>
       ))}
     </ScrollView>
@@ -214,10 +227,14 @@ const Xprrt = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        {/* Header content can go here */}
-      </View>
-      <View style={{flexDirection: 'row', alignItems: 'center', marginRight: 10, paddingRight: 40}}>
+      <View style={styles.header}>{/* Header content can go here */}</View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginRight: 10,
+          paddingRight: 40,
+        }}>
         <View style={styles.searchSection}>
           <TouchableOpacity
             onPress={() => navigation.navigate(Homesubchild, {itemName})}>
@@ -230,16 +247,18 @@ const Xprrt = () => {
             onSubmitEditing={handleSearch}
           />
         </View>
-        <View style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingHorizontal: 19,
-          height: 48,
-          width: 60,
-          borderRadius: 6,
-          backgroundColor: '#6C63FF',
-        }}>
-          <TouchableOpacity style={styles.filterButton}
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingHorizontal: 19,
+            height: 48,
+            width: 60,
+            borderRadius: 6,
+            backgroundColor: '#6C63FF',
+          }}>
+          <TouchableOpacity
+            style={styles.filterButton}
             onPress={() => setFilterVisible(true)} // Show the Userfilter when filter button is pressed
           >
             <Image
@@ -252,13 +271,12 @@ const Xprrt = () => {
       {renderCategories()}
       {renderProfileCard()}
 
-  {/* Modal to display the Userfilter */}
-  <Modal
+      {/* Modal to display the Userfilter */}
+      <Modal
         visible={isFilterVisible}
         animationType="slide"
         transparent={true}
-        onRequestClose={() => setFilterVisible(false)}
-      >
+        onRequestClose={() => setFilterVisible(false)}>
         <View style={styles.modalContainer}>
           {/* <Userfilter 
           
@@ -269,11 +287,10 @@ const Xprrt = () => {
           }}
           
           /> */}
-           <Userfilter
-          onClose={() => setFilterVisible(false)}
-          onFilterApplied={handleFilterApplied}
-        />
-  
+          <Userfilter
+            onClose={() => setFilterVisible(false)}
+            onFilterApplied={handleFilterApplied}
+          />
 
           <TouchableOpacity
             style={styles.closeButton}
@@ -283,12 +300,9 @@ const Xprrt = () => {
           </TouchableOpacity>
         </View>
       </Modal>
-
-
     </SafeAreaView>
   );
 };
-
 
 const styles = StyleSheet.create({
   card: {
@@ -329,38 +343,36 @@ const styles = StyleSheet.create({
   },
   profileInfo: {
     // padding: 15,
-     alignItems: 'center',
-    flexDirection:'row',
-    
-    gap:15,
-    paddingHorizontal:10,
-    paddingVertical:15,
+    alignItems: 'center',
+    flexDirection: 'row',
+
+    gap: 15,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
   },
   profileImage: {
     width: 40,
-    height:40,
+    height: 40,
     borderRadius: 40,
     marginTop: 5,
     borderWidth: 3,
     borderColor: 'black',
-    
   },
   name: {
     fontSize: 15,
     fontWeight: 'bold',
     //  marginTop: 10,
-    
   },
   location: {
     fontSize: 14,
     color: 'gray',
     marginTop: 5,
-    flexDirection:'row',
-    gap:5,
+    flexDirection: 'row',
+    gap: 5,
   },
   ratingContainer: {
     flexDirection: 'row',
-   
+
     // marginTop: 5,
   },
   ratingText: {
@@ -370,8 +382,8 @@ const styles = StyleSheet.create({
   skillsContainer: {
     flexDirection: 'row',
     // marginTop: 11,
-    marginBottom:15,
-    left:13,
+    marginBottom: 15,
+    left: 13,
   },
   skillBadge: {
     backgroundColor: '#C5DBF5',
@@ -383,7 +395,6 @@ const styles = StyleSheet.create({
   skillText: {
     fontSize: 12,
     Color: '#3B33B7',
-
   },
 
   // ///////////////////////////
@@ -392,52 +403,49 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F9Fa',
     margin: 10,
   },
-   removeCategory: {
+  removeCategory: {
     //  position: 'absolute',
 
-      // top: -5,
-      // right:-10,
+    // top: -5,
+    // right:-10,
     //  right: -25,
-     width: 18,
-     height: 18,
-     borderRadius: 9,
+    width: 18,
+    height: 18,
+    borderRadius: 9,
 
     backgroundColor: '#FDC1C1', /////background dark pink
-     justifyContent: 'center',
-     alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     //  zIndex:1,
-    marginLeft:8,
-   },
-   removeCategoryText: {
-     color: '#D90808',
-     fontSize: 14,
-     fontWeight: 'bold',
-     lineHeight: 18,
-     textAlign: 'center',
-     
-
+    marginLeft: 8,
   },
-   categoriesContainer: {
-
-      height:80,
-     paddingVertical: 7,
-     paddingHorizontal: 15,
-      backgroundColor: '#f5f5f5',
-   },
+  removeCategoryText: {
+    color: '#D90808',
+    fontSize: 14,
+    fontWeight: 'bold',
+    lineHeight: 18,
+    textAlign: 'center',
+  },
+  categoriesContainer: {
+    height: 80,
+    paddingVertical: 7,
+    paddingHorizontal: 15,
+    backgroundColor: '#f5f5f5',
+  },
   categoryItem: {
     height: 40,
-  marginRight: 10,
-  paddingVertical: 8,
-  paddingHorizontal: 16, // Increase horizontal padding
-  paddingRight: 24, // Add extra padding on the right for the close button
-  borderRadius: 6, // Make it more rounded
-  backgroundColor: '#ffffff',
-  borderWidth: 1,
-  borderColor: '#ddd',
-  flexDirection: 'row', // Align text and close button horizontally
-  alignItems: 'center', // Center items vertically
-  justifyContent:'space-between',
-  gap:5,
+    marginRight: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 16, // Increase horizontal padding
+    paddingRight: 24, // Add extra padding on the right for the close button
+    borderRadius: 6, // Make it more rounded
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#ddd',
+    flexDirection: 'row', // Align text and close button horizontally
+    alignItems: 'center', // Center items vertically
+    justifyContent: 'space-between',
+    gap: 5,
   },
   selectedCategory: {
     height: 40,
@@ -447,7 +455,6 @@ const styles = StyleSheet.create({
   categoryText: {
     fontSize: 16,
     color: '#333', // Text color for unselected categories
-    
   },
   header: {
     flexDirection: 'row',

@@ -30,6 +30,7 @@ import Review from '../skill/Review';
 import Homechild from '../skill/homechild';
 import Homesubchild from '../skill/homesubchild';
 import Superchildcategories from '../Categories/Subchildcategories';
+import { Account2 } from '../screens/Account2';
 
 
 // import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
@@ -61,6 +62,7 @@ export const Route = () => {
                      <Stack.Screen name='Homechild' component={Homechild} options={{headerShown:true}}/>
                      <Stack.Screen name='Superchildcategories' component={Superchildcategories} options={{headerShown:true}}/>
                      <Stack.Screen name='Homesubchild' component={Homesubchild} options={{headerShown:true}}/>
+                     <Stack.Screen name='Account2' component={Account2} options={{headerShown:true}}/>
                     <Stack.Screen name='Maintenance' component={Maintenance}
                         options={{
                             header: () => <Header title='Maintenance' showBackButton={false} />,
