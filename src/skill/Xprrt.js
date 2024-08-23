@@ -38,7 +38,7 @@ const Xprrt = () => {
   const [filters, setFilters] = useState({
     experience: '',
     gender: '',
-    location: '',
+    state: '',
     category: '',
   });
   const [payload, setPayload] = useState({
@@ -67,15 +67,19 @@ const Xprrt = () => {
           },
         });
   
-        // Update the totalPages and totalCount from the current page response
-        totalPages = response.data.totalPages;
-        const userData = response.data.list || [];
-        
-        // Add the fetched data to the allData array
-        allData.push(...userData);
+        if (response.data) {
+          const userData = response.data.list || [];
+          totalPages = response.data.totalPages || totalPages;
   
-        // Increment the current page for the next iteration
-        currentPage++;
+          // Add the fetched data to the allData array
+          allData.push(...userData);
+  
+          // Increment the current page for the next iteration
+          currentPage++;
+        } else {
+          console.error('API response is missing data.');
+          break;
+        }
       }
   
       // Set the combined data to the state
@@ -88,10 +92,20 @@ const Xprrt = () => {
         totalPages,
         totalCount: allData.length, // Total count of all fetched users
       });
+  
+      // Handle categories and other data from the first page (if needed)
+      if (allData.length > 0) {
+        const allCategories = allData.flatMap(user => user.categories || []);
+        const uniqueCategories = [
+          ...new Set(allCategories.map(cat => JSON.stringify(cat))),
+        ].map(str => JSON.parse(str));
+        setCategories(uniqueCategories);
+      }
     } catch (error) {
       console.error('Error fetching users:', error);
     }
   };
+  
   
 
   const handleFilterApplied = (users) => {
@@ -279,14 +293,14 @@ const Xprrt = () => {
 
 
       {/* Display pagination info */}
-    {/* <View style={styles.paginationInfo}>
+    <View style={styles.paginationInfo}>
       <Text style={styles.paginationText}>
         Page {payload.currentPage + 1} of {payload.totalPages}
       </Text>
       <Text style={styles.paginationText}>
         Total Users: {payload.totalCount}
       </Text>
-    </View> */}
+    </View>
 
 
       {/* Modal to display the Userfilter */}

@@ -14,7 +14,7 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
   // const [experience, setExperience] = useState(12);
   const [gender, setGender] = useState('Male');
   const [language, setLanguage] = useState('Hindi');
-  const [location, setLocation] = useState('Dehradun');
+  const [state, setstate] = useState('Dehradun');
 
   const handleClearAll = () => {
     setMinExperience(0);
@@ -22,7 +22,7 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
     // setExperience(0);
     setGender('');
     setLanguage('');
-    setLocation('');
+    setstate('');
   };
 
   const fetchFilteredUsers = async () => {
@@ -32,7 +32,7 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
         min_exp: minExperience.toString(),
         max_exp: maxExperience.toString(),  
         gender,
-        location,
+        state,
       }).toString();
 
       const response = await httpRequest({
@@ -84,17 +84,7 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
           unselectedStyle={{ backgroundColor: '#E5E7EB' }}
           markerStyle={{ backgroundColor: '#6366F1' }}
         />
-{/*       
-      <Slider
-        style={styles.slider}
-        minimumValue={0}
-        maximumValue={20}
-        step={1}
-        value={experience}
-        onValueChange={setExperience}
-        minimumTrackTintColor="#6366F1"
-        thumbTintColor="#6366F1"
-      /> */}
+
       <Text style={styles.simpletext}>Select Gender</Text>
 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
       <Text style={styles.label}>Gender</Text>
@@ -142,14 +132,14 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
       </View>
       <Text style={styles.simpletext}>Select Suitable Location</Text>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-      <Text style={styles.label}>Location</Text>
-      <Text style={styles.sliderValue}>{location}</Text>
+      <Text style={styles.label}>state</Text>
+      <Text style={styles.sliderValue}>{state}</Text>
       </View>
       <TextInput
         style={styles.input}
-        value={location}
-        onChangeText={setLocation}
-        placeholder="Enter Location"
+        value={state}
+        onChangeText={setstate}
+        placeholder="Enter State"
       />
 
     
