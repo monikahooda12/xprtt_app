@@ -5,7 +5,8 @@ import {
     TestScreen, Splash, Login, Otp, Welcome, Maintenance, Indices,
     Onboarding, Settings, About, InvestmentPlan, PaymentDetails,
     PaymentMethod, Security, Verification, Webview, ThankYou, NoNetwork,
-    Withdraw, Referral, Invite, News, Notifications, ActivateSecurity, Transactions, MyReferral, ReferralDetails, BankDetails, KycStatus
+    Withdraw, Referral, Invite, News, Notifications, ActivateSecurity, Transactions, MyReferral, ReferralDetails, BankDetails, KycStatus,
+    Blog
 } from '../screens';
 import { DashboardNavigator, HelpNavigator, ReferralNavigator } from '../navigator';
 import { COLORS } from '../constants';
@@ -31,6 +32,8 @@ import Homechild from '../skill/homechild';
 import Homesubchild from '../skill/homesubchild';
 import Superchildcategories from '../Categories/Subchildcategories';
 import { Account2 } from '../screens/Account2';
+import Subcategories from '../Categories/Subcategories';
+import BlogsScreen from '../screens/Blogdata';
 
 
 // import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
@@ -63,6 +66,9 @@ export const Route = () => {
                      <Stack.Screen name='Superchildcategories' component={Superchildcategories} options={{headerShown:true}}/>
                      <Stack.Screen name='Homesubchild' component={Homesubchild} options={{headerShown:true}}/>
                      <Stack.Screen name='Account2' component={Account2} options={{headerShown:true}}/>
+                     <Stack.Screen name='Subcategories' component={Subcategories} options={{headerShown:true}}/>
+                     <Stack.Screen name='Blogscreen' component={BlogsScreen} options={{headerShown:true}}/>
+                     <Stack.Screen name='Blog' component={Blog} options={{headerShown:true}}/>
                     <Stack.Screen name='Maintenance' component={Maintenance}
                         options={{
                             header: () => <Header title='Maintenance' showBackButton={false} />,

@@ -9,7 +9,7 @@ export * from './Account';
 export * from './Indices';
 export * from './Onboarding';
 export * from './Transactions';
-export * from './Trading';
+export * from './Blog';
 export * from './Settings';
 export * from './Faq';
 export * from './ContactUs';

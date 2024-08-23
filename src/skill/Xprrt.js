@@ -43,36 +43,7 @@ const Xprrt = () => {
 
   const selectedServiceNames = useSelector(state => state.categories.selectedServiceNames);
 
-  const applyFilter = async filters => {
-    try {
-      const categories = await fetchItems();
-      const flattenedCategories = flattenItems(categories);
 
-      const usersResponse = await httpRequest({url: API.USERS, method: 'GET'});
-      const users = usersResponse?.data?.list || [];
-
-      const filteredUsers = users.filter(user => {
-        const matchesExperience = user.experience >= filters.experience;
-        const matchesGender = !filters.gender || user.gender === filters.gender;
-        return matchesExperience && matchesGender;
-      });
-
-      const userCategories = filteredUsers.flatMap(
-        user => user.categories || [],
-      );
-      const uniqueCategories = [
-        ...new Set(userCategories.map(cat => JSON.stringify(cat))),
-      ].map(str => JSON.parse(str));
-
-      const filteredCategories = flattenedCategories.filter(category => {
-        return uniqueCategories.some(uniqueCat => uniqueCat.id === category.id);
-      });
-
-      return filteredCategories;
-    } catch (error) {
-      console.error('Error fetching or filtering data:', error);
-    }
-  };
 
   useEffect(() => {
     fetchUsers();
@@ -86,17 +57,19 @@ const Xprrt = () => {
       });
       const userData = response?.data?.list;
       //const mainCategories = data.map(user => user.professional.main_category);
-      const filteredUsers = userData.filter(user =>
-        selectedServiceNames.includes(
-          user.professional.main_category,
-        ),
-      );
+      // const filteredUsers = userData.filter(user =>
+      //   selectedServiceNames.includes(
+      //     user.professional.main_category,
+      //   ),
+      // );
 
       setData(userData || []);
-      console.log('data', filteredUsers);
-      const allCategories = response?.data?.list.flatMap(
+      console.log('data',JSON.stringify (userData));
+
+      const allCategories = userData?.flatMap(
         user => user.categories || [],
       );
+
       const uniqueCategories = [
         ...new Set(allCategories.map(cat => JSON.stringify(cat))),
       ].map(str => JSON.parse(str));

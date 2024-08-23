@@ -42,6 +42,7 @@ console.log("image",image)
 
   return (
    <View >
+    
 
 <View style={styles.header}>
          <TouchableOpacity>

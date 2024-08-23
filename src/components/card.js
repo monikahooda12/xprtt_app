@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     borderRadius: 40,
     padding: 5,
-    marginBottom: 10,
+     marginBottom: 10,
   },
   searchInput: {
     flex: 1,

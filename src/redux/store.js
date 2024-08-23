@@ -3,7 +3,8 @@ import categoryReducer, { setselectedService } from '../redux/categories/categor
 import  useReducer  from '../redux/users/userSlice';
 import dataReducer from '../redux/data/dataSlice';
 import searchReducer from '../redux/searchSlice';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
+
 
 const store = configureStore({
   reducer: {

@@ -12,6 +12,7 @@ import {
 
 import { CardGrid, SearchBar } from '../components/card';
 import CategoryModal from '../Modals/categorymodal';
+import Service from './service';
 
 const { width } = Dimensions.get('window');
 
@@ -20,8 +21,8 @@ const Home1 = () => {
   const [categoriesData, setCategoriesData] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedServices, setSelectedServices] = useState({});
-  const [selectedServicesNames, setSelectedServicesNames] = useState([]);
+  // const [selectedServices, setSelectedServices] = useState([]);
+  // const [selectedServicesNames, setSelectedServicesNames] = useState([]);
   const dispatch = useDispatch();
 
   const addToCart = service => {
@@ -63,24 +64,40 @@ const Home1 = () => {
     console.log("filteredCategories",filteredCategories)
   };
 
-  const handleCheckboxToggle = (serviceId, item) => {
-    setSelectedServicesNames(prevState => {
-      if (prevState.includes(item.title)) {
-        return prevState.filter(serviceName => serviceName !== item.title);
-      } else {
-        return [...prevState, item.title];
-      }
-    });
-console.log("selectedServicesNames",selectedServicesNames)
-    setSelectedServices(prevState => ({
-      ...prevState,
-      [serviceId]: !prevState[serviceId],
-    }));
-  };
+  // const handleCheckboxToggle =async ( service) => {
+  //   // console.log("service",service)
+  //  await setSelectedServices(prevSelected => {
+  //     if (prevSelected.some(s => s.id === service.id)) {
 
-  const handleOnApply = () => {
-    dispatch(setselectedServiceNames(selectedServicesNames));
-    console.log(selectedServicesNames);
+  //              return prevSelected.filter(s => s.id !== service.id);
+  //            } else {
+  //              return [...prevSelected, service];
+  //            }
+  //   } 
+  // );
+  // console.log("?[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[",selectedServices);
+
+  // const handleCheckboxToggle = (service) => {
+  //   setSelectedServices((prevSelected) => {
+  //     if (prevSelected.some(s => s.id === service.id)) {
+
+  //       return prevSelected.filter(s => s.id !== service.id);
+  //     } else {
+  //       return [...prevSelected, service];
+  //     }
+  //   });
+  // };
+// console.log("selectedServicesNames",selectedServicesNames)
+//     setSelectedServices(prevState => ({
+//       ...prevState,
+//       [serviceId]: !prevState[serviceId],
+//     }));
+   
+
+  const handleOnApply = Service => {
+    // dispatch(setselectedServiceNames(selectedServicesNames));
+    
+    console.log("?[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[",Service);
   };
 
   return (
@@ -100,9 +117,9 @@ console.log("selectedServicesNames",selectedServicesNames)
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
         services={filteredCategories}
-        selectedServices={selectedServices}
+        // selectedServices={selectedServices}
         label="Select Categories"
-        onCheckboxToggle={handleCheckboxToggle}
+        // onCheckboxToggle={handleCheckboxToggle}
         onApply={handleOnApply}
         
       />

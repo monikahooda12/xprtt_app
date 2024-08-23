@@ -4,13 +4,32 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, Modal } from 'react
 import CheckBox from '@react-native-community/checkbox';
 import { COLORS } from '../constants';
  
-const CategoryModal = ({ visible, onClose, services, selectedServices, label,onCheckboxToggle, onApply }) => {
+const CategoryModal = ({ visible, onClose, services, label, onApply }) => {
   const [isApplyEnabled, setIsApplyEnabled] = useState(false);
-  useEffect(() => {
+  const [selectedServices, setSelectedServices] = useState([]);
+  // useEffect(() => {
     // Check if any service is selected
-    const anySelected = Object.values(selectedServices).some((isSelected) => isSelected);
-    setIsApplyEnabled(anySelected);
-  }, [selectedServices]);
+  //   const anySelected = Object.values(selectedServices).some((isSelected) => isSelected);
+  //   setIsApplyEnabled(anySelected);
+  // }, [selectedServices]);
+
+  useEffect(() => {
+    setIsApplyEnabled(selectedServices.length > 0);
+      }, [selectedServices]);
+
+
+      const handleCheckboxToggle =async ( service) => {
+        // console.log("service",service)
+       await setSelectedServices(prevSelected => {
+          if (prevSelected.some(s => s.id === service.id)) {
+    
+                   return prevSelected.filter(s => s.id !== service.id);
+                 } else {
+                   return [...prevSelected, service];
+                 }
+        } 
+      );}
+
   return (
     <Modal
       animationType="slide"
@@ -40,8 +59,9 @@ const CategoryModal = ({ visible, onClose, services, selectedServices, label,onC
             renderItem={({ item }) => (
               <View style={styles.checkboxContainer}>
                 <CheckBox
-                  value={!!selectedServices[item.id]}
-                  onValueChange={() => onCheckboxToggle(item.id, item)}
+                value={selectedServices.some(service => service.id === item.id)}
+                  // value={!!selectedServices[item.id]}
+                  onValueChange={() => handleCheckboxToggle( item)}
                   tintColors={{ true: '#6C63FF', false: '#999' }} // Red color for both checked and unchecked states
                 />
                 <Text style={styles.checkboxLabel}>{item.name}</Text>
@@ -55,7 +75,7 @@ const CategoryModal = ({ visible, onClose, services, selectedServices, label,onC
             ]}
             onPress={()=>{
               if(isApplyEnabled){
-                onApply();
+                onApply(selectedServices);
                 onClose();
               }
             }}

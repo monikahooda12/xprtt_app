@@ -1,31 +1,102 @@
+
+// import React from 'react';
+// import { View } from 'react-native';
+// import { COLORS } from '../constants';
+// import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
+// import { CommonStyles } from '../styles/styles';
+// import { WebView } from 'react-native-webview';
+// import BlogsScreen from './Blogdata';
+
+
+// export const Blog = () => {
+//     return (
+//         <View style={{flex: 1, backgroundColor: COLORS.WHITE}}>
+//             <View 
+//             style={CommonStyles.horizontalLine}
+//             />
+
+//             {/* <View style={{ 
+//                  flex: 1,
+//                  paddingHorizontal: responsiveWidth(3.8), 
+//                  paddingTop: responsiveHeight(1),
+//             }}>
+//                 <Webview 
+//                     source={{ uri: "https://blog.xprrt.com/" }}
+//                     // style={{ flex: 1 }}
+//                 />
+//             </View> */}
+//             <WebView 
+//             injectedJavaScript={`
+//                               document.querySelector('.sticky').style.display = 'none';
+//                               document.querySelector('footer').style.display = 'none';
+//                             `}
+//                     source={{ uri: "https://blog.xprrt.com/" }}
+//                     // style={{ flex: 1 }}
+//                 />
+//         </View>
+//     );
+// };
+
+
+
+
+
+
+
+import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { ContactUs, Faq, Webview } from '../screens';
+import { WebView } from 'react-native-webview'; // Ensure this is imported correctly
 import { COLORS, FONTS } from '../constants';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
+// import BlogsScreen from './Blogdata';
 
+const Tab = createMaterialTopTabNavigator();
 
-
- const Tab = createMaterialTopTabNavigator();
-export const  Trading = ({ route }) => {
-
+export const Blog = ({ route }) => {
   const { initialRoute } = route.params || {};
+
   return (
     <Tab.Navigator
       initialRouteName={initialRoute || 'blog'}
-      sceneContainerStyle={{backgroundColor:COLORS.PRIMARY}}
+      sceneContainerStyle={{ backgroundColor: COLORS.PRIMARY }}
       screenOptions={{
-        tabBarStyle: { backgroundColor: COLORS.PRIMARY_LIGHT, },
+        tabBarStyle: { backgroundColor: COLORS.PRIMARY_LIGHT },
         tabBarIndicatorStyle: { backgroundColor: COLORS.SECONDARY },
         tabBarActiveTintColor: COLORS.PRIMARY,
-        tabBarLabelStyle: { color: COLORS.WHITE, fontFamily: FONTS.BOLD, fontSize: responsiveFontSize(1.8) },
+        tabBarLabelStyle: {
+          color: COLORS.WHITE,
+          fontFamily: FONTS.BOLD,
+          fontSize: responsiveFontSize(1.8),
+        },
         tabBarPressColor: 'transparent',
-      }}>
-
- <Tab.Screen name="blog" component={Webview} initialParams={{ url: "https://blog.xprrt.com/" }} />
- {/* <Tab.Screen name="ContactUs" component={ContactUs} /> */}
+      }}
+    >
+      <Tab.Screen
+        name="blog"
+        component={BlogWebView} // Using the WebView component below
+        options={{ headerShown: true }}
+        initialParams={{ url: "https://blog.xprrt.com/" }}
+      />
+      
     </Tab.Navigator>
   );
-}
+};
+
+const BlogWebView = ({ route }) => {
+  const { url } = route.params;
+
+  return (
+    <WebView
+      injectedJavaScript={`
+        document.querySelector('.sticky').style.display = 'none';
+        document.querySelector('footer').style.display = 'none';
+      `}
+      source={{ uri: url }}
+      style={{ flex: 1 }}
+    />
+  );
+};
+
 
 
 // initialParams={{ url: "https://dev.xprrt.com/faq/" }}
