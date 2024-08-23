@@ -21,68 +21,82 @@ import Userfilter from './FilterModal';
 const {width} = Dimensions.get('window');
 const cardWidth = width * 0.91;
 
+
+
 const Xprrt = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const route = useRoute();
-  const {itemName} = route.params || {};
+  const { itemName } = route.params || {};
   const [categories, setCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
-
-  
-
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [isFilterVisible, setFilterVisible] = useState(false);
+  
   const [filters, setFilters] = useState({
     experience: '',
     gender: '',
     location: '',
     category: '',
   });
-
-  const selectedServiceNames = useSelector(state => state.categories.selectedServiceNames);
-
-
+  const [payload, setPayload] = useState({
+   totalPages:0, 
+        currentPage:0,
+        totalCount:0
+  });
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [payload.currentPage]);
 
   const fetchUsers = async () => {
     try {
-      const response = await httpRequest({
-        url: API.USERS,
-        method: 'GET',
+      const allData = [];
+      let currentPage = 0;
+      let totalPages = 1; // Initialize with a default value to enter the loop
+  
+      // Loop to fetch all pages until you reach the last page
+      while (currentPage < totalPages) {
+        const response = await httpRequest({
+          url: API.USERS,
+          method: 'GET',
+          params: {
+            page: currentPage,
+          },
+        });
+  
+        // Update the totalPages and totalCount from the current page response
+        totalPages = response.data.totalPages;
+        const userData = response.data.list || [];
+        
+        // Add the fetched data to the allData array
+        allData.push(...userData);
+  
+        // Increment the current page for the next iteration
+        currentPage++;
+      }
+  
+      // Set the combined data to the state
+      setData(allData);
+      console.log('Combined data:', JSON.stringify(allData));
+  
+      // Update the pagination payload
+      setPayload({
+        currentPage: currentPage - 1, // Set to the last fetched page
+        totalPages,
+        totalCount: allData.length, // Total count of all fetched users
       });
-      const userData = response?.data?.list;
-      //const mainCategories = data.map(user => user.professional.main_category);
-      // const filteredUsers = userData.filter(user =>
-      //   selectedServiceNames.includes(
-      //     user.professional.main_category,
-      //   ),
-      // );
-
-      setData(userData || []);
-      console.log('data',JSON.stringify (userData));
-
-      const allCategories = userData?.flatMap(
-        user => user.categories || [],
-      );
-
-      const uniqueCategories = [
-        ...new Set(allCategories.map(cat => JSON.stringify(cat))),
-      ].map(str => JSON.parse(str));
-      setCategories(uniqueCategories);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
   };
+  
 
-  const handleFilterApplied = users => {
+  const handleFilterApplied = (users) => {
     console.log('Filtered users:', users);
     setData(users || []);
-    // setFilteredUsers(users); // Store the filtered users in state or use as needed
   };
 
   const handleSearch = () => {
@@ -92,23 +106,31 @@ const Xprrt = () => {
   const defaultImage = 'https://via.placeholder.com/150'; // URL of the default image
 
   const renderProfileCard = () => {
+    const filteredData = data.filter(item => {
+      if (selectedCategories.length === 0) {
+        return true;
+      }
+      return item.categories.some(category =>
+        selectedCategories.includes(category.name)
+      );
+    });
+
     return (
       <ScrollView>
-        {data.map(item => (
+        {filteredData.map(item => (
           <TouchableOpacity
             key={item.registration_id}
-            onPress={() => navigation.navigate('Detailsuser', {data: item})}>
+            onPress={() => navigation.navigate('Detailsuser', { data: item })}
+          >
             <View style={styles.card}>
               <Image
-                source={{uri: item.profile_image || defaultImage}}
+                source={{ uri: item.profile_image || defaultImage }}
                 style={styles.backgroundImage}
               />
-
               <View style={styles.overlay}>
                 <Text style={styles.experienceText}>
                   {item.professional.total_experience} years exp.
                 </Text>
-
                 <View style={styles.servicesContainer}>
                   {item.professional.service?.map((service, index) => (
                     <View key={index} style={styles.serviceBadge}>
@@ -119,26 +141,24 @@ const Xprrt = () => {
                   )) || <Text>No services available</Text>}
                 </View>
               </View>
-
               <View style={styles.profileInfo}>
                 <View>
                   <Image
-                    source={{uri: item.profile_image || defaultImage}}
+                    source={{ uri: item.profile_image || defaultImage }}
                     style={styles.profileImage}
                   />
                 </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    flex: 1,
-                    justifyContent: 'space-between',
-                  }}>
+                <View style={{
+                  flexDirection: 'row',
+                  flex: 1,
+                  justifyContent: 'space-between',
+                }}>
                   <View>
                     <Text style={styles.name}>{item.name}</Text>
                     <View style={styles.location}>
                       <Image
                         source={require('../assets/icons/carbon_location-filled.png')}
-                        style={{height: 19, width: 17}}
+                        style={{ height: 19, width: 17 }}
                       />
                       <Text style={styles.city}>{item.city},</Text>
                       <Text style={styles.city}>{item.state}</Text>
@@ -149,7 +169,6 @@ const Xprrt = () => {
                   </View>
                 </View>
               </View>
-
               <View style={styles.skillsContainer}>
                 {item.professional.skill?.map((skill, index) => (
                   <View key={index} style={styles.skillBadge}>
@@ -164,17 +183,29 @@ const Xprrt = () => {
     );
   };
 
+  const toggleCategory = (categoryName) => {
+    setSelectedCategories(prevCategories => {
+      if (prevCategories.includes(categoryName)) {
+        return prevCategories.filter(cat => cat !== categoryName);
+      } else {
+        return [...prevCategories, categoryName];
+      }
+    });
+  };
+
   const renderCategories = () => (
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      style={styles.categoriesContainer}>
+      style={styles.categoriesContainer}
+    >
       <TouchableOpacity
         style={[
           styles.categoryItem,
-          !selectedCategory && styles.selectedCategory,
+          selectedCategories.length === 0 && styles.selectedCategory,
         ]}
-        onPress={() => setSelectedCategory(null)}>
+        onPress={() => setSelectedCategories([])}
+      >
         <Text style={styles.categoryText}>All</Text>
       </TouchableOpacity>
       {categories.map((category, index) => (
@@ -182,14 +213,16 @@ const Xprrt = () => {
           key={`${category.id}-${index}`}
           style={[
             styles.categoryItem,
-            selectedCategory === category.name && styles.selectedCategory,
+            selectedCategories.includes(category.name) && styles.selectedCategory,
           ]}
-          onPress={() => setSelectedCategory(category.name)}>
+          onPress={() => toggleCategory(category.name)}
+        >
           <Text style={styles.categoryText}>{category.name}</Text>
-          {selectedCategory === category.name && (
+          {selectedCategories.includes(category.name) && (
             <TouchableOpacity
               style={styles.removeCategory}
-              onPress={() => setSelectedCategory(null)}>
+              onPress={() => toggleCategory(category.name)}
+            >
               <Text style={styles.removeCategoryText}>×</Text>
             </TouchableOpacity>
           )}
@@ -201,16 +234,16 @@ const Xprrt = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>{/* Header content can go here */}</View>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginRight: 10,
-          paddingRight: 40,
-        }}>
+      <View style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginRight: 10,
+        paddingRight: 40,
+      }}>
         <View style={styles.searchSection}>
           <TouchableOpacity
-            onPress={() => navigation.navigate(Homesubchild, {itemName})}>
+            onPress={() => navigation.navigate('Homesubchild', { itemName })}
+          >
             <Text style={styles.title}>Details for: {itemName}</Text>
           </TouchableOpacity>
           <TextInput
@@ -220,23 +253,22 @@ const Xprrt = () => {
             onSubmitEditing={handleSearch}
           />
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingHorizontal: 19,
-            height: 48,
-            width: 60,
-            borderRadius: 6,
-            backgroundColor: '#6C63FF',
-          }}>
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 19,
+          height: 48,
+          width: 60,
+          borderRadius: 6,
+          backgroundColor: '#6C63FF',
+        }}>
           <TouchableOpacity
             style={styles.filterButton}
-            onPress={() => setFilterVisible(true)} // Show the Userfilter when filter button is pressed
+            onPress={() => setFilterVisible(true)}
           >
             <Image
               source={require('../assets/icons/whitefilter.png')}
-              style={{height: 16, width: 16}}
+              style={{ height: 16, width: 16 }}
             />
           </TouchableOpacity>
         </View>
@@ -244,30 +276,34 @@ const Xprrt = () => {
       {renderCategories()}
       {renderProfileCard()}
 
+
+
+      {/* Display pagination info */}
+    {/* <View style={styles.paginationInfo}>
+      <Text style={styles.paginationText}>
+        Page {payload.currentPage + 1} of {payload.totalPages}
+      </Text>
+      <Text style={styles.paginationText}>
+        Total Users: {payload.totalCount}
+      </Text>
+    </View> */}
+
+
       {/* Modal to display the Userfilter */}
       <Modal
         visible={isFilterVisible}
         animationType="slide"
         transparent={true}
-        onRequestClose={() => setFilterVisible(false)}>
+        onRequestClose={() => setFilterVisible(false)}
+      >
         <View style={styles.modalContainer}>
-          {/* <Userfilter 
-          
-          onClose={()=>setFilterVisible(false)}
-          onFilterApplied={(filteredUsers)=>{
-            console.log('filterusers:',filteredUsers);
-            setFilterVisible(false);
-          }}
-          
-          /> */}
           <Userfilter
             onClose={() => setFilterVisible(false)}
             onFilterApplied={handleFilterApplied}
           />
-
           <TouchableOpacity
             style={styles.closeButton}
-            onPress={() => setFilterVisible(false)} // Close the filter modal
+            onPress={() => setFilterVisible(false)}
           >
             <Text style={styles.closeButtonText}>Close</Text>
           </TouchableOpacity>
@@ -278,6 +314,18 @@ const Xprrt = () => {
 };
 
 const styles = StyleSheet.create({
+  paginationInfo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 15,
+    backgroundColor: '#f5f5f5',
+    borderTopWidth: 1,
+    borderTopColor: '#e0e0e0',
+  },
+  paginationText: {
+    fontSize: 16,
+    color: '#333333',
+  },
   card: {
     width: '100%',
     marginBottom: 20,

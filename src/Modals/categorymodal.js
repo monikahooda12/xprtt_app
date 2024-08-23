@@ -25,7 +25,7 @@ const CategoryModal = ({ visible, onClose, services, label, onApply }) => {
     
                    return prevSelected.filter(s => s.id !== service.id);
                  } else {
-                   return [...prevSelected, service];
+                   return [...prevSelected, service.id];
                  }
         } 
       );}

@@ -14,9 +14,9 @@ const SearchBar = () => {
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [image,setImage] = useState('');
 
-  const handleProfileOpen = () => {
-    navigation.navigate('Account2'); // Replace 'Profile' with the name of your profile screen
-  };
+  // const handleProfileOpen = () => {
+  //   navigation.navigate('Account2'); // Replace 'Profile' with the name of your profile screen
+  // };
 
   useEffect(() => {
     setFilteredCategories(categoriesData);
@@ -49,7 +49,7 @@ console.log("image",image)
            <Image source={require('../assets/icons/logo.png')} style={styles.icon} />
          </TouchableOpacity>
          <Text style={styles.title}>Home</Text>
-         <TouchableOpacity    onPress={handleProfileOpen}>
+         <TouchableOpacity >
            {/* <Image source={require('../assets/icons/account.png')} style={styles.icon} /> */}
            <View style={{ ...styles.imageContainer, overflow: 'hidden' }}>
                                 <Image

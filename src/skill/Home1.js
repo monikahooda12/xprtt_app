@@ -12,7 +12,7 @@ import {
 
 import { CardGrid, SearchBar } from '../components/card';
 import CategoryModal from '../Modals/categorymodal';
-import Service from './service';
+
 
 const { width } = Dimensions.get('window');
 
