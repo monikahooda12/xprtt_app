@@ -131,12 +131,14 @@ const Subchild = ({ route, navigation }) => {
     //  setModalVisible(true); // Open the modal on search
   };
 
-  const handleCheckboxToggle = (serviceId) => {
-    setSelectedServices(prevState => ({
-      ...prevState,
-      [serviceId]: !prevState[serviceId]
-    }));
+  const handleselectsubcat = (serviceId) => {
+    console.log("serviceID",serviceId)
+    // setSelectedServices(prevState => ({
+    //   ...prevState,
+    //   [serviceId]: !prevState[serviceId]
+    // }));
   };
+  
 
   return (
     <CommonLayout title={title}>
@@ -158,8 +160,9 @@ const Subchild = ({ route, navigation }) => {
           label={title}
           onClose={() => setModalVisible(false)}
           services={filteredServices}
-          selectedServices={selectedServices}
-          onCheckboxToggle={handleCheckboxToggle}
+          // selectedServices={}
+          // onCheckboxToggle={}
+          onApply={handleselectsubcat}
         />
       </View>
     </CommonLayout>

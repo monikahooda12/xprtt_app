@@ -109,8 +109,9 @@ const Xprrt = () => {
   
 
   const handleFilterApplied = (users) => {
-    console.log('Filtered users:', users);
-    setData(users || []);
+    console.log('Filtered users received in handleFilterApplied:', users);
+   
+   if (users) setData(users );
   };
 
   const handleSearch = () => {

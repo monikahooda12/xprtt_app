@@ -25,8 +25,10 @@ export const httpRequest = async (data) => {
       response = await fetch(apiPath, { method, headers, body: JSON.stringify(params), signal })
     } else if (method == "GET") {
       const payload = new URLSearchParams(params)
-      console.log(payload)
-      response = await fetch(apiPath + "?" + payload, { method, headers, signal })
+      console.log(apiPath + "?" + payload,"0000000000000000000000000000000000000999999" )
+      console.log( payload,"0000000000000000000000000000000000000999999" )
+      response = await fetch(apiPath +"?"+  payload, { method, headers, signal })
+
     }
 
     console.log(response.status)

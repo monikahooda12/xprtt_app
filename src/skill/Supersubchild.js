@@ -14,16 +14,16 @@ const SuperSubchild = ({ route }) => {
   const selectedService = useSelector((state) => state.categories);
 
   // Find the subcategory based on the id from route params
-  const subCategory = selectedService.categories
-    .map((category) => category.child)
-    .flat()
-    .find((subCat) => subCat.id === route?.params?.id);
+    const subCategory = selectedService.categories
+      .map((category) => category.child)
+      .flat()
+      .find((subCat) => subCat.id === route?.params?.id);
 
   // Prepare the subcategory children data for CardGrid
   const subCategoryChildren = subCategory?.child?.map((child) => ({
     icon: { uri: child.icon },
     title: child.name,
-    id: child.id,
+    id: child.id, 
   }));
 
   // Handle search input and filter subcategory children
@@ -33,14 +33,16 @@ const SuperSubchild = ({ route }) => {
     );
     setFilteredServices(filtered);
   };
-  console.log("subCategory",subCategory)
+  // console.log("subCategory",subCategory)
 
   // Handle checkbox toggle in the modal
-  const handleCheckboxToggle = serviceId => {
-    setSelectedServices(prevState => ({
-      ...prevState,
-      [serviceId]: !prevState[serviceId],
-    }));
+  const handlesupercat = serviceId => {
+    console.log("serviceID",serviceId)
+
+    // setSelectedServices(prevState => ({
+    //   ...prevState,
+    //   [serviceId]: !prevState[serviceId],
+    // }));
   };
 
   return (
@@ -88,9 +90,10 @@ const SuperSubchild = ({ route }) => {
         onClose={() => setModalVisible(false)}
         services={subCategory.child}
         
-        selectedServices={selectedServices}
+        // selectedServices={selectedServices}
         label="Select Subcategories"
-        onCheckboxToggle={handleCheckboxToggle}
+        // onCheckboxToggle={handleCheckboxToggle}
+        onApply={handlesupercat}
       />
     </CommonLayout>
   );

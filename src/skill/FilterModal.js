@@ -29,10 +29,10 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
     try {
       const queryParams = new URLSearchParams({
         page: '0',
-        min_exp: minExperience.toString(),
-        max_exp: maxExperience.toString(),  
-        gender,
-        state,
+        min_exp: minExperience,
+        max_exp: maxExperience,  
+        gender: gender,
+        //  state
       }).toString();
 
       const response = await httpRequest({
@@ -40,9 +40,8 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
         method: 'GET',
       });
 
-      console.log('filterurl', `${API.USERS}?${queryParams}`);
+      // console.log('???????????????????????????', JSON.stringify(response));
       onFilterApplied(response?.data?.list || []); // Call the onFilterApplied callback
-      // console.log('???????????????????????????', JSON.stringify(response.data.list));
     } catch (error) {
       console.error('Error fetching filtered users:', error);
       Alert.alert('Error', 'Failed to fetch filtered users. Please try again.');
@@ -75,7 +74,8 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
           values={[minExperience, maxExperience]}
           onValuesChange={values => {
             setMinExperience(values[0]);
-            setMaxExperience(values[20]);
+             setMaxExperience(values[1]);
+            
           }}
           min={0}
           max={20}
