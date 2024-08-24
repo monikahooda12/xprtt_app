@@ -47,12 +47,7 @@ const Homesubchild = () => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.sectionHeader}>
-         <Text style={styles.sectionTitle}>Graphices & Design</Text>
-         <TouchableOpacity>
-           <Text style={styles.viewAllText}>view all (12)</Text>
-         </TouchableOpacity>
-       </View> 
+            
             <FlatList
                 data={CategoriesData}
                 renderItem={renderCategoryItem}

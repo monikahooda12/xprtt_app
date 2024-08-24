@@ -1,50 +1,73 @@
-
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView } from 'react-native';
-// import Slider from '@react-native-community/slider';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
+import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { httpRequest } from '../api/http';
 import { API } from '../constants';
-import MultiSlider from '@ptomasroos/react-native-multi-slider';
-
-
 
 const Userfilter = ({ onClose, onFilterApplied }) => {
   const [minExperience, setMinExperience] = useState(0);
   const [maxExperience, setMaxExperience] = useState(12);
-  // const [experience, setExperience] = useState(12);
   const [gender, setGender] = useState('Male');
   const [language, setLanguage] = useState('Hindi');
-  const [state, setstate] = useState('Dehradun');
+  const [state, setState] = useState('Dehradun');
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [categories,setCategories] =  useState([]);
+  const [payload, setPayload] = useState({
+    currentPage: 0,
+    totalPages: 0,
+    totalCount: 0,
+  });
+
+  useEffect(() => {
+    fetchFilteredUsers();
+  }, [payload.currentPage]);
 
   const handleClearAll = () => {
     setMinExperience(0);
-    setMaxExperience(0);                    
-    // setExperience(0);
+    setMaxExperience(0);
     setGender('');
     setLanguage('');
-    setstate('');
+    setState('');
+    setCategoriescategories ([]);
   };
 
   const fetchFilteredUsers = async () => {
+    setLoading(true);
+    
     try {
-      const queryParams = new URLSearchParams({
-        page: '0',
+      const filterParams = {
+        page: payload.currentPage,
         min_exp: minExperience,
-        max_exp: maxExperience,  
+        max_exp: maxExperience,
         gender: gender,
-        //  state
-      }).toString();
+        categories:categories,
+        // Add state if necessary
+      };
 
       const response = await httpRequest({
-        url: `${API.USERS}?${queryParams}`,
+        url: API.USERS,
         method: 'GET',
+        params: filterParams,
       });
 
-      // console.log('???????????????????????????', JSON.stringify(response));
-      onFilterApplied(response?.data?.list || []); // Call the onFilterApplied callback
+      if (response.data && Array.isArray(response.data.list)) {
+        const users = response.data.list;
+        const totalPages = response.data.totalPages;
+        const currentPage = response.data.currentPage;
+        const totalCount = response.data.totalCount;
+
+        setUsers(users);
+        setPayload({ totalPages, currentPage, totalCount });
+        setLoading(false);
+      } else {
+        console.error("Invalid API response format:", response);
+        setLoading(false);
+      }
     } catch (error) {
       console.error('Error fetching filtered users:', error);
       Alert.alert('Error', 'Failed to fetch filtered users. Please try again.');
+      setLoading(false);
     }
   };
 
@@ -53,29 +76,24 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
     onClose(); // Close the filter modal after applying filters
   };
 
-
-
-
-
+  // Your component UI with filter options remains unchanged
   return (
     <ScrollView>
-    <View style={styles.container}>
-<Text style={styles.simpletext}>Select Category</Text>
-      <Text style={styles.header}>Category</Text>
-      <Text style={styles.subheader}>Graphic & Design</Text>
-    
-        
-      <Text style={styles.simpletext}>Select Experience you need</Text>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-      <Text style={styles.label}>Experience</Text>
-      <Text style={styles.sliderValue}>{minExperience}-{maxExperience}yrs</Text>
-      </View>
-      <MultiSlider
+      <View style={styles.container}>
+        <Text style={styles.simpletext}>Select Category</Text>
+        <Text style={styles.header}>Category</Text>
+        <Text style={styles.subheader}>Graphic & Design</Text>
+
+        <Text style={styles.simpletext}>Select Experience you need</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Text style={styles.label}>Experience</Text>
+          <Text style={styles.sliderValue}>{minExperience}-{maxExperience}yrs</Text>
+        </View>
+        <MultiSlider
           values={[minExperience, maxExperience]}
           onValuesChange={values => {
             setMinExperience(values[0]);
-             setMaxExperience(values[1]);
-            
+            setMaxExperience(values[1]);
           }}
           min={0}
           max={20}
@@ -85,74 +103,71 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
           markerStyle={{ backgroundColor: '#6366F1' }}
         />
 
-      <Text style={styles.simpletext}>Select Gender</Text>
-<View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-      <Text style={styles.label}>Gender</Text>
-      <Text style={styles.sliderValue}> {gender}</Text>
-      </View>
-      <View style={styles.buttonGroup}>
-        <TouchableOpacity
-          style={[styles.button, gender === 'Female' && styles.selectedButton]}
-          onPress={() => setGender('Female')}>
-          <Text style={styles.buttonText}>Female</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, gender === 'Male' && styles.selectedButton]}
-          onPress={() => setGender('Male')}>
-          <Text style={styles.buttonText}>Male</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, gender === 'Other' && styles.selectedButton]}
-          onPress={() => setGender('Other')}>
-          <Text style={styles.buttonText}>Other</Text>
-        </TouchableOpacity>
-      </View>
-<Text style={styles.simpletext}>Select the language you’re comfortable </Text>
-<View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-      <Text style={styles.label}>Language</Text>
-      <Text style={styles.sliderValue}>{language}</Text>
-      </View>
+        <Text style={styles.simpletext}>Select Gender</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Text style={styles.label}>Gender</Text>
+          <Text style={styles.sliderValue}> {gender}</Text>
+        </View>
+        <View style={styles.buttonGroup}>
+          <TouchableOpacity
+            style={[styles.button, gender === 'Female' && styles.selectedButton]}
+            onPress={() => setGender('Female')}>
+            <Text style={styles.buttonText}>Female</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, gender === 'Male' && styles.selectedButton]}
+            onPress={() => setGender('Male')}>
+            <Text style={styles.buttonText}>Male</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, gender === 'Other' && styles.selectedButton]}
+            onPress={() => setGender('Other')}>
+            <Text style={styles.buttonText}>Other</Text>
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.simpletext}>Select the language you’re comfortable </Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Text style={styles.label}>Language</Text>
+          <Text style={styles.sliderValue}>{language}</Text>
+        </View>
 
-      <View style={styles.buttonGroup}>
-        <TouchableOpacity
-          style={[styles.button, language === 'Hindi' && styles.selectedButton]}
-          onPress={() => setLanguage('Hindi')}>
-          <Text style={styles.buttonText}>Hindi</Text>
+        <View style={styles.buttonGroup}>
+          <TouchableOpacity
+            style={[styles.button, language === 'Hindi' && styles.selectedButton]}
+            onPress={() => setLanguage('Hindi')}>
+            <Text style={styles.buttonText}>Hindi</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, language === 'English' && styles.selectedButton]}
+            onPress={() => setLanguage('English')}>
+            <Text style={styles.buttonText}>English</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, language === 'Other' && styles.selectedButton]}
+            onPress={() => setLanguage('Other')}>
+            <Text style={styles.buttonText}>Other</Text>
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.simpletext}>Select Suitable Location</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Text style={styles.label}>State</Text>
+          <Text style={styles.sliderValue}>{state}</Text>
+        </View>
+        <TextInput
+          style={styles.input}
+          value={state}
+          onChangeText={setState}
+          placeholder="Enter State"
+        />
+
+        <TouchableOpacity style={styles.submitButton} onPress={handleApplyFilters}>
+          <Text style={styles.submitButtonText}>Submit</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, language === 'English' && styles.selectedButton]}
-          onPress={() => setLanguage('English')}>
-          <Text style={styles.buttonText}>English</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, language === 'Other' && styles.selectedButton]}
-          onPress={() => setLanguage('Other')}>
-          <Text style={styles.buttonText}>Other</Text>
+
+        <TouchableOpacity onPress={handleClearAll}>
+          <Text style={styles.clearAll}>Clear all</Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.simpletext}>Select Suitable Location</Text>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-      <Text style={styles.label}>state</Text>
-      <Text style={styles.sliderValue}>{state}</Text>
-      </View>
-      <TextInput
-        style={styles.input}
-        value={state}
-        onChangeText={setstate}
-        placeholder="Enter State"
-      />
-
-    
-    
-
-      <TouchableOpacity style={styles.submitButton} onPress={handleApplyFilters}>
-        <Text style={styles.submitButtonText}>Submit</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={handleClearAll}>
-        <Text style={styles.clearAll}>Clear all</Text>
-      </TouchableOpacity>
-    </View>
     </ScrollView>
   );
 };
@@ -185,15 +200,9 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: 'bold',
-    //  marginTop: 2,
     marginBottom: 15,
   },
-  slider: {
-    width: '100%',
-    height: 10,
-  },
   sliderValue: {
-    // alignSelf: 'flex-end',
     color: '#6366F1',
   },
   buttonGroup: {
@@ -204,8 +213,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 5,
     borderWidth: 1,
-width:104,
-height:34,
+    width: 104,
+    height: 34,
     borderColor: '#D1D5DB',
     borderRadius: 5,
     alignItems: 'center',
@@ -241,21 +250,11 @@ height:34,
     textAlign: 'center',
     marginTop: 10,
   },
-
-  simpletext:{
-    marginTop:20,marginBottom:0,color:'#BEC2C7'
-  }
+  simpletext: {
+    marginTop: 20,
+    marginBottom: 0,
+    color: '#BEC2C7',
+  },
 });
 
 export default Userfilter;
-
-
-
-
-
-
-
-
-
-
-

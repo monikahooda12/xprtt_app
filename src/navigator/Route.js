@@ -34,6 +34,7 @@ import Superchildcategories from '../Categories/Subchildcategories';
 import { Account2 } from '../screens/Account2';
 import Subcategories from '../Categories/Subcategories';
 import BlogsScreen from '../screens/Blogdata';
+import Subhome from '../skill/Subhome';
 
 
 // import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
@@ -69,6 +70,7 @@ export const Route = () => {
                      <Stack.Screen name='Subcategories' component={Subcategories} options={{headerShown:true}}/>
                      <Stack.Screen name='Blogscreen' component={BlogsScreen} options={{headerShown:true}}/>
                      <Stack.Screen name='Blog' component={Blog} options={{headerShown:true}}/>
+                     <Stack.Screen name='Subhome' component={Subhome} options={{headerShown:true}}/>
                     <Stack.Screen name='Maintenance' component={Maintenance}
                         options={{
                             header: () => <Header title='Maintenance' showBackButton={false} />,
