@@ -1,8 +1,10 @@
 import React from "react";
-import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import { Image, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { COLORS, FONTS } from "../../constants";
 import AnimatedLottieView from "lottie-react-native";
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
+import constantimages from "../contantstheme/constantimages";
+import { Responsive } from "../../theme/Layout";
 
 export const OnboardingItem = ({ item }) => {
 
@@ -11,12 +13,13 @@ export const OnboardingItem = ({ item }) => {
     return (
         <View style={[styles.container, { width }]}>
 
-            <View style={{ flex: 1, justifyContent: 'center', width:'90%'}}>
-                <AnimatedLottieView
+            <View style={{ flex: 1, justifyContent: 'center', width:'90%',alignItems:"center",paddingTop:Responsive.height(50)}}>
+                {/* <AnimatedLottieView
                     style={{alignSelf:'center'}}
                     source={item.image}
                     autoPlay
-                    loop />
+                    loop /> */}
+                    <Image source={item.image} style={{width:300,height:300}}/>
             </View>
 
             <View style={{ flex: 1, width, justifyContent: "center" }}>
@@ -39,6 +42,7 @@ const styles = StyleSheet.create({
         fontFamily: FONTS.EXTRA_BOLD,
         color: COLORS.SECONDARY,
         marginHorizontal:responsiveWidth(3.8),
+        
     },
     description: {
         marginTop:responsiveHeight(2),

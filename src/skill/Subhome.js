@@ -17,10 +17,16 @@ const Subhome = () => {
                 method: 'GET',
                 url: API.GET_CATEGORIES,
             });
-          
+            // const childcategories = response?.data.list[0].child[0].child;
+// const data1 = subchildArray[0]
+
+            // const childcategories = data.list[0].child[0].child[0];
+            // const childcategories = data.list.child.child;
+            // console.log("data1",data1)
                const childcategories = response?.data.list.flatMap((item) => item.child)
-            // const childcategories = response?.data.list.map((item)=>item.child[0])
-            console.log("bititibtibitbtibtibtibitbititbtitb", childcategories)
+               console.log("childcategories",childcategories)
+            const childcategoriess = childcategories?.child?.flatMap((data)=>data.name)
+            console.log("bititibtibitbtibtibtibitbititbtitb", childcategoriess)
             setCategoriesData([...childcategories]);
         } catch (error) {
             console.error('Error fetching categories:', error);

@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
      alignItems: 'center',
     justifyContent: 'space-between',
      borderRadius:25,
+     
    
   },
 });

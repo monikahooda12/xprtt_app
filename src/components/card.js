@@ -45,6 +45,7 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, FlatList, StyleSheet, Dimensions, SafeAreaView } from 'react-native';
 import { COLORS } from '../constants';
+import { commonStyles } from '../theme/Styles';
 
  const { width,height } = Dimensions.get('window');
 
@@ -84,7 +85,7 @@ const Card = ({ icon, title, onPress }) => (
     <Image source={icon} style={styles.cardIcon} />
     </View>
     
-    <Text style={styles.cardTitle} numberOfLines={2}>{title}</Text>
+    <Text style={[commonStyles.twelveGilroy500,{color:COLORS}]} numberOfLines={2}>{title}</Text>
      </TouchableOpacity>
     </>
   
@@ -134,6 +135,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     padding: 5,
      marginBottom: 10,
+   
   },
   searchInput: {
     flex: 1,

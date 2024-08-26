@@ -5,6 +5,7 @@ import { COLORS, FONTS } from '../constants';
 import { responsiveFontSize, responsiveWidth } from 'react-native-responsive-dimensions';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import constantimages from '../components/contantstheme/constantimages';
 
 export const Maintenance = ({navigation, route }) => {
     const maintenanceMessage = route.params;
@@ -28,7 +29,7 @@ export const Maintenance = ({navigation, route }) => {
             </TouchableOpacity>
             <View style={{ flex: 0.7, justifyContent: 'center', alignItems: 'center' }}>
                 <AnimatedLottieView style={{ width: '80%' }}
-                    source={require('../assets/lottie/maintenance.json')}
+                    source={constantimages.sliderimage}
                     autoPlay
                     loop
                 />

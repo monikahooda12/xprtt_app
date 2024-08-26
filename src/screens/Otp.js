@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import DeviceInfo from 'react-native-device-info';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import { EditSvg } from '../assets/icons/svg';
+import { Responsive } from '../theme/Layout';
 
 export const Otp = ({ route, navigation }) => {
     const [data, setData] = useState({})
@@ -210,7 +211,8 @@ const styles = StyleSheet.create({
     },
     otpContainer: {
         marginTop: responsiveHeight(5),
-        marginHorizontal: responsiveWidth(3.8),
+        // marginHorizontal: responsiveWidth(3.8),
+        paddingHorizontal:Responsive.width(20),
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'row'

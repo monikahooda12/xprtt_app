@@ -36,14 +36,14 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
     setLoading(true);
     
     try {
-      const filterParams = {
+      const filterParams = new URLSearchParams({
         page: payload.currentPage,
-        min_exp: minExperience,
-        max_exp: maxExperience,
-        gender: gender,
-        categories:categories,
-        // Add state if necessary
-      };
+        min_exp: minExperience.toString(),
+        max_exp: maxExperience.toString(),
+        gender,
+        state,
+        categories: Array.isArray(categories) ? categories : [],
+      }).toString();
 
       const response = await httpRequest({
         url: API.USERS,

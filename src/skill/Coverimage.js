@@ -196,6 +196,7 @@ import { API, LOCAL_DB } from '../constants';
 const Coverimage = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState(null);
+  
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
@@ -205,16 +206,19 @@ const Coverimage = ({ navigation }) => {
   const fetchUserData = async () => {
     try {
       const response = await httpRequest({
-        url: API.PROFILE,
+        url: API.GET_PROFILE,
         method: 'GET',
       });
-      if (response.status === 200) {
-        const data = await response.json();
-        setUserData(data);
-        await storeLocalData('user', data);
-      } else {
-        console.error(`Error fetching user data - Status ${response.status}`); 
-      }
+       if (response) {
+        // const data = await response;
+        //  console.log("data",response)
+ setUserData(response.data);
+ setSelectedImage({uri:response.data.profile_image})
+        await storeLocalData('user', response.data);
+       } else {
+         console.error(`Error fetching user data - Status $`,JSON.stringify(response)); 
+
+       }
     } catch (error) {
       console.error('Error fetching user data: ', error);
       Alert.alert('Error', 'Failed to fetch user data. Please try again.');
@@ -238,16 +242,17 @@ const Coverimage = ({ navigation }) => {
     setIsLoading(true);
 
     const formData = new FormData();
-    formData.append('cover_image', {
-      uri: selectedImage.uri,
-      type: selectedImage.type,
-      name: selectedImage.name,
-    });
-
+    // formData.append('cover_image', {
+    //   uri: selectedImage.uri,
+    //   // type: selectedImage.type,
+    //   // name: selectedImage.name,
+    // });
+ 
+    formData.append('file_name',selectedImage.uri)
     try {
       const response = await httpRequest({ 
         method: 'POST', 
-        url: API.UPLOAD_COVER_IMAGE, 
+        url: API.PROFILE_IMAGE_UPLOAD, 
         data: formData,
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -301,12 +306,12 @@ const Coverimage = ({ navigation }) => {
           <Text style={styles.uploadButtonText}>Select Image</Text>
         )}
       </TouchableOpacity>
-      <Button 
+      <View style={{flex:1}}><Button 
         title="Upload Cover Image" 
         onPress={uploadImage} 
         disabled={isLoading || !selectedImage}
         style={styles.submitButton}
-      />
+      /></View>
       {isLoading && <Text style={styles.loadingText}>Uploading...</Text>}
     </View>
   );
@@ -337,6 +342,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginBottom: 20,
     overflow: 'hidden',
+    flex:1
   },
   uploadButtonText: {
     fontSize: 18,

@@ -1,11 +1,13 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import PhoneInput from "react-native-phone-number-input";
 import { Button, hideLoader, showLoader } from '../components';
 import { API, COLORS, FONTS } from '../constants';
 import { httpRequest } from '../api/http';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import { WhatsAppSvg } from '../assets/icons/svg';
+import { COLOR } from '../theme/Theme';
+import constantimages from '../components/contantstheme/constantimages';
 
 export const Login = ({ navigation }) => {
 
@@ -36,6 +38,9 @@ export const Login = ({ navigation }) => {
         <View style={styles.container}>
 
             <Text style={styles.title}>Sign in to Continue</Text>
+            <View style={{alignItems:"center"}}>
+                <Image source={constantimages.sliderimage} style={{width:320,height:280}}/>
+            </View>
             <Text style={styles.subTitle}>
                 We will send you One Time Password (OTP) on this WhatsApp Mobile Number {<WhatsAppSvg size={responsiveWidth(4)} />}
             </Text>
@@ -50,7 +55,7 @@ export const Login = ({ navigation }) => {
                 layout='second'
                 codeTextStyle={{color:COLORS.DESCRIPTION}}
                 withDarkTheme={true}
-                countryPickerButtonStyle={{width: 'auto', paddingHorizontal: 10, borderRightWidth: 1, borderEndColor: COLORS.PRIMARY_LIGHTER }}
+                countryPickerButtonStyle={{width: 'auto', paddingHorizontal: 10, borderRightWidth: 1, borderEndColor: COLOR.borderColor }}
                 textInputProps={{cursorColor:COLORS.SECONDARY, placeholderTextColor: COLORS.DESCRIPTION, fontFamily: FONTS.SEMI_BOLD }}
                 textInputStyle={{color: COLORS.BLACK }}
             />
@@ -82,12 +87,14 @@ const styles = StyleSheet.create({
 
     phoneContainer: {
         backgroundColor:COLORS.PRIMARY_LIGHT,
-        borderColor: COLORS.PRIMARY_LIGHTER,
+        // borderColor: COLORS.PRIMARY_LIGHTER,
+        borderColor:COLOR.borderColor,
         borderWidth: responsiveWidth(0.3),
         alignSelf: 'center',
         marginTop: responsiveHeight(5),
         height: 50,
-        width: '100%'
+        width: '100%',
+        borderRadius:10
     },
     textInput: {
         fontFamily:FONTS.SEMI_BOLD,

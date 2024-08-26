@@ -69,7 +69,7 @@ export const Dashboard = ({navigation}) => {
          backgroundColor: COLORS.PRIMARY,
       }}>
       <View>
-        <Searchbar />
+        {/* <Searchbar /> */}
 
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -83,13 +83,13 @@ export const Dashboard = ({navigation}) => {
             {/* <Homeslider /> */}
           </View>
           <View style={{paddingHorizontal: 5}}>
-            <Iconhome/>
+            {/* <Iconhome/>
             
            <Homechild/>
-            <ChildData/>
+            <ChildData/> */}
 {/* <Homesubchild/> */}
 {/* <Home1/> */}
-<Subcategories/>
+{/* <Subcategories/> */}
 {/* <Superchildcategories/> */}
             <Home />
           </View>

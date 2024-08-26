@@ -1,3 +1,4 @@
+import constantimages from '../components/contantstheme/constantimages';
 import { appName } from './constant';
 
 export const onboardData = [
@@ -5,13 +6,15 @@ export const onboardData = [
         id:1,
         title:'Unlock your skills and connect with us on Xprrt ',
         description:"Your gateway to professional excellence and boundless opportunities.",
-        image: require('../assets/lottie/onboard1.json')
+        // image: require('../assets/lottie/onboard1.json')
+        image:constantimages.sliderimage
     },
     {
         id:2,
         title:"Transform your talent into success with Xprrt ",
         description:"Showcase your talents an, find opportunities and achieve your goals with xprrt ",
-        image:require('../assets/lottie/onboard2.json')
+        // image:require('../assets/lottie/onboard2.json')
+        image:constantimages.sliderimage
     },
     {
         id:3,
