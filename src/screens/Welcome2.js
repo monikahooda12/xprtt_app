@@ -19,13 +19,14 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import Availability from '../skill/Availability';
-import {Skill} from '../skill/Skill';
-import {Language} from '../skill/Language';
-import {Education} from '../skill/Education';
-import {Portfolio} from '../skill/Portfolio';
-import {Experience} from '../skill/Expercience';
+
 import {CustomText} from '../components/textInputs/text';
+import Skill from '../professinol/Skill';
+import Availability from '../professinol/Availability';
+import { Language } from '../professinol/Language';
+import { Education } from '../professinol/Education';
+import { Portfolio } from '../professinol/Portfolio';
+import Experience from '../professinol/Expercience';
 
 export const Welcome2 = ({route, navigation}) => {
   const maxDate = new Date();

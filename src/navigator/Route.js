@@ -6,35 +6,51 @@ import {
     Onboarding, Settings, About, InvestmentPlan, PaymentDetails,
     PaymentMethod, Security, Verification, Webview, ThankYou, NoNetwork,
     Withdraw, Referral, Invite, News, Notifications, ActivateSecurity, Transactions, MyReferral, ReferralDetails, BankDetails, KycStatus,
-    Blog
+    
 } from '../screens';
 import { DashboardNavigator, HelpNavigator, ReferralNavigator } from '../navigator';
 import { COLORS } from '../constants';
 import Chatbot from '../screens/Chatbot';
 import NavigationService from '../navigator/NavigationService';
 import { Header } from '../components';
-
+import { Blog } from '../screens';
 import { Welcome2 } from '../screens/Welcome2';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import Service from '../skill/service';
-import Coverimage from '../skill/Coverimage';
 
-import Home from '../skill/Home';
-import Subchild from '../skill/Subchild';
-import Supersubchild from '../skill/Supersubchild';
-import SearchResults from '../skill/Searchresult';
-import { SearchBar } from 'react-native-screens';
-import Searchbar from '../skill/Searchbar';
-import Detailsuser from '../skill/Detailsuser';
-import Xprrt from '../skill/Xprrt';
-import Review from '../skill/Review';
-import Homechild from '../skill/homechild';
-import Homesubchild from '../skill/homesubchild';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import Review from '../xprrt/Review';
+
+
 import Superchildcategories from '../Categories/Subchildcategories';
 import { Account2 } from '../screens/Account2';
 import Subcategories from '../Categories/Subcategories';
 import BlogsScreen from '../screens/Blogdata';
-import Subhome from '../skill/Subhome';
+
+import Service from '../professinol/service';
+import Coverimage from '../professinol/Coverimage';
+import Subchild from '../Categories/Subchild';
+import SuperSubchild from '../Categories/Supersubchild';
+import Subhome from '../Categories/Subhome';
+import Xprrt from '../xprrt/Xprrt';
+import Detailsuser from '../xprrt/Detailsuser';
+import SearchBar from '../home/Searchbar';
+import SearchResults from '../home/Searchresult';
+import Homechild from '../home/homechild';
+import Home from '../home/Home';
+import Homesubchild from '../home/homesubchild';
 
 
 // import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
@@ -57,8 +73,8 @@ export const Route = () => {
                     <Stack.Screen name='Webview' component={Webview} options={{ headerShown: false }} />
                     <Stack.Screen name='Home' component={Home} options={{headerShown:false}}/>
                     <Stack.Screen name = 'Subchild' component={Subchild} options={{headerShown:false}}/>
-                     <Stack.Screen name='SuperSubchild' component={Supersubchild} options={{headerShown:false}}/>
-                     <Stack.Screen name='SearchBar' component={Searchbar} options={{headerShown:false}}/>
+                     <Stack.Screen name='SuperSubchild' component={SuperSubchild} options={{headerShown:false}}/>
+                     <Stack.Screen name='SearchBar' component={SearchBar} options={{headerShown:false}}/>
                      <Stack.Screen name='SearchResults' component={SearchResults} options={{headerShown:true}}/>
                      <Stack.Screen name='Detailsuser' component={Detailsuser} options={{headerShown:true}}/>
                      <Stack.Screen name='Xprrt' component={Xprrt} options={{headerShown:true}}/>

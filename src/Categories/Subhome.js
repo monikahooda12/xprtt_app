@@ -23,11 +23,29 @@ const Subhome = () => {
             // const childcategories = data.list[0].child[0].child[0];
             // const childcategories = data.list.child.child;
             // console.log("data1",data1)
-               const childcategories = response?.data.list.flatMap((item) => item.child)
-               console.log("childcategories",childcategories)
-            const childcategoriess = childcategories?.child?.flatMap((data)=>data.name)
-            console.log("bititibtibitbtibtibtibitbititbtitb", childcategoriess)
-            setCategoriesData([...childcategories]);
+            //    const childcategories = response?.data.list.flatMap((item) => item.child)
+            //    const childcategories  =      response.data.list.reduce((acc, item) => {
+            //     acc[item.name] = item.child;
+            //     return acc;
+            //   }, {});
+            //    console.log("childcategories",childcategories)
+            const childcategories = response.data.list.reduce((acc, item) => {
+                acc[item.name] = item.child;
+                return acc;
+              }, {});
+        
+              const subChildArray = {};
+        
+              for (const [subcategoryName, children] of Object.entries(
+                childcategories,
+              )) {
+                children.map(child => (subChildArray[subcategoryName] = child.child));
+              }
+        
+              console.log("childcategories",childcategories["Graphics & Design"]); 
+            // const childcategoriess = childcategories?.flatMap((data)=>data.name)
+            // console.log("bititibtibitbtibtibtibitbititbtitb", childcategories)
+            // setCategoriesData([...childcategories]);
         } catch (error) {
             console.error('Error fetching categories:', error);
         }

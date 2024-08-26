@@ -24,15 +24,15 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 
-import Searchbar from '../skill/Searchbar';
-import Home from '../skill/Home';
+import SearchBar from '../home/Searchbar';
+import Home from '../home/Home';
 
 import Homeslider from './homeslider';
-import Iconhome from '../skill/Iconhome';
-import Homechild from '../skill/homechild';
+import Iconhome from '../home/Iconhome';
+import Homechild from '../home/homechild';
 import ChildData from '../components/ChildData';
-import Homesubchild from '../skill/homesubchild';
-import Home1 from '../skill/Home1';
+import Homesubchild from '../home/homesubchild';
+
 import Subcategories from '../Categories/Subcategories';
 import Superchildcategories from '../Categories/Subchildcategories';
 
@@ -88,7 +88,7 @@ export const Dashboard = ({navigation}) => {
            <Homechild/>
             <ChildData/> */}
 {/* <Homesubchild/> */}
-{/* <Home1/> */}
+{/* <Categories/> */}
 {/* <Subcategories/> */}
 {/* <Superchildcategories/> */}
             <Home />

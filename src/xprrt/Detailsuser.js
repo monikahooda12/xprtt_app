@@ -572,7 +572,7 @@ const Detailsuser = () => {
            </TouchableOpacity>
          </View>
        </Modal>
-       <Review id ={36}/>
+       <Review  id ={36}/>
 
 
        <View style={styles.section}>

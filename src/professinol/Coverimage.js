@@ -194,6 +194,7 @@ import { httpRequest } from '../api/http';
 import { API, LOCAL_DB } from '../constants'; 
 
 const Coverimage = ({ navigation }) => {
+  
   const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState(null);
   
@@ -253,10 +254,12 @@ const Coverimage = ({ navigation }) => {
       const response = await httpRequest({ 
         method: 'POST', 
         url: API.PROFILE_IMAGE_UPLOAD, 
-        data: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
+        params: {
+          cover_image: Image.uri,
         },
+        
+        data: formData,
+        
       });
       
       console.log('Image upload response:', response);

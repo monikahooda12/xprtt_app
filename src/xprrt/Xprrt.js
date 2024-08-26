@@ -16,7 +16,8 @@ import {API} from '../constants';
 import {httpRequest} from '../api/http';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import Userfilter from './FilterModal';
+import Userfilter from '../Modals/FilterModal';
+// import Userfilter from './FilterModal';
 
 const {width} = Dimensions.get('window');
 const cardWidth = width * 0.91;

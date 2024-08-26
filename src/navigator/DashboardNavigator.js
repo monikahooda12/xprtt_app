@@ -6,9 +6,10 @@ import { Button, Dimensions, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AccountSvg, CurrenciesSvg, HomeSvg, IndicesSvg, NotificationSvg } from '../assets/icons/svg';
 import { Header } from '../components';
-import Xprrt from '../skill/Xprrt';
+import Xprrt from '../xprrt/Xprrt';
+import Categories from '../Categories/Categories';
 
-import Home1 from '../skill/Home1';
+ 
 
 
 const { width } = Dimensions.get('window');
@@ -57,7 +58,7 @@ export const DashboardNavigator = () => {
 
 
 
-<Tab.Screen name={"Home1"} component={Home1}
+<Tab.Screen name={"Categories"} component={Categories}
         options={{
           header: () => <Header title='xprrt Watch' showBackButton={false} tintColor={COLORS.WHITE} backgroundColor={COLORS.PRIMARY} />,
           tabBarShowLabel: false,

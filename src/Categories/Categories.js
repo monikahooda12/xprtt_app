@@ -18,7 +18,7 @@ import { COLOR } from '../theme/Theme';
 
 const { width } = Dimensions.get('window');
 
-const Home1 = () => {
+const Categories = () => {
   const navigation = useNavigation();
   const [categoriesData, setCategoriesData] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
@@ -163,4 +163,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home1;
+export default Categories;
