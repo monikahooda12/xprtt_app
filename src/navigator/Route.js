@@ -16,29 +16,11 @@ import { Header } from '../components';
 import { Blog } from '../screens';
 import { Welcome2 } from '../screens/Welcome2';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import Review from '../xprrt/Review';
-
-
 import Superchildcategories from '../Categories/Subchildcategories';
 import { Account2 } from '../screens/Account2';
 import Subcategories from '../Categories/Subcategories';
 import BlogsScreen from '../screens/Blogdata';
-
 import Service from '../professinol/service';
 import Coverimage from '../professinol/Coverimage';
 import Subchild from '../Categories/Subchild';
@@ -51,6 +33,7 @@ import SearchResults from '../home/Searchresult';
 import Homechild from '../home/homechild';
 import Home from '../home/Home';
 import Homesubchild from '../home/homesubchild';
+import Xpertsubcat from '../xprrt/Xpertsubcat';
 
 
 // import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
@@ -87,6 +70,7 @@ export const Route = () => {
                      <Stack.Screen name='Blogscreen' component={BlogsScreen} options={{headerShown:true}}/>
                      <Stack.Screen name='Blog' component={Blog} options={{headerShown:true}}/>
                      <Stack.Screen name='Subhome' component={Subhome} options={{headerShown:true}}/>
+                     <Stack.Screen name='Xpertsubcat' component={Xpertsubcat} options={{headerShown:true}}/>
                     <Stack.Screen name='Maintenance' component={Maintenance}
                         options={{
                             header: () => <Header title='Maintenance' showBackButton={false} />,

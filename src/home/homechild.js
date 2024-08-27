@@ -20,7 +20,7 @@ const Homechild = () => {
           
             const childcategories = response?.data.list.flatMap((item) => item.child)
         //    const childcategories = response?.data.list.map((item)=>item.child[0])
-            console.log("object", childcategories)
+            // console.log("object", childcategories)
             setCategoriesData([...childcategories]);
         } catch (error) {
             console.error('Error fetching categories:', error);

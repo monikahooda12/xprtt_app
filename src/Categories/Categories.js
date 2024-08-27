@@ -63,7 +63,7 @@ const Categories = () => {
       category.title.toLowerCase().includes(text.toLowerCase())
     );
     setFilteredCategories(filtered);
-    console.log("filteredCategories",filteredCategories)
+    // console.log("filteredCategories",filteredCategories)
   };
 
   // const handleCheckboxToggle =async ( service) => {
@@ -99,7 +99,7 @@ const Categories = () => {
   const handleOnApply = Service => {
     // dispatch(setselectedServiceNames(selectedServicesNames));
     
-    console.log("?[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[",Service);
+    // console.log("?[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[",Service);
   };
 
   return (

@@ -20,7 +20,7 @@ import {httpRequest} from '../api/http';
 
 const {width} = Dimensions.get('window');
 
-const Subhome = ({route}) => {
+const Xpertsubcat = ({route}) => {
   const {id} = route.params
   const navigation = useNavigation();
   const [categoriesData, setCategoriesData] = useState([]);
@@ -54,7 +54,7 @@ const Subhome = ({route}) => {
   };
 
   const handleCategoryPress = category => {
-    navigation.navigate('Xpertsubcat', {categoryId: category.id});
+    navigation.navigate('Homesubchild', {categoryId: category.id});
   };
 
   useEffect(() => {
@@ -116,7 +116,7 @@ const Subhome = ({route}) => {
   );
 };
 
-export default Subhome;
+export default Xpertsubcat;
 
 const styles = StyleSheet.create({
   container: {
