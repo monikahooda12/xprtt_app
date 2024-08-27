@@ -35,6 +35,7 @@ import Homesubchild from '../home/homesubchild';
 
 import Subcategories from '../Categories/Subcategories';
 import Superchildcategories from '../Categories/Subchildcategories';
+import Subhome from '../Categories/Subhome';
 
 export const Dashboard = ({navigation}) => {
   const {width} = useWindowDimensions();
@@ -69,7 +70,7 @@ export const Dashboard = ({navigation}) => {
          backgroundColor: COLORS.PRIMARY,
       }}>
       <View>
-        {/* <Searchbar /> */}
+        <SearchBar />
 
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -87,11 +88,12 @@ export const Dashboard = ({navigation}) => {
             
            <Homechild/>
             <ChildData/> */}
-{/* <Homesubchild/> */}
-{/* <Categories/> */}
+
+
 {/* <Subcategories/> */}
 {/* <Superchildcategories/> */}
             <Home />
+            <Homesubchild/>
           </View>
         </ScrollView>
       </View>

@@ -124,10 +124,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
-     paddingTop: 32,
-     marginBottom:48,
-     zIndex:12,
-    backgroundColor: '#f5f5f5',
+      marginVertical: 32,
+      marginBottom:48,
+      zIndex:12,
+    // backgroundColor: '#f5f5f5',
   },
   // container: {
   //        flex: 1,
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
          justifyContent: 'space-between',
          alignItems: 'center',
          padding: 16,
-         marginRight:14
+         marginHorizontal:14
         
        },
        title: {

@@ -41,7 +41,8 @@ export default function App() {
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.PRIMARY }} edges={['top', 'left', 'right']}>
 
           <StatusBar backgroundColor={COLORS.PRIMARY} barStyle={'light-content'} />
-          <Route />
+          {/* <Route/> */}
+          <Route/>
           <Toaster />
           <Loader />
         </SafeAreaView>

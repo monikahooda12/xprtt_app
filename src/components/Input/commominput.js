@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, StyleSheet, TextInput, Text, Image } from "react-native";
 import { Responsive } from "../../theme/Layout";
 import { COLOR } from "../../theme/Theme";
+import { ICONS } from "../../constants";
 
 
 export default function CommonInput({
@@ -214,15 +215,15 @@ const styles = StyleSheet.create({
 
 
 //////// jis page p call krwana h ///////
-{/* <CommonInput
-                      name="email"
-                      label="Email"
-                      placeholderText="eg. john@gmail.com"
-                      InputIcon={Icons.sms}
-                      onchange={handleChange("email")}
-                      onBlur={handleBlur("email")}
-                      onError={
-                        errors.email && touched.email ? errors.email : null
-                      }
-                      errors={errors.email && touched.email}
-                    /> */}
+  // <CommonInput
+  //                      name="email"
+  //                      label="Email"
+  //                      placeholderText="eg. john@gmail.com"
+  //                       InputIcon={ICONS.sms}
+  //                      onchange={handleChange("email")}
+  //                      onBlur={handleBlur("email")}
+  //                      onError={
+  //                        errors.email && touched.email ? errors.email : null
+  //                      }
+  //                      errors={errors.email && touched.email}
+  //                   /> 

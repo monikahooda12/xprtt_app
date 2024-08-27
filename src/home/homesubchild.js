@@ -1,92 +1,60 @@
-import React, { useEffect, useState } from 'react';
-import { Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { API } from '../constants';
-import { httpRequest } from '../api/http';
-import { COLORS } from '../constants';
-
-const { width } = Dimensions.get('window');
+import { useEffect } from "react";
+import { Text, View } from "react-native";
 
 const Homesubchild = () => {
-    const [CategoriesData, setCategoriesData] = useState([]);
+  const getallcatergies = async () => {
+    try {
+      const response = await httpRequest({
+        method: 'GET',
+        url: API.GET_CATEGORIES,
+      });
 
-    const getallcatergies = async () => {
-        try {
-            const response = await httpRequest({
-                method: 'GET',
-                url: API.GET_CATEGORIES,
-            });
+      // Log the entire list to see the structure
+      console.log("Full Response Data:", response.data.list);
 
-            const childcategories = response?.data.list.flatMap((item) => item.child[0].child);
-            console.log("Fetched Child Categories:", childcategories);
-            setCategoriesData([...childcategories]);
-        } catch (error) {
-            console.error('Error fetching categories:', error);
-        }
-    };
+      // Create a map of child categories keyed by ID
+      const childcategoriesArray = response.data.list.reduce((acc, item) => {
+        acc[item.id] = item.child;
+        return acc;
+      }, {});
 
-    const handleCategoryPress = (category) => {
-        navigation.navigate('Homesubchild', { categoryId: category.id });
-    };
+      // Check if ID 44 exists in childcategoriesArray
+      if (childcategoriesArray[44]) {
+        const childcategory = childcategoriesArray[44];
+        console.log("Child category for ID 44:", childcategory);
 
-    useEffect(() => {
-        getallcatergies();
-    }, []);
+        const subChildArray = {};
+        childcategory.map(category => {
+          subChildArray[category.name] = category.child;
+        });
 
-    const renderCategoryItem = ({ item }) => (
-        <TouchableOpacity onPress={() => handleCategoryPress(item)}>
-            <View style={styles.categoryItem}>
-                <Image
-                    source={{ uri: item.icon }}
-                    style={styles.serviceIcon}
-                    resizeMode='cover'
-                />
-                <Text style={styles.categoryTitle}>{item.name || 'Unnamed Category'}</Text>
-            </View>
-        </TouchableOpacity>
-    );
+        // You can log subChildArray if needed
+        console.log("Sub Child Array for ID 44:", subChildArray);
 
-    return (
-        <View style={styles.container}>
-            
-            <FlatList
-                data={CategoriesData}
-                renderItem={renderCategoryItem}
-                keyExtractor={(item, index) => item.id || index.toString()}
-                ListEmptyComponent={<Text>No categories available</Text>}
-                numColumns={2}
-                columnWrapperStyle={styles.row}
-                // showsVerticalScrollIndicator={false} // Optional: hides vertical scrollbar
-            />
-        </View>
-    );
+        // If you want to set this data in state, uncomment the lines
+        // setCategoriesData(childcategory);
+        // setSubCategoriesData(subChildArray);
+      } else {
+        console.log("ID 44 not found in the data.");
+      }
+
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
+
+  // Call the function when the component mounts
+  useEffect(() => {
+    getallcatergies();
+  }, []);
+
+  return (
+    <View>
+      <Text style={{ backgroundColor: 'red', fontSize: 30 }}>
+        hi
+      </Text>
+    </View>
+  );
 };
 
 export default Homesubchild;
-
-const styles = StyleSheet.create({
-    container: {
-         flex: 1,
-         padding: 16,
-    },
-    row:{
-        flex:1,
-        justifyContent:'space-between'
-    },
-    categoryItem: {
-        flex:1,
-        marginBottom: 16, // Adjust this if you want more spacing between items
-         alignItems: 'center',
-        width: (width - 48)/2, // Adjusted to take full width minus padding
-    },
-    serviceIcon: {
-         width: '100%',
-        height: 100,
-        borderRadius: 10,
-        marginBottom: 8,
-    },
-    categoryTitle: {
-        fontSize: 14,
-        color: '#333',
-        textAlign: 'center',
-    },
-});

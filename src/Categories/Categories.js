@@ -12,7 +12,6 @@ import {
 
 import { CardGrid, SearchBar } from '../components/card';
 import CategoryModal from '../Modals/categorymodal';
-import CommonInput from '../components/Input/commominput';
 import { COLOR } from '../theme/Theme';
 
 
@@ -105,18 +104,18 @@ const Categories = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Categories</Text>
-      <CommonInput
-                      name="email"
-                      label="Email"
-                      placeholderText="eg. john@gmail.com"
-                      InputIcon={source=require('../assets/icons/Icon.png')}
-                      // onchange={handleChange("email")}
-                      // onBlur={handleBlur("email")}
-                      // onError={
-                      //   errors.email && touched.email ? errors.email : null
-                      // }
-                      // errors={errors.email && touched.email}
-                    />
+      {/* <CommonInput */}
+                      {/* // name="email" */}
+                      {/* // label="Email" */}
+                      {/* // placeholderText="eg. john@gmail.com" */}
+                      {/* // InputIcon={source=require('../assets/icons/Icon.png')} */}
+                      {/* //  onchange={handleChange("email")} */}
+                      {/* // onBlur={handleBlur("email")} */}
+                      {/* // onError={ */}
+                      {/* //   errors.email && touched.email ? errors.email : null */}
+                      {/* // } */}
+                      {/* // errors={errors.email && touched.email} */}
+                    {/* // /> */}
       <SearchBar
         placeholder="Search categories..."
         onSearch={handleSearch}
@@ -145,7 +144,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLOR.white,
-    marginTop: 4,
+    // marginTop: 4,
     padding: 15,
   },
   title: {
@@ -159,7 +158,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     color: '#000000',
-    marginTop: 20,
+    // marginTop: 20,
   },
 });
 
