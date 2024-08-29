@@ -112,6 +112,7 @@ const Xprrt = () => {
   
 
   const handleFilterApplied = (users) => {
+    
     console.log('Filtered users received in handleFilterApplied:', users);
    
    if (users) setData(users );
@@ -319,7 +320,7 @@ const Xprrt = () => {
         <View style={styles.modalContainer}>
           <Userfilter
             onClose={() => setFilterVisible(false)}
-            onFilterApplied={handleFilterApplied}
+            onFilterApplied={(users) => handleFilterApplied(users)}
           />
           <TouchableOpacity
             style={styles.closeButton}

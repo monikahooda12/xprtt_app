@@ -19,11 +19,11 @@ const Subcategories = ({ route, navigation }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('Route params:', route?.params);
-    console.log('Categories:', categories);
+    // console.log('Route params:', route?.params);
+    // console.log('Categories:', categories);
     const selectedCategory = categories?.find(category => category.id === route?.params?.id);
     if (selectedCategory) {
-      console.log('Selected Category Child:', selectedCategory.child);
+      // console.log('Selected Category Child:', selectedCategory.child);
       const data = selectedCategory.child || selectedCategory.services || [];
       setTitle(selectedCategory.name || 'Service Details');
       setServicesData(data);
@@ -81,7 +81,8 @@ const Subcategories = ({ route, navigation }) => {
       </View>
     </CommonLayout>
   );
-};
+};      
+
 
 const styles = StyleSheet.create({
   container: {

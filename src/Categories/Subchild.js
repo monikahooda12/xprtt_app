@@ -132,7 +132,7 @@ const Subchild = ({ route, navigation }) => {
   };
 
   const handleselectsubcat = (serviceId) => {
-    console.log("serviceID",serviceId)
+    // console.log("serviceID",serviceId)
     // setSelectedServices(prevState => ({
     //   ...prevState,
     //   [serviceId]: !prevState[serviceId]

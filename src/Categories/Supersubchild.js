@@ -37,7 +37,7 @@ const SuperSubchild = ({ route }) => {
 
   // Handle checkbox toggle in the modal
   const handlesupercat = serviceId => {
-    console.log("serviceID",serviceId)
+    // console.log("serviceID",serviceId)
 
     // setSelectedServices(prevState => ({
     //   ...prevState,
@@ -62,7 +62,7 @@ const SuperSubchild = ({ route }) => {
                 <CardGrid
                   items={filteredServices}
                   onCardPress={(item) =>
-                    console.log(`Pressed on child: ${item.title}`)
+                     console.log(`Pressed on child: ${item.title}`)
                   }
                 />
               ) : subCategoryChildren.length > 0 ? (

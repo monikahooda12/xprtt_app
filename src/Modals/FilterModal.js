@@ -9,7 +9,7 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
   const [maxExperience, setMaxExperience] = useState(12);
   const [gender, setGender] = useState('Male');
   const [language, setLanguage] = useState('Hindi');
-  const [state, setState] = useState('Dehradun');
+  const [state, setState] = useState('Delhi');
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [categories,setCategories] =  useState([]);
@@ -46,29 +46,20 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
     setLoading(true);
     
     try {
-      const filterParams = new URLSearchParams({
-        page: payload.currentPage,
-        min_exp: minExperience.toString(),
-        max_exp: maxExperience.toString(),
-        gender,
-        state,
-        categories: Array.isArray(categories) ? categories : [],
-      }).toString();
+      const filterParams = {
+        page: 0,
+          gender: gender,
+          min_exp: minExperience.toString(),
+          max_exp: maxExperience.toString(),
+          state,
+      };
+
+      console.log('filterParams', filterParams)
 
       const response = await httpRequest({
         url: API.USERS,
         method: 'GET',
-        params:{
-          state: '', // Pass state filter value
-          city: '', // Pass city filter value
-          page: 0,
-          min_exp: 0,
-          max_exp: 20,
-          gender: '', // Pass gender filter value
-          language: '', // Pass language filter value
-          limit: 10,
-          categories: [35], // Pass category filter values
-        },
+        params:filterParams,
       });
 
       console.log("response------value---in filter page",response.data)
@@ -79,8 +70,11 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
         const currentPage = response.data.currentPage;
         const totalCount = response.data.totalCount;
 
+      console.log('users', users)
+
         setUsers(users);
-        setPayload({ totalPages, currentPage, totalCount });
+        setPayload({ totalPages, currentPage, totalCount, users });
+        onFilterApplied(users)
         // console.log('Filtered Users:', users);
         setLoading(false);
       } else {
