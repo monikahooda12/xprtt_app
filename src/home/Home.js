@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { hideLoader, showLoader } from '../components';
 import { httpRequest } from '../api/http';
@@ -7,15 +7,12 @@ import { API, FONTS } from '../constants';
 import { useDispatch } from 'react-redux';
 import {
   setCategories,
-  setSelectedCategoryID,setselectedServiceNames
+  setSelectedCategoryID,
 } from '../redux/categories/categorySlice';
 
-import { CardGrid, SearchBar } from '../components/card';
+import { CardGrid } from '../components/card';
 import CategoryModal from '../Modals/categorymodal';
-// import CommonInput from '../components/Input/commominput';
 import { COLOR } from '../theme/Theme';
-import Subhome from '../Categories/Subhome';
-
 
 const { width } = Dimensions.get('window');
 
@@ -24,8 +21,8 @@ const Home = () => {
   const [categoriesData, setCategoriesData] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-  // const [selectedServices, setSelectedServices] = useState([]);
-  // const [selectedServicesNames, setSelectedServicesNames] = useState([]);
+  const [showAllCategories, setShowAllCategories] = useState(false); // State to manage whether to show all categories
+
   const dispatch = useDispatch();
 
   const addToCart = service => {
@@ -33,7 +30,7 @@ const Home = () => {
     navigation.navigate('Subhome', { id: service.id });
   };
 
-  const getallcatergies = async () => {
+  const getAllCategories = async () => {
     showLoader();
     try {
       const response = await httpRequest({
@@ -56,7 +53,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    getallcatergies();
+    getAllCategories();
   }, []);
 
   const handleSearch = text => {
@@ -64,91 +61,57 @@ const Home = () => {
       category.title.toLowerCase().includes(text.toLowerCase())
     );
     setFilteredCategories(filtered);
-    // console.log("filteredCategories",filteredCategories)
   };
 
-  // const handleCheckboxToggle =async ( service) => {
-  //   // console.log("service",service)
-  //  await setSelectedServices(prevSelected => {
-  //     if (prevSelected.some(s => s.id === service.id)) {
-
-  //              return prevSelected.filter(s => s.id !== service.id);
-  //            } else {
-  //              return [...prevSelected, service];
-  //            }
-  //   } 
-  // );
-  // console.log("?[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[",selectedServices);
-
-  // const handleCheckboxToggle = (service) => {
-  //   setSelectedServices((prevSelected) => {
-  //     if (prevSelected.some(s => s.id === service.id)) {
-
-  //       return prevSelected.filter(s => s.id !== service.id);
-  //     } else {
-  //       return [...prevSelected, service];
-  //     }
-  //   });
-  // };
-// console.log("selectedServicesNames",selectedServicesNames)
-//     setSelectedServices(prevState => ({
-//       ...prevState,
-//       [serviceId]: !prevState[serviceId],
-//     }));
-   
-
   const handleOnApply = Service => {
-    // dispatch(setselectedServiceNames(selectedServicesNames));
-    
-    // console.log("?[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[",Service);
+    // Logic for handling selected services
+  };
+
+  // Get the categories to display based on whether "View All" is pressed
+  const displayedCategories = showAllCategories
+    ? filteredCategories
+    : filteredCategories.slice(0, 6); // Display only 6 categories initially
+
+  const toggleShowAllCategories = () => {
+    setShowAllCategories(prevState => !prevState);
   };
 
   return (
     <ScrollView>
-    <View style={styles.container}>
-      <Text style={styles.title}>Categories</Text>
-      {/* <CommonInput
-                      name="email"
-                      label="Email"
-                      placeholderText="eg. john@gmail.com"
-                      InputIcon={source=require('../assets/icons/Icon.png')}
-                       onchange={handleChange("email")}
-                       onBlur={handleBlur("email")}
-                       onError={
-                         errors.email && touched.email ? errors.email : null
-                       }
-                       errors={errors.email && touched.email}
-                    > */}
-      {/* <SearchBar
-        placeholder="Search categories..."
-        onSearch={handleSearch}
-        onFilterPress={() => setModalVisible(true)}
-      /> */}
-      {filteredCategories.length > 0 ? (
-        <CardGrid items={filteredCategories} onCardPress={addToCart} />
-      ) : (
-        <Text style={styles.noDataText}>No categories available</Text>
-      )}
-      <CategoryModal
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        services={filteredCategories}
-        // selectedServices={selectedServices}
-        label="Select Categories"
-        // onCheckboxToggle={handleCheckboxToggle}
-        onApply={handleOnApply}
-        
-      />
+      <View style={styles.container}>
+        {/* Title and View All in the same row */}
+        <View style={styles.headerRow}>
+          <Text style={styles.title}>Categories</Text>
+          {filteredCategories.length > 6 && (
+            <TouchableOpacity
+              style={styles.viewAllButton}
+              onPress={toggleShowAllCategories}
+            >
+              <Text style={styles.viewAllText}>
+                {showAllCategories ? 'View Less' : 'View All'}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
 
+        {displayedCategories.length > 0 ? (
+          <CardGrid items={displayedCategories} onCardPress={addToCart} />
+        ) : (
+          <Text style={styles.noDataText}>No categories available</Text>
+        )}
 
-<View>
-{/* <View style={{width:321,backgroundColor:'##D0D0D0',height:1,alignSelf:'center',marginBottom:10}}/> */}
-<View >
-            <View style={{width:351,backgroundColor:'#D8D8D8',height:1,marginBottom:20,marginTop:10,alignSelf:'flex-start'}}/>
-            </View>
+        <CategoryModal
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          services={filteredCategories}
+          label="Select Categories"
+          onApply={handleOnApply}
+        />
 
-</View>
-    </View>
+        <View>
+          <View style={{ width: 351, backgroundColor: '#D8D8D8', height: 1, marginBottom: 20, marginTop: 10, alignSelf: 'flex-start' }} />
+        </View>
+      </View>
     </ScrollView>
   );
 };
@@ -160,11 +123,16 @@ const styles = StyleSheet.create({
     marginTop: 4,
     padding: 15,
   },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between', // To space out the title and View All button
+    alignItems: 'center', // Vertically align items in the center
+    marginBottom: 20,
+  },
   title: {
     fontFamily: 'Roboto-Black',
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 20,
     color: '#0F0F0F',
   },
   noDataText: {
@@ -173,25 +141,16 @@ const styles = StyleSheet.create({
     color: '#000000',
     marginTop: 20,
   },
-  sectionTitle: {
-    fontSize: 23,
-     fontWeight: 'bold',
-    color: '#000000',
-    marginBottom: -16,
-     marginLeft:5,
-//  fontFamily: FONTS.SEMI_BOLD,
- fontFamily:FONTS.ROBOTO_BLACK
+  viewAllButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    backgroundColor: COLOR.lightGray,
+    borderRadius: 5,
   },
   viewAllText: {
-     color: '#333',
-      marginLeft:134,
-    marginRight:-15
+    color: '#333',
+    fontWeight: 'bold',
   },
-      line: {
-        borderBottomColor: '#E0E0E0',
-        borderBottomWidth: 1,
-        marginVertical: 10,
-      },
 });
 
 export default Home;

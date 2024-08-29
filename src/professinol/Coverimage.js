@@ -249,14 +249,16 @@ const Coverimage = ({ navigation }) => {
     //   // name: selectedImage.name,
     // });
  
-    formData.append('file_name',selectedImage.uri)
+    formData.append('file_name',selectedImage.name)
+    formData.append("cover_image",selectedImage.uri)
+    console.log("formData",formData)
     try {
       const response = await httpRequest({ 
         method: 'POST', 
         url: API.PROFILE_IMAGE_UPLOAD, 
-        params: {
-          cover_image: Image.uri,
-        },
+        // params: {
+        //   cover_image: image.uri,
+        // },
         
         data: formData,
         
@@ -272,7 +274,7 @@ const Coverimage = ({ navigation }) => {
       Alert.alert('Success', 'Cover image updated successfully');
       navigation.replace('DashboardNavigator');
     } catch (error) {
-      console.error('Error uploading image:', error);
+      console.error('Error uploading image:', error.message);
       Alert.alert('Error', 'Failed to upload cover image. Please try again.');
     } finally {
       setIsLoading(false);

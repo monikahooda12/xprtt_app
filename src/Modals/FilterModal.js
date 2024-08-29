@@ -23,6 +23,16 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
     fetchFilteredUsers();
   }, [payload.currentPage]);
 
+
+
+  const handleApplyFilters = () => {
+    fetchFilteredUsers().then((filteredUsers) => {
+      onFilterApplied(filteredUsers); // Pass the filtered users to the parent component
+      onClose(); // Close the filter modal after applying filters
+    });
+  };
+
+
   const handleClearAll = () => {
     setMinExperience(0);
     setMaxExperience(0);
@@ -48,8 +58,20 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
       const response = await httpRequest({
         url: API.USERS,
         method: 'GET',
-        params: filterParams,
+        params:{
+          state: '', // Pass state filter value
+          city: '', // Pass city filter value
+          page: 0,
+          min_exp: 0,
+          max_exp: 20,
+          gender: '', // Pass gender filter value
+          language: '', // Pass language filter value
+          limit: 10,
+          categories: [35], // Pass category filter values
+        },
       });
+
+      console.log("response------value---in filter page",response.data)
 
       if (response.data && Array.isArray(response.data.list)) {
         const users = response.data.list;
@@ -59,6 +81,7 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
 
         setUsers(users);
         setPayload({ totalPages, currentPage, totalCount });
+        // console.log('Filtered Users:', users);
         setLoading(false);
       } else {
         console.error("Invalid API response format:", response);
@@ -71,18 +94,18 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
     }
   };
 
-  const handleApplyFilters = () => {
-    fetchFilteredUsers();
-    onClose(); // Close the filter modal after applying filters
-  };
+  // const handleApplyFilters = () => {
+  //   fetchFilteredUsers();
+  //   onClose(); // Close the filter modal after applying filters
+  // };
 
   // Your component UI with filter options remains unchanged
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.simpletext}>Select Category</Text>
-        <Text style={styles.header}>Category</Text>
-        <Text style={styles.subheader}>Graphic & Design</Text>
+        {/* <Text style={styles.simpletext}>Select Category</Text> */}
+        {/* <Text style={styles.header}>Category</Text> */}
+        {/* <Text style={styles.subheader}>Graphic & Design</Text> */}
 
         <Text style={styles.simpletext}>Select Experience you need</Text>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>

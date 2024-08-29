@@ -93,8 +93,9 @@ export const Dashboard = ({navigation}) => {
 {/* <Subcategories/> */}
 {/* <Superchildcategories/> */}
             <Home />
-            <Homesubchild/>
+           
           </View>
+          <Homesubchild/>
         </ScrollView>
       </View>
     </SafeAreaView>

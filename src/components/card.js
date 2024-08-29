@@ -1,43 +1,4 @@
-// import React from 'react';
-// import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-// const Card = ({ title, icon, onPress }) => {
-//   return (
-//     <TouchableOpacity style={styles.card} onPress={onPress}>
-//       <Image source={icon} style={styles.icon} />
-//       <Text style={styles.title}>{title}</Text>
-//     </TouchableOpacity>
-//   );
-// };
-
-// const styles = StyleSheet.Cast.create({
-//   card: {
-//     backgroundColor: 'white',
-//     borderRadius: 10,
-//     padding: 16,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     width: '30%',
-//     aspectRatio: 1,
-//     margin: 5,
-//     shadowColor: '#000',
-//     shadowOffset: { width: 0, height: 2 },
-//     shadowOpacity: 0.1,
-//     shadowRadius: 4,
-//     elevation: 3,
-//   },
-//   icon: {
-//     width: 50,
-//     height: 50,
-//     marginBottom: 8,
-//   },
-//   title: {
-//     fontSize: 12,
-//     textAlign: 'center',
-//   },
-// });
-
-// export default Card;
 
 
 
@@ -149,7 +110,7 @@ const styles = StyleSheet.create({
   card: {
     alignItems: 'center',
     width: width / 3 - 20, // Adjust based on your layout needs
-    marginHorizontal: 5,
+     marginHorizontal: 5,
     marginVertical: 10,
   },
   cardIcon: {

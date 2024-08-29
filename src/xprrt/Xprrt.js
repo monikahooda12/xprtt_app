@@ -17,6 +17,8 @@ import {httpRequest} from '../api/http';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import Userfilter from '../Modals/FilterModal';
+import SearchBar from '../home/Searchbar';
+import SearchResults from '../home/Searchresult';
 // import Userfilter from './FilterModal';
 
 const {width} = Dimensions.get('window');
@@ -260,7 +262,9 @@ const Xprrt = () => {
           <TouchableOpacity
             onPress={() => navigation.navigate('Homesubchild', { itemName })}
           >
-            <Text style={styles.title}>Details for: {itemName}</Text>
+            {/* <Text style={styles.title}>Details for: {itemName}</Text> */}
+            <Text style={styles.title}> {itemName}</Text>
+            
           </TouchableOpacity>
           <TextInput
             style={styles.searchInput}
@@ -604,75 +608,12 @@ const styles = StyleSheet.create({
   //   fontSize:16,
   //   marginLeft:15,
   // },
-  // //////////////newcard//////////////////
-  // jobTitle: {
-  //   fontSize: 14,
-  //   color: '#666',
-  //   marginBottom: 10,
-  // },
-
-  // location: {
-  //   fontSize: 14,
-  //   color: '#666',
-  //   marginLeft: 5,
-  // },
-  // statsContainer: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between',
-  //   marginLeft:330,
-  // },
-  // statItem: {
-  //   flexDirection: 'row',
-  //   alignItems: 'center',
-  // },
-  // statText: {
-  //   marginLeft: 5,
-  //   fontSize: 14,
-  //   color: '#333',
-  // },
-  // cardType: {
-  //   position: 'absolute',
-  //   top: 10,
-  //   right: 10,
-  //   paddingHorizontal: 10,
-  //   paddingVertical: 5,
-  //   borderRadius: 15,
-  // },
-  // cardTypeText: {
-  //   fontSize: 12,
-  //   fontWeight: 'bold',
-  //   color: '#fff',
-  // },
-  // featuredType: {
-  //   backgroundColor: '#007AFF',
-  // },
-  // newType: {
-  //   backgroundColor: '#4CD964',
-  // },
-  // topType: {
-  //   backgroundColor: '#FF9500',
-  // },
-  // recommendedType: {
-  //   backgroundColor: '#FF2D55',
-  // },
+ 
 });
 
 export default Xprrt;
 
-// import { View, StyleSheet, Text, ScrollView, TextInput, Image, TouchableOpacity, Linking } from 'react-native';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { API } from '../constants';
-// import { httpRequest } from '../api/http';
 
-// const { width } = Dimensions.get('window');
-// const cardWidth = width * 0.7;
-
-// const Xprrt = () => {
-//   const dispatch = useDispatch();
-//   const [data, setData] = useState([]);
-//   const [searchQuery, setSearchQuery] = useState('');
-
-//   useEffect(() => {
 //     fetchUsers();
 //   }, []);
 
@@ -778,145 +719,7 @@ export default Xprrt;
 //   );
 // };
 
-// const styles = StyleSheet.create({
-//   profileContainer: {
-//     padding: 20,
-//     borderBottomWidth: 1,
-//     paddingTop:5,
-//     borderBottomColor: 'red',
-//     backgroundColor:'gray',
-//     // color:'#FFFF00',
-//   },
-//   profileImage: {
-//     width: '100%',
-//     height: '10%',
-//     borderRadius: 10,
-//   },
-//   name: {
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//     marginTop: 10,
-//   },
-//   location: {
-//     fontSize: 16,
-//     color: '#666',
-//   },
-//   section: {
-//     marginTop: 20,
-//   },
-//   sectionTitle: {
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//   },
-//   subSection: {
-//     marginTop: 10,
-//   },
-//   link: {
-//     color: 'blue',
-//     textDecorationLine: 'underline',
-//   },
-//   portfolioImage: {
-//     width: 100,
-//     height: 100,
-//     marginTop: 10,
-//   },
-//   coverImage: {
-//     width: '100%',
-//     height: 200,
-//     marginTop: 10,
-//     borderRadius:10,
-//   },
-//   infoContainer: {
-//     width: '100%',
-//   },
-//   container: {
-//     // flex: 1,
-//      paddingBottom: 28,
-//      display:'block',
 
-//     backgroundColor: '#f5f5f5',
-//   },
-//   filterSection: {
-//     padding: 10,
-//     backgroundColor: '#ffffff',
-//     borderBottomWidth: 1,
-//     borderBottomColor: '#e0e0e0',
-//   },
-//   searchInput: {
-//     borderWidth: 1,
-//     borderColor: '#e0e0e0',
-//     borderRadius: 5,
-//     padding: 8,
-//   },
-//   columnWrapper: {
-//      justifyContent: 'space-between',
-//     padding: 8,
-
-//   },
-//   userCard: {
-//     backgroundColor: 'white',
-//     borderRadius: 8,
-//     padding: 12,
-//     marginBottom: 16,
-//     width: '48%',
-//     shadowColor: '#000',
-//     shadowOffset: {width: 0, height: 2},
-//     shadowOpacity: 0.1,
-//     shadowRadius: 4,
-//     elevation: 3,
-//     flexDirection: 'column',
-//     alignItems: 'center',
-//   },
-//   row: {
-//     //  flexDirection: 'column',
-//     justifyContent: 'space-between',
-//     marginBottom: 10,
-//   },
-//   infoItem: {
-//     marginBottom: 4,
-//   },
-//   label: {
-//     fontSize: 12,
-//     fontWeight: 'bold',
-//     color: '#666',
-//   },
-//   value: {
-//     fontSize: 14,
-//     color: '#333',
-//   },
-//   loadingContainer: {
-//     // flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-//   errorContainer: {
-//     // flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-//   errorText: {
-//     color: 'red',
-//     fontSize: 16,
-//   },
-//   emptyText: {
-//     textAlign: 'center',
-//     marginTop: 20,
-//     fontSize: 16,
-//   },
-//   avatar: {
-//         width: 80,
-//         height: 80,
-//         borderRadius: 10,
-//         alignSelf: 'center',
-//         marginBottom: 10,
-//       },
-// });
-
-// export default Xprrt;
-
-// import { View, StyleSheet, Text, FlatList, TouchableOpacity, Image, TextInput } from 'react-native';
-// import { API, COLORS } from '../constants';
-// import { httpRequest } from '../api/http';
 
 // const Xprrt = () => {
 //   const [users, setUsers] = useState([]);
@@ -1008,68 +811,5 @@ export default Xprrt;
 //   );
 // };
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     paddingBottom: 28,
-//     backgroundColor: '#f5f5f5',
-//   },
-//   loadingContainer: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-//   filterSection: {
-//     padding: 10,
-//     backgroundColor: '#ffffff',
-//     borderBottomWidth: 1,
-//     borderBottomColor: '#e0e0e0',
-//   },
-//   searchInput: {
-//     borderWidth: 1,
-//     borderColor: '#e0e0e0',
-//     borderRadius: 5,
-//     padding: 8,
-//   },
-//   row: {
-//     flex: 1,
-//     justifyContent: 'space-around',
-//   },
-//   userCard: {
-//     backgroundColor: 'white',
-//     borderRadius: 8,
-//     padding: 16,
-//     margin: 8,
-//     width: '45%',
-//     shadowColor: '#000',
-//     shadowOffset: { width: 0, height: 2 },
-//     shadowOpacity: 0.1,
-//     shadowRadius: 4,
-//     elevation: 3,
-//   },
-//   avatar: {
-//     width: 80,
-//     height: 80,
-//     borderRadius: 10,
-//     alignSelf: 'center',
-//     marginBottom: 10,
-//   },
-//   userName: {
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//     marginBottom: 8,
-//     textAlign: 'center',
-//   },
-//   userInfo: {
-//     fontSize: 14,
-//     marginBottom: 4,
-//   },
-//   emptyText: {
-//     textAlign: 'center',
-//     marginTop: 20,
-//     fontSize: 16,
-//   },
-// });
 
-// export default Xprrt;
   
