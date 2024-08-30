@@ -13,6 +13,7 @@ import {
 import { CardGrid, SearchBar } from '../components/card';
 import CategoryModal from '../Modals/categorymodal';
 import { COLOR } from '../theme/Theme';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 
 const { width } = Dimensions.get('window');
@@ -144,12 +145,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLOR.white,
-    // marginTop: 4,
-    padding: 15,
+    marginTop: -20,
+     padding: 15,
   },
   title: {
-    fontFamily: 'Roboto-Black',
-    fontSize: 20,
+     fontFamily: 'Roboto-Black',
+    fontSize: responsiveFontSize(3),
     fontWeight: 'bold',
     marginBottom: 20,
     color: '#0F0F0F',

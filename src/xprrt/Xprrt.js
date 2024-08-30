@@ -19,6 +19,7 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import Userfilter from '../Modals/FilterModal';
 import SearchBar from '../home/Searchbar';
 import SearchResults from '../home/Searchresult';
+import Coverimage from '../professinol/Coverimage';
 // import Userfilter from './FilterModal';
 
 const {width} = Dimensions.get('window');
@@ -87,7 +88,7 @@ const Xprrt = () => {
   
       // Set the combined data to the state
       setData(allData);
-      console.log('Combined data:', JSON.stringify(allData));
+      // console.log('Combined data:', JSON.stringify(allData));
   
       // Update the pagination payload
       setPayload({
@@ -142,10 +143,22 @@ const Xprrt = () => {
             onPress={() => navigation.navigate('Detailsuser', { data: item })}
           >
             <View style={styles.card}>
-              <Image
-                source={{ uri: item.profile_image || defaultImage }}
-                style={styles.backgroundImage}
-              />
+           
+
+
+
+               {item.professional.cover_images.slice(0,1).map((coverImage, coverImageIndex) => (
+                 <Image
+                   key={coverImageIndex}
+                   source={{ uri: coverImage }}
+                   style={styles.backgroundImage}
+                 />
+               ))}
+
+
+
+
+
               <View style={styles.overlay}>
                 <Text style={styles.experienceText}>
                   {item.professional.total_experience} years exp.

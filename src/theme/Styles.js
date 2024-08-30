@@ -41,7 +41,7 @@ export const commonStyles = StyleSheet.create({
     color: COLOR.mediumBlack,
   },
   twelveGilroy500: {
-    fontSize: Responsive.font(12),
+     fontSize: Responsive.font(12),
     fontFamily: FONTS.GilroyMedium500,
     color: COLOR.mediumBlack,
   },

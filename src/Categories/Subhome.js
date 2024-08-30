@@ -16,6 +16,7 @@ import { API, FONTS } from '../constants';
 
 // api
 import { httpRequest } from '../api/http';
+import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 
 const { width } = Dimensions.get('window');
 
@@ -24,7 +25,7 @@ const Subhome = ({ route }) => {
   const navigation = useNavigation();
   const [categoriesData, setCategoriesData] = useState([]);
   const [subCategoriesData, setSubCategoriesData] = useState({});
-
+  const [categories,setCategories] =  useState([]);
   const getallcatergies = async () => {
     try {
       const response = await httpRequest({
@@ -51,7 +52,7 @@ const Subhome = ({ route }) => {
   };
 
   const handleCategoryPress = category => {
-    navigation.navigate('Xpertsubcat', { categoryId: category.id });
+    navigation.navigate('Xprrt', { categoryId: category.id });
   };
 
   useEffect(() => {
@@ -90,6 +91,16 @@ const Subhome = ({ route }) => {
         loop={false}
         dot={<View style={styles.slickDot} />}
         activeDot={<View style={styles.slickActiveDot} />}
+        prevButton={
+          <View style={styles.arrowCircle}>
+            <Text style={styles.slickArrow}>‹</Text>
+          </View>
+        }
+        nextButton={
+          <View style={styles.arrowCircle}>
+            <Text style={styles.slickArrow}>›</Text>
+          </View>
+        }
       >
         {slides.map((slide, index) => (
           <View key={index} style={styles.slide}>
@@ -158,7 +169,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: 'center',
     color: 'black',
-     paddingHorizontal: 5,
+    paddingHorizontal: 5,
     height: 30,
   },
   slickWrapper: {
@@ -187,6 +198,23 @@ const styles = StyleSheet.create({
     marginRight: 3,
     marginTop: 3,
     marginBottom: 3,
+  },
+  slickArrow: {
+    color: '#222222',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    lineHeight:19,
+  },
+  arrowCircle: {
+    backgroundColor: '#EBEBEB',
+    width: 27,
+    height: 27,
+    borderRadius: 27 / 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: -8, // Adjust to position arrows properly
+    marginTop: responsiveHeight(-6), // Adjust the arrow positioning as needed
   },
 });
 

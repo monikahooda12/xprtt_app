@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Linking, Dimensions, Modal } from 'react-native';
 import Review from './Review';
 import { useRoute } from '@react-navigation/native';
+import { Professional } from '../components/cards/ProfessionalDetails';
 // import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 
 const { width } = Dimensions.get('window');
@@ -392,6 +393,7 @@ const Detailsuser = () => {
  <Card>
  <View >  
        <Text style={styles.title}>{data.professional.job_title}</Text>  
+     {/* <  Text> {data.professional.id}</Text> */}
          
      </View>
         <Section title="Professional Details">
@@ -413,7 +415,7 @@ const Detailsuser = () => {
                <Card>
                 <View style={{backgroundColor:'#FOFOFO',padding:13,borderRadius:10}}>
    <Section title="Availability" >
-     {Object.entries(data.professional.availability).map(([day, { isOpen }]) => (
+     {Object.entries(data.professional.availability).map(([day, { isOpen, timings }]) => (
  <DetailItemAbl
           
         key={day}
@@ -424,8 +426,20 @@ const Detailsuser = () => {
              <Text style={[styles.statusIcon, isOpen ? styles.openIcon : styles.closedIcon]}>
                {isOpen ? '✓' : '✗'}
              </Text>
-             <Text style={{paddingLeft:20}}>{isOpen ? 'Open' : 'Closed'}</Text>
-             {/* <Text style={styles.hours}>{hours}</Text> */}
+             <Text style={{ paddingLeft: 20 }}>
+  {isOpen 
+    ? (Array.isArray(timings) 
+        ? timings.join(' - ') // Convert array to "10:00 - 19:00"
+        : 'Invalid timings')
+    : 'Closed'
+  }
+</Text>
+
+             {/* <Text style={styles.hours}>{(Array.isArray(timings)
+                ? timings.join(' - ') // Convert array to "10:00 - 19:00"
+                : 'Invalid timings')}</Text>
+                */}
+
            </View>
          }
        />
@@ -454,26 +468,63 @@ const Detailsuser = () => {
  {/* //////skilll///////////////////// */}
      <Card>
    <Section title="Skills">
-     {data.professional.skill.map((skill, index) => (
-       <View key={index} style={styles.detailItemskill}>
-        
-         <Text style={styles.detailLabel}>{skill.name}</Text>
-         {/* </View> */}
-          {/* <View style={{backgroundColor:'#FFFFFF',padding:15,borderRadius:8}}> */}
-         <Text style={styles.detailValue}>{skill.level}</Text>
-         {/* </View> */}
-       </View>
-     ))}
+     
+   {data.professional.skill.map((obj, index) => (
+        <View
+          key={index}
+          style={[
+            styles.row,
+            index % 2 === 0 ? styles.evenRow : null,
+          ]}
+        >
+          {Object.values(obj).map((value, itemIndex) => (
+            <View
+              key={itemIndex}
+              style={[
+                styles.item,
+                itemIndex !== Object.values(obj).length - 1 ? styles.itemMargin : null,
+              ]}
+            >
+              <Text style={styles.itemText}>
+                {typeof value === 'string' ? value : '-'}
+              </Text>
+            </View>
+          ))}
+        </View>
+      ))}
    </Section>
  </Card>
  {/* //////language///// */}
  <Card>
    <Section title="Language">
-   {data.professional.language.map((language, index) => (
+   {/* {data.professional.language.map((language, index) => (
      <View key={index} style={styles.detailItemskill}>
        <Text style={styles.detailLabel}>Language</Text> 
        <Text style={styles.detailValue}>{language.level}</Text>
      </View>
+      ))} */}
+       {data.professional.language.map((obj, index) => (
+        <View
+          key={index}
+          style={[
+            styles.row,
+            index % 2 === 0 ? styles.evenRow : null,
+          ]}
+        >
+          {Object.values(obj).map((value, itemIndex) => (
+            <View
+              key={itemIndex}
+              style={[
+                styles.item,
+                itemIndex !== Object.values(obj).length - 1 ? styles.itemMargin : null,
+              ]}
+            >
+              <Text style={styles.itemText}>
+                {typeof value === 'string' ? value : '-'}
+              </Text>
+            </View>
+          ))}
+        </View>
       ))}
    </Section>
 
@@ -482,7 +533,7 @@ const Detailsuser = () => {
 {/* /////////////education/////// */}
       <Card>
    <Section title="Education">
-     {data.professional.education.map((edu, index) => (
+     {/* {data.professional.education.map((edu, index) => (
        <View key={index} style={styles.detailItemskill}>
          <View style={styles.subDetailItem}>
            <Text style={styles.detailLabel}>Degree</Text>
@@ -501,7 +552,23 @@ const Detailsuser = () => {
            <Text style={styles.detailValue}>{edu.passing_year}</Text>
          </View>
        </View>
-     ))}
+     ))} */}
+     {data.professional.education.map((obj, index) => (
+        <View
+          key={index}
+          style={[
+            index % 2 === 0 ? styles.evenRow : null,
+             // Ensure the row style is applied for layout
+          ]}
+        >
+          <Text style={styles.text}>
+            {obj.degree} - {obj.subjects}
+          </Text>
+          <Text style={styles.text}>
+            {obj.university} - {obj.passing_year}
+          </Text>
+        </View>
+      ))}
    </Section>
  </Card>
 
@@ -572,30 +639,35 @@ const Detailsuser = () => {
            </TouchableOpacity>
          </View>
        </Modal>
-       <Review  id ={36}/>
-
+    {/*//   <Review  id ={3612}/>//*/}
+<Review id={data.professional.id}/>
 
        <View style={styles.section}>
                <Text style={styles.sectionTitle}>Portfolio</Text>
                {data.professional.portfolio.map((portfolio, portfolioIndex) => (
                  <TouchableOpacity
-                   key={portfolioIndex}
-                   onPress={() => Linking.openURL(portfolio.link)}
+                 key={portfolioIndex}
+                 onPress={() => Linking.openURL(portfolio.link)}
                  >
                    <Text style={styles.link}>{portfolio.link}</Text>
                    {/* Uncomment if image URL is valid and available */}
-                   <Image source={{ uri: portfolio.image?.file?.url }} style={styles.portfolioImage} />
+                   <Image source={{ uri: portfolio.image }} style={styles.portfolioImage} />
+                   {/* <Text>{portfolio.details}</Text> */}
+                   <Text>{portfolio.description}</Text>
+                   <Text>{portfolio.portfolio_title}</Text>
                  </TouchableOpacity>
                ))}
             </View>
+              
 
       
       </ScrollView>
-    
   );
-
+  
+  
   
 };
+console.log("object",Professional)
 
 
 
@@ -949,9 +1021,28 @@ justifyContent: 'space-between',
     fontWeight:'bold'
   },
   portfolioImage:{
-    height:50,
-    width:40,
-  }  
+    height:150,
+    width:150,
+    marginTop:12,
+    borderRadius:7,
+  }  ,
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  evenRow: {
+    backgroundColor: '#eee', // Light background for even rows
+  },
+  item: {
+    padding: 16,
+  },
+  itemMargin: {
+    marginRight: 16,
+  },
+  itemText: {
+    flex: 1,
+    textAlign: 'center',
+  },
 
 });
 

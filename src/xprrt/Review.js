@@ -39,6 +39,8 @@ const FiveStartIconForRate = ({ onRate, rating }) => {
           <Text style={selectedRating >= star ? styles.starSelected : styles.star}>
             ★
           </Text>
+
+          <Text>{}</Text>
         </TouchableOpacity>
       ))}
     </View>

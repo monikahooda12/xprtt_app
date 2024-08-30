@@ -5,8 +5,9 @@
 
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, FlatList, StyleSheet, Dimensions, SafeAreaView } from 'react-native';
-import { COLORS } from '../constants';
+import { COLORS, FONTS } from '../constants';
 import { commonStyles } from '../theme/Styles';
+import { responsiveFontSize, responsiveWidth } from 'react-native-responsive-dimensions';
 
  const { width,height } = Dimensions.get('window');
 
@@ -46,7 +47,7 @@ const Card = ({ icon, title, onPress }) => (
     <Image source={icon} style={styles.cardIcon} />
     </View>
     
-    <Text style={[commonStyles.twelveGilroy500,{color:COLORS}]} numberOfLines={2}>{title}</Text>
+    <Text style={[commonStyles.twelveGilroy500,{color:COLORS.BLACK}]} numberOfLines={2}>{title}</Text>
      </TouchableOpacity>
     </>
   
@@ -94,8 +95,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ddd',
     borderRadius: 40,
-    padding: 5,
+    // padding: 5,
      marginBottom: 10,
+    //  paddingHorizontal:10,
+    //  paddingVertical:10,
    
   },
   searchInput: {
@@ -110,8 +113,8 @@ const styles = StyleSheet.create({
   card: {
     alignItems: 'center',
     width: width / 3 - 20, // Adjust based on your layout needs
-     marginHorizontal: 5,
-    marginVertical: 10,
+      marginHorizontal: responsiveWidth(10),
+     marginVertical: 10,
   },
   cardIcon: {
     width: 112,
@@ -120,11 +123,12 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   cardTitle: {
-    fontSize: 12,
+    fontFamily:FONTS.REGULAR,
+    fontSize: responsiveFontSize(2),
     textAlign: 'center',
     color: 'black',
-    paddingHorizontal: 5,
-    height: 30, // Set a fixed height for two lines of text
+     paddingHorizontal: 5,
+    // height: 30, // Set a fixed height for two lines of text
   },
   cardGridRow: {
     justifyContent: 'space-around',
@@ -133,7 +137,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
     sectionTitle: {
-      fontSize: 20,
+       fontSize: 20,
       fontWeight: 'bold',
       marginBottom: 10,
     },
@@ -152,6 +156,7 @@ const styles = StyleSheet.create({
       paddingHorizontal: width * 0.04,
     },
     title: {
+      fontFamily:FONTS.ROBOTO_BLACK,
       fontSize: width * 0.06,
       fontWeight: 'bold',
       color: COLORS.TEXT,

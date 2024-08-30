@@ -21,7 +21,6 @@ const Home = () => {
   const [categoriesData, setCategoriesData] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [showAllCategories, setShowAllCategories] = useState(false); // State to manage whether to show all categories
 
   const dispatch = useDispatch();
 
@@ -67,13 +66,9 @@ const Home = () => {
     // Logic for handling selected services
   };
 
-  // Get the categories to display based on whether "View All" is pressed
-  const displayedCategories = showAllCategories
-    ? filteredCategories
-    : filteredCategories.slice(0, 6); // Display only 6 categories initially
-
-  const toggleShowAllCategories = () => {
-    setShowAllCategories(prevState => !prevState);
+  const handleViewAllPress = () => {
+    // Navigate to Subhome page without a specific category ID
+    navigation.navigate('Categories');
   };
 
   return (
@@ -82,20 +77,16 @@ const Home = () => {
         {/* Title and View All in the same row */}
         <View style={styles.headerRow}>
           <Text style={styles.title}>Categories</Text>
-          {filteredCategories.length > 6 && (
-            <TouchableOpacity
-              style={styles.viewAllButton}
-              onPress={toggleShowAllCategories}
-            >
-              <Text style={styles.viewAllText}>
-                {showAllCategories ? 'View Less' : 'View All'}
-              </Text>
-            </TouchableOpacity>
-          )}
+          <TouchableOpacity
+            style={styles.viewAllButton}
+            onPress={handleViewAllPress}
+          >
+            <Text style={styles.viewAllText}>View All</Text>
+          </TouchableOpacity>
         </View>
 
-        {displayedCategories.length > 0 ? (
-          <CardGrid items={displayedCategories} onCardPress={addToCart} />
+        {filteredCategories.length > 0 ? (
+          <CardGrid items={filteredCategories} onCardPress={addToCart} />
         ) : (
           <Text style={styles.noDataText}>No categories available</Text>
         )}
@@ -123,12 +114,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
     padding: 15,
   },
-  headerRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between', // To space out the title and View All button
-    alignItems: 'center', // Vertically align items in the center
-    marginBottom: 20,
-  },
   title: {
     fontFamily: 'Roboto-Black',
     fontSize: 20,
@@ -150,6 +135,12 @@ const styles = StyleSheet.create({
   viewAllText: {
     color: '#333',
     fontWeight: 'bold',
+  },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between', // To space out the title and View All button
+    alignItems: 'center', // Vertically align items in the center
+    marginBottom: 20,
   },
 });
 
