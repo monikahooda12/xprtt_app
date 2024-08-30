@@ -47,7 +47,8 @@ const Homesubchild = () => {
   }, []);
 
   const renderCategory = ({ item }) => (
-    <View style={styles.categoryContainer}>
+    <View style={styles.categoryContainer }
+    key={item.id}>
       <Text style={styles.categoryTitle}>{item.name}
        
       </Text>

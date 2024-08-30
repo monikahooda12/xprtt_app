@@ -19,7 +19,7 @@ const SearchResults = () => {
 
   const renderItem = ({ item }) => ( 
     <TouchableOpacity onPress={() => navigation.navigate('Xprrt',  { itemName: item.name })}>
-       <Text>detail for</Text>
+       {/* <Text>detail for</Text> */}
       <View style={styles.itemContainer}>
         <Text style={styles.itemName}>{item.name}</Text>
         {item.professional?.job_title && (

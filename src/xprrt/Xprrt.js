@@ -261,7 +261,7 @@ const Xprrt = () => {
       }}>
         <View style={styles.searchSection}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Homesubchild', { itemName })}
+            onPress={() => navigation.navigate('Categories', { itemName })}
           >
             {/* <Text style={styles.title}>Details for: {itemName}</Text> */}
             <Text style={styles.title}> {itemName}</Text>

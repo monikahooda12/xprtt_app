@@ -39,7 +39,7 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
     setGender('');
     setLanguage('');
     setState('');
-    setCategoriescategories ([]);
+    setCategories ([]);
   };
 
   const fetchFilteredUsers = async () => {

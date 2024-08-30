@@ -1,6 +1,6 @@
 export default {
-    sliderimage:require('../../assets/Image/slider1.png'),
-    sliderimage1:require('../../assets/Image/slider2.png'),
-    sliderimage2:require('../../assets/Image/slider3.png'),
-    sliderimage3:require('../../assets/Image/slider4.png'),
+    sliderimage:require('../../assets/Image/sliderone.png'),
+    sliderimage1:require('../../assets/Image/slidertwo.png'),
+    sliderimage2:require('../../assets/Image/sliderthree.png'),
+    sliderimage3:require('../../assets/Image/sliderfour.png'),
 }
