@@ -14,6 +14,7 @@ import { CardGrid, SearchBar } from '../components/card';
 import CategoryModal from '../Modals/categorymodal';
 import { COLOR } from '../theme/Theme';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
+import Xprrt from '../xprrt/Xprrt';
 
 
 const { width } = Dimensions.get('window');
@@ -98,8 +99,8 @@ const Categories = () => {
 
   const handleOnApply = Service => {
     // dispatch(setselectedServiceNames(selectedServicesNames));
-    
-    // console.log("?[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[",Service);
+    navigation.navigate("Xprrt",{categoriesSlug:Service})
+     console.log("?[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[",Service);
   };
 
   return (

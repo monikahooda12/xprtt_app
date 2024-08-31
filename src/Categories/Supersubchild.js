@@ -36,7 +36,8 @@ const SuperSubchild = ({ route }) => {
   // console.log("subCategory",subCategory)
 
   // Handle checkbox toggle in the modal
-  const handlesupercat = serviceId => {
+  const handlesupercat = Service => {
+    navigation.navigate("Xprrt",{categoriesSlug:Service})
     // console.log("serviceID",serviceId)
 
     // setSelectedServices(prevState => ({

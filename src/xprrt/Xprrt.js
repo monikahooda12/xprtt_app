@@ -38,7 +38,10 @@ const Xprrt = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [isFilterVisible, setFilterVisible] = useState(false);
-  
+const {categoriesSlug} = route.params ||[];
+
+
+  console.log("route",route)
   const [filters, setFilters] = useState({
     experience: '',
     gender: '',
@@ -74,9 +77,34 @@ const Xprrt = () => {
         if (response.data) {
           const userData = response.data.list || [];
           totalPages = response.data.totalPages || totalPages;
+
+          if(categoriesSlug&&categoriesSlug.length>0){
+          
+          const matchedCategories = userData
+          .map((item) => {
+            return {
+              ...item,
+              categories: item.categories.filter((category) =>
+                categoriesSlug.includes(category.slug)
+              ),
+            };
+          })
+          .filter((item) => item.categories.length > 0);
+        
+        console.log("?[/.][/.][/.][/.]",JSON.stringify(matchedCategories))
+   
+      console.log("objectggggggggggggggggggggggggggggggggggggggggggggggggggggggg")
+      setData(matchedCategories)
+    }else{
+      allData.push(...userData);
+      setData(allData);
+    }
+
+
+
   
           // Add the fetched data to the allData array
-          allData.push(...userData);
+          // allData.push(...userData);
   
           // Increment the current page for the next iteration
           currentPage++;
@@ -85,9 +113,10 @@ const Xprrt = () => {
           break;
         }
       }
-  
+ 
+
       // Set the combined data to the state
-      setData(allData);
+      //  setData(allData);
       // console.log('Combined data:', JSON.stringify(allData));
   
       // Update the pagination payload
@@ -110,6 +139,7 @@ const Xprrt = () => {
     }
   };
   
+
   
 
   const handleFilterApplied = (users) => {
@@ -131,7 +161,7 @@ const Xprrt = () => {
         return true;
       }
       return item.categories.some(category =>
-        selectedCategories.includes(category.name)
+        selectedCategories?.includes(category.name)
       );
     });
 

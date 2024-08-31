@@ -19,13 +19,13 @@ const CategoryModal = ({ visible, onClose, services, label, onApply }) => {
 
 
       const handleCheckboxToggle =async ( service) => {
-        // console.log("service",service)
+         console.log("service",service)
        await setSelectedServices(prevSelected => {
-          if (prevSelected.some(s => s === service.id)) {
+          if (prevSelected.some(s => s === service.slug)) {
     
-                   return prevSelected.filter(s => s !== service.id);
+                   return prevSelected.filter(s => s !== service.slug);
                  } else {
-                   return [...prevSelected, service.id];
+                   return [...prevSelected, service.slug];
                  }
         } 
       );}
@@ -59,8 +59,8 @@ const CategoryModal = ({ visible, onClose, services, label, onApply }) => {
             renderItem={({ item }) => (
               <View style={styles.checkboxContainer}>
                 <CheckBox
-                value={selectedServices.some(service => service == item.id)}
-                  // value={!!selectedServices[item.id]}
+                value={selectedServices.some(service => service == item.slug)}
+                  //  value={!!selectedServices[item.id]}
                   onValueChange={() => handleCheckboxToggle( item)}
                   tintColors={{ true: '#6C63FF', false: '#999' }} // Red color for both checked and unchecked states
                 />

@@ -52,7 +52,7 @@ const Subhome = ({ route }) => {
   };
 
   const handleCategoryPress = category => {
-    navigation.navigate('Xprrt', { categoryId: category.id });
+    navigation.navigate('Xprrt', { categoriesSlug: category.slug });
   };
 
   useEffect(() => {

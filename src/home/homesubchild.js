@@ -2,12 +2,22 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Dimensions } from "react-native";
 import { API } from "../constants";
 import { httpRequest } from "../api/http";
+import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get('window');
 const DEFAULT_IMAGE = "https://via.placeholder.com/150";  // Default image placeholder
 
-const CategoryItem = ({ item }) => (  
-  <TouchableOpacity style={styles.item}>
+const CategoryItem = ({ item }) => {
+  const navigation = useNavigation()
+  const handleCategoryPress = category => {
+    navigation.navigate('Xprrt', { categoriesSlug: category.slug });
+  };
+return(
+
+
+  <TouchableOpacity
+  onPress={()=>{handleCategoryPress(item)}}
+  style={styles.item}>
     <View style={styles.Cards}> 
       <Image
         source={{ uri: item.icon || DEFAULT_IMAGE }}
@@ -17,7 +27,8 @@ const CategoryItem = ({ item }) => (
       <Text style={styles.itemText}>{item.name}</Text>
     </View>
   </TouchableOpacity>
-);
+)};
+
 
 const Homesubchild = () => {
   const [categories, setCategories] = useState([]);
@@ -42,6 +53,10 @@ const Homesubchild = () => {
     }
   };
 
+ 
+
+
+
   useEffect(() => {
     getallcategories();
   }, []);
@@ -56,7 +71,9 @@ const Homesubchild = () => {
       
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {item.subcategories.map((subItem) => (
-          <CategoryItem key={subItem.id} item={subItem} />
+          <CategoryItem key={subItem.id} item={subItem}
+          
+          />
         ))}
       </ScrollView>
     </View>

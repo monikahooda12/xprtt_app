@@ -131,7 +131,8 @@ const Subchild = ({ route, navigation }) => {
     //  setModalVisible(true); // Open the modal on search
   };
 
-  const handleselectsubcat = (serviceId) => {
+  const handleselectsubcat = (Service) => {
+    navigation.navigate("Xprrt",{categoriesSlug:Service})
     // console.log("serviceID",serviceId)
     // setSelectedServices(prevState => ({
     //   ...prevState,
