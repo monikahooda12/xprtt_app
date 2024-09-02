@@ -7,6 +7,7 @@ import { CardGrid, CommonLayout, SearchBar } from "../components/card";
 import CategoryModal from '../Modals/categorymodal';
 
 const Subchildcategories = ({ route }) => {
+  console.log("object",route.params)
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [filteredServices, setFilteredServices] = useState([]);
@@ -47,7 +48,7 @@ const Subchildcategories = ({ route }) => {
   };
 
   return (
-    <CommonLayout title={subCategory?.name || "Subcategory"}>
+    <CommonLayout title={subCategory?.name || "Subcategory"} previousTitle="checkvalue">
       <SafeAreaView style={styles.container}>
         <ScrollView>
           {/* Search Bar with Filter Button */}

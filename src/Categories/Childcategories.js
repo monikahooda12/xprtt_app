@@ -103,7 +103,7 @@ const Childcategories = ({ route, navigation }) => {
     const selectedCategory = categories?.find(category => category.id === route?.params?.id);
     if (selectedCategory) {
       const data = selectedCategory.child || selectedCategory.services || [];
-      setTitle(selectedCategory.name || 'Service Details');
+       setTitle(selectedCategory.name || 'Service Details');
       setServicesData(data);
       setFilteredServices(data);
     } else {

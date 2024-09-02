@@ -87,6 +87,7 @@ const CommonLayout = ({ title, previousTitle, children }) => {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <View style={styles.headerContainer}>
+          <Text>categories</Text>
           <Text style={styles.title}>
             {previousTitle ? `${previousTitle} > ${title}` : title}
           </Text>
