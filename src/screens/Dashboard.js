@@ -80,7 +80,7 @@ export const Dashboard = ({navigation}) => {
               refreshing={refreshing}
             />
           }>
-          <View style={{marginTop: 30}}>
+          <View style={{marginTop: 10}}>
             <Homeslider />
           </View>
           <View style={{paddingHorizontal: 5}}>

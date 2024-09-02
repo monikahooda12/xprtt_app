@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Dimensions } from "react-native";
-import { API } from "../constants";
+import { API, COLORS } from "../constants";
 import { httpRequest } from "../api/http";
 import { useNavigation } from "@react-navigation/native";
+import { commonStyles } from "../theme/Styles";
+
 
 const { width, height } = Dimensions.get('window');
 const DEFAULT_IMAGE = "https://via.placeholder.com/150";  // Default image placeholder
 
 const CategoryItem = ({ item }) => {
+
   const navigation = useNavigation()
   const handleCategoryPress = category => {
     navigation.navigate('Xprrt', { categoriesSlug: category.slug });
@@ -24,7 +27,8 @@ return(
         style={styles.cardIcon}
         onError={(e) => { e.target.src = DEFAULT_IMAGE }}
       />
-      <Text style={styles.itemText}>{item.name}</Text>
+      {/* <Text style={styles.itemText}>{item.name}</Text> */}
+      <Text style={[commonStyles,{color:COLORS.BLACK}]}>{item.name}</Text>
     </View>
   </TouchableOpacity>
 )};
@@ -101,13 +105,13 @@ const styles = StyleSheet.create({
     height:112.29,
      marginHorizontal: 5,
     marginVertical: 10,
-    marginBottom:20,
+    marginBottom:24,
     paddingLeft:20,
     
 
   },
   categoryTitle: {
-    fontFamily: 'Roboto-Black',
+     fontFamily: 'Roboto-Black',
     fontSize: 20,
     fontWeight: 'bold',
     // marginBottom: 20,
@@ -117,7 +121,7 @@ const styles = StyleSheet.create({
   cardIcon: {
     width: 133,
     height: 112.29,
-    borderRadius: 10,
+     borderRadius: 10,
     marginBottom: 5,
     paddingHorizontal: 10,
   }, 
@@ -128,6 +132,9 @@ const styles = StyleSheet.create({
   itemText: {  
     textAlign: 'center',
     fontSize: 12,
+    fontFamily: 'ROBOTO_BLACK',
+    color:COLORS.BLACK,
+     numberOfLines:2,
   },
   content:{
    flex:1,

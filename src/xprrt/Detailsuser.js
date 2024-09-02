@@ -118,20 +118,33 @@ const Detailsuser = () => {
               </View>
             </View>
             <View style={styles.skillsContainer}>
-              {[
-                'Mock Design',
-                'Video Editing',
-                'Vector Maker',
-                'Create Animations',
-              ].map(skill => (
-                <TouchableOpacity key={skill} style={styles.skill}>
-                  <Text style={styles.skillText}>{skill}</Text>
-                </TouchableOpacity>
-              ))}
-              <TouchableOpacity style={styles.moreButton}>
-                <Text style={styles.moreButtonText}>More...</Text>
-              </TouchableOpacity>
-            </View>
+  {data.professional.skill.slice(0,1).map((obj, index) => (
+    <View
+      key={index}
+      style={styles.row}>
+      {Object.values(obj).map((value, itemIndex) => (
+        <TouchableOpacity
+          key={itemIndex}
+          style={[
+            styles.skill,
+            itemIndex !== Object.values(obj).length - 1
+              ? styles.itemMargin
+              : null,
+          ]}>
+          <Text style={styles.skillText}>
+            {typeof value === 'string' ? value : '-'}
+          </Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  ))}
+  <TouchableOpacity style={styles.moreButton}>
+    <Text style={styles.skill}>+3...</Text>
+  </TouchableOpacity>
+</View>
+
+
+
           </View>
         </View>
 
@@ -141,7 +154,7 @@ const Detailsuser = () => {
           <LazyImage
             source={require('../assets/icons/IC_Bookmark.png')}
             style={{height: 20, width: 20, color: '#FFFFFF'}}
-          />
+            />
         </TouchableOpacity>
       </Card>
 
@@ -166,12 +179,12 @@ const Detailsuser = () => {
             {Object.entries(data.professional.availability).map(
               ([day, {isOpen, timings}]) => (
                 <DetailItemAbl
-                  key={day}
-                  label={day.charAt(0).toUpperCase() + day.slice(1)}
-                  style={styles.card}
-                  value={
-                    <View
-                      style={{display: 'flex', flexDirection: 'row', gap: 60}}>
+                key={day}
+                label={day.charAt(0).toUpperCase() + day.slice(1)}
+                style={styles.card}
+                value={
+                  <View
+                  style={{display: 'flex', flexDirection: 'row', gap: 60}}>
                       <Text
                         style={[
                           styles.statusIcon,
@@ -188,9 +201,10 @@ const Detailsuser = () => {
                       </Text>
                     </View>
                   }
-                />
-              ),
-            )}
+                  />
+                 
+                ),
+              )}
           </Section>
         </View>
       </Card>
@@ -449,7 +463,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   skill: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     borderRadius: 20,
     paddingVertical: 5,
     paddingHorizontal: 10,

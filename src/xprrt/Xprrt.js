@@ -33,7 +33,7 @@ const cardWidth = width * 0.91;
 const Xprrt = () => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
-  const route = useRoute();
+   const route = useRoute();
   const {itemName} = route.params || {};
   const [categories, setCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -42,8 +42,9 @@ const Xprrt = () => {
   const [isFilterVisible, setFilterVisible] = useState(false);
   const {categoriesSlug} = route.params || [];
   const [isLoading, setIsLoading] = useState(false);
+  const [categoryNames, setCategoryNames] = useState([]);
 
-  console.log('route', route);
+  console.log('route', categoriesSlug);
   const [filters, setFilters] = useState({
     experience: '',
     gender: '',
@@ -66,7 +67,7 @@ const Xprrt = () => {
       const allData = [];
       let currentPage = 0;
       let totalPages = 1;
-
+  
       while (currentPage < totalPages) {
         const response = await httpRequest({
           url: API.USERS,
@@ -75,12 +76,11 @@ const Xprrt = () => {
             page: currentPage,
           },
         });
-
+  
         if (response.data) {
           const userData = response.data.list || [];
           totalPages = response.data.totalPages || totalPages;
-          // const portfolio = userData[0]?.professional;
-          console.log("cd user data",response.data)
+  
           if (categoriesSlug && categoriesSlug.length > 0) {
             const matchedCategories = userData
               .map(item => {
@@ -92,12 +92,15 @@ const Xprrt = () => {
                 };
               })
               .filter(item => item.categories.length > 0);
-
-            console.log('?[/.][/.][/.][/.]', JSON.stringify(matchedCategories));
-
-            console.log(
-              'object..............................................', 
+  
+            console.log('Matched Categories:', JSON.stringify(matchedCategories));
+  
+            // Extract category names and set them in state
+            const matchedCategoryNames = matchedCategories.flatMap(item =>
+              item.categories.map(cat => cat.name)
             );
+            setCategoryNames(matchedCategoryNames);
+  
             setData(matchedCategories);
           } else {
             allData.push(...userData);
@@ -114,7 +117,7 @@ const Xprrt = () => {
         totalPages,
         totalCount: allData.length,
       });
-
+  
       if (allData.length > 0) {
         const allCategories = allData.flatMap(user => user.categories || []);
         const uniqueCategories = [
@@ -128,6 +131,7 @@ const Xprrt = () => {
       setIsLoading(false);
     }
   };
+  
 
   const handleFilterApplied = users => {
     console.log('Filtered users received in handleFilterApplied:', users);
@@ -170,20 +174,21 @@ const Xprrt = () => {
                   />
                 ))}
 
-              <View style={styles.overlay}>
-                <Text style={styles.experienceText}>
-                  {item.professional.total_experience} years exp.
-                </Text>
-                <View style={styles.servicesContainer}>
-                  {item.professional.service?.map((service, index) => (
-                    <View key={index} style={styles.serviceBadge}>
-                      <Text style={styles.priceText}>
-                        ${service.min_price} - ${service.max_price}
-                      </Text>
-                    </View>
-                  )) || <Text>No services available</Text>}
-                </View>
-              </View>
+<View style={styles.overlay}>
+  <Text style={styles.experienceText}>
+    {item.professional.total_experience} years exp.
+  </Text>
+  <View style={styles.servicesContainer}>
+    {item.professional.service?.slice(0, 1).map((service, index) => (
+      <View key={index} style={styles.serviceBadge}>
+        <Text style={styles.priceText}>
+          ${service.min_price} - ${service.max_price}
+        </Text>
+      </View>
+    )) || <Text>No services available</Text>}
+  </View>
+</View>
+
               <View style={styles.profileInfo}>
                 <View>
                   <Image
@@ -199,6 +204,7 @@ const Xprrt = () => {
                   }}>
                   <View>
                     <Text style={styles.name}>{item.name}</Text>
+                    {/* <Text style={styles.name}>{item.slug}</Text> */}
                     <View style={styles.location}>
                       <Image
                         source={require('../assets/icons/carbon_location-filled.png')}

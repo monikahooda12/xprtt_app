@@ -12,11 +12,12 @@ import { useNavigation } from '@react-navigation/native';
 import Slick from 'react-native-slick';
 
 // constants
-import { API, FONTS } from '../constants';
+import { API, COLORS, FONTS } from '../constants';
 
 // api
 import { httpRequest } from '../api/http';
 import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
+import { commonStyles } from '../theme/Styles';
 
 const { width } = Dimensions.get('window');
 
@@ -68,7 +69,7 @@ const Subhome = ({ route }) => {
             style={styles.serviceIcon}
             resizeMode="cover"
           />
-          <Text style={styles.categoryTitle}>
+          <Text style={[commonStyles,{color:COLORS.BLACK}]}>
             {item.name || 'Unnamed Category'}
           </Text>
         </View>
@@ -142,7 +143,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#313131',
-    fontFamily: FONTS.ROBOTO_BLACK,
+    // fontFamily: FONTS.ROBOTO_BLACK,
     fontWeight: '500',
     fontSize: 20,
     lineHeight: 25,

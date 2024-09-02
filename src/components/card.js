@@ -61,7 +61,7 @@ const Card = ({ icon, title, onPress }) => (
     <Image source={icon} style={styles.cardIcon} />
     </View>
     
-    <Text style={[commonStyles.twelveGilroy500,{color:COLORS.BLACK}]} numberOfLines={2}>{title}</Text>
+    <Text style={[commonStyles,{color:COLORS.BLACK}]} numberOfLines={2}>{title}</Text>
      </TouchableOpacity>
     </>
   
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
       paddingHorizontal: width * 0.04,
     },
     title: {
-      fontFamily:FONTS.ROBOTO_BLACK,
+       fontFamily:FONTS.ROBOTO_BLACK,
       fontSize: width * 0.06,
       fontWeight: 'bold',
       color: COLORS.TEXT,
