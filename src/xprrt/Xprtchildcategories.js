@@ -94,7 +94,7 @@ import { CategorySection, CommonLayout } from '../components/card';
 import Categorymodal from '../Modals/categorymodal';
 
 
-const Subchild = ({ route, navigation }) => {
+const Xprtchildcategories = ({ route, navigation }) => {
   const [servicesData, setServicesData] = useState([]);
   const [filteredServices, setFilteredServices] = useState([]);
   const [title, setTitle] = useState('Service Details');
@@ -119,7 +119,7 @@ const Subchild = ({ route, navigation }) => {
 
   const handleServicePress = (service) => {
     dispatch(setselectedService(service));
-    navigation.navigate('SuperSubchild',{id:service.id});
+    navigation.navigate('Xprtsubchildcategories',{id:service.id});
   };
 
   
@@ -177,5 +177,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Subchild;
+export default Xprtchildcategories;
 

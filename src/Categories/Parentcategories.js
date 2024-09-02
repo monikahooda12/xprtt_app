@@ -17,9 +17,9 @@ import { responsiveFontSize } from 'react-native-responsive-dimensions';
 import Xprrt from '../xprrt/Xprrt';
 
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window'); 
 
-const Categories = () => {
+const Parentcategories = () => {
   const navigation = useNavigation();
   const [categoriesData, setCategoriesData] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
@@ -30,8 +30,13 @@ const Categories = () => {
 
   const addToCart = service => {
     dispatch(setSelectedCategoryID(service.id));
-    navigation.navigate('Subchild', { id: service.id });
+    navigation.navigate('Childcategories', { id: service.id });
   };
+
+
+
+
+  
 
   const getallcatergies = async () => {
     showLoader();
@@ -59,13 +64,13 @@ const Categories = () => {
     getallcatergies();
   }, []);
 
-  const handleSearch = text => {
-    const filtered = categoriesData.filter(category =>
-      category.title.toLowerCase().includes(text.toLowerCase())
-    );
-    setFilteredCategories(filtered);
+//   const handleSearch = text => {
+//     const filtered = categoriesData.filter(category =>
+//       category.title.toLowerCase().includes(text.toLowerCase())
+//     );
+//     setFilteredCategories(filtered);
     // console.log("filteredCategories",filteredCategories)
-  };
+//   };
 
   // const handleCheckboxToggle =async ( service) => {
   //   // console.log("service",service)
@@ -106,23 +111,12 @@ const Categories = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Categories</Text>
-      {/* <CommonInput */}
-                      {/* // name="email" */}
-                      {/* // label="Email" */}
-                      {/* // placeholderText="eg. john@gmail.com" */}
-                      {/* // InputIcon={source=require('../assets/icons/Icon.png')} */}
-                      {/* //  onchange={handleChange("email")} */}
-                      {/* // onBlur={handleBlur("email")} */}
-                      {/* // onError={ */}
-                      {/* //   errors.email && touched.email ? errors.email : null */}
-                      {/* // } */}
-                      {/* // errors={errors.email && touched.email} */}
-                    {/* // /> */}
-      <SearchBar
-        placeholder="Search categories..."
-        onSearch={handleSearch}
-        onFilterPress={() => setModalVisible(true)}
-      />
+     
+      {/* <SearchBar
+         placeholder="Search categories..."
+         onSearch={handleSearch}
+         onFilterPress={() => setModalVisible(true)}
+      /> */}
       {filteredCategories.length > 0 ? (
         <CardGrid items={filteredCategories} onCardPress={addToCart} />
       ) : (
@@ -132,9 +126,9 @@ const Categories = () => {
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
         services={filteredCategories}
-        // selectedServices={selectedServices}
+        //  selectedServices={selectedServices}
         label="Select Categories"
-        // onCheckboxToggle={handleCheckboxToggle}
+        //  onCheckboxToggle={handleCheckboxToggle}
         onApply={handleOnApply}
         
       />
@@ -155,6 +149,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     color: '#0F0F0F',
+    textAlign:'center'
   },
   noDataText: {
     textAlign: 'center',
@@ -164,4 +159,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Categories;
+export default Parentcategories;

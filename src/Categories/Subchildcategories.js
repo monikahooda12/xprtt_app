@@ -1,155 +1,123 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Image,
-  Dimensions,
-  TouchableOpacity,
-  Platform,
-  SafeAreaView,
-} from 'react-native';
-import { useSelector } from 'react-redux';
-import { COLORS } from '../constants';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState } from "react";
+import { SafeAreaView, ScrollView, Text, StyleSheet, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { COLORS } from "../constants";
+import { CardGrid, CommonLayout, SearchBar } from "../components/card";
+import CategoryModal from '../Modals/categorymodal';
 
-const { width, height } = Dimensions.get('window');
-
-const Subchildcategories = () => {
+const Subchildcategories = ({ route }) => {
   const navigation = useNavigation();
-  const selectedService = useSelector(state => state.categories.selectedService);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [filteredServices, setFilteredServices] = useState([]);
+  const [selectedServices, setSelectedServices] = useState({});
+  const selectedService = useSelector((state) => state.categories);
 
-  const handlePress = () => {
-    // navigation.navigate(Welcome2);
+  // Find the subcategory based on the id from route params
+    const subCategory = selectedService.categories
+      .map((category) => category.child)
+      .flat()
+      .find((subCat) => subCat.id === route?.params?.id);
+
+  // Prepare the subcategory children data for CardGrid
+  const subCategoryChildren = subCategory?.child?.map((child) => ({
+    icon: { uri: child.icon },
+    title: child.name,
+    id: child.id, 
+  }));
+
+  // Handle search input and filter subcategory children
+  const handleSearch = (text) => {
+    const filtered = subCategoryChildren.filter(service => 
+      service.title.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredServices(filtered);
+  };
+  // console.log("subCategory",subCategory)
+
+  // Handle checkbox toggle in the modal
+  const handlesupercat = Service => {
+    navigation.navigate("Xprrt",{categoriesSlug:Service})
+    // console.log("serviceID",serviceId)
+
+    // setSelectedServices(prevState => ({
+    //   ...prevState,
+    //   [serviceId]: !prevState[serviceId],
+    // }));
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView style={styles.container}>
-        <View style={styles.headerContainer}>
-          <Text style={styles.title}>{selectedService?.name || 'Service Details'}</Text>
-        </View>
-        {selectedService && (
-          <>
-            <View style={styles.imageContainer}>
-              {/* <Image
-                source={{ uri: selectedService.icon || 'https://via.placeholder.com/100' }}
-                style={styles.icon}
-                resizeMode="cover"
-              /> */}
-              <View style={styles.overlay} />
-            </View>
-            <View style={styles.childrenContainer}>
-              {selectedService.child && selectedService.child.length > 0 && (
-                selectedService.child.map((childService, index) => (
-                  <TouchableOpacity 
-                    key={childService.id || index} 
-                    style={styles.childCard}
-                    onPress={handlePress}
-                  >
-                    <Text style={styles.childName}>
-                      {childService.name || 'Unnamed Child Service'}
-                    </Text>
-                    <Image
-                      source={{ uri: childService.icon }}
-                      style={styles.serviceIcon}
-                       resizeMode="cover"
-                    />
-                  </TouchableOpacity>
-                ))
+    <CommonLayout title={subCategory?.name || "Subcategory"}>
+      <SafeAreaView style={styles.container}>
+        <ScrollView>
+          {/* Search Bar with Filter Button */}
+          {/* <SearchBar
+            placeholder="Search subcategory..."
+            onSearch={handleSearch}
+            onFilterPress={() => setModalVisible(true)}
+          /> */}
+
+          {subCategory ? (
+            <View style={styles.content}>
+              {filteredServices.length > 0 ? (
+                <CardGrid
+                  items={filteredServices}
+                  onCardPress={(item) =>
+                     console.log(`Pressed on child: ${item.title}`)
+                  }
+                />
+              ) : subCategoryChildren.length > 0 ? (
+                <CardGrid
+                  items={subCategoryChildren}
+                  onCardPress={(item) =>
+                    console.log(`Pressed on child: ${item.title}`)
+                  }
+                />
+              ) : (
+                <Text style={styles.noChildrenText}>
+                  No children available
+                </Text>
               )}
             </View>
-          </>
-        )}
-      </ScrollView>
-    </SafeAreaView>
+          ) : (
+            <Text style={styles.noSubCategoryText}>No subcategory found</Text>
+          )}
+        </ScrollView>
+      </SafeAreaView>
+
+      {/* Category Modal */}
+      <CategoryModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        services={subCategory.child}
+        
+        // selectedServices={selectedServices}
+        label="Select Subcategories"
+        // onCheckboxToggle={handleCheckboxToggle}
+        onApply={handlesupercat}
+      />
+    </CommonLayout>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: COLORS.PRIMARY,
-  },
   container: {
     flex: 1,
+    padding: 20,
     backgroundColor: COLORS.PRIMARY,
   },
-  headerContainer: {
-    backgroundColor: COLORS.PRIMARY,
-    paddingVertical: height * 0.02,
-    paddingHorizontal: width * 0.04,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-      },
-      android: {
-        elevation: 5,
-      },
-    }),
+  noChildrenText: {
+    fontSize: 16,
+    // color: COLORS.TEXT,
+    textAlign: "center",
   },
-  title: {
-    fontSize: width * 0.06,
-    fontWeight: 'bold',
+  noSubCategoryText: {
+    fontSize: 16,
     color: COLORS.TEXT,
-    textAlign: 'center',
+    textAlign: "center",
   },
-  // imageContainer: {
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  //   width: '100%',
-  //   height: height * 0.3,
-  //   marginBottom: height * 0.02,
-  //   paddingHorizontal: width * 0.04,
-  // },
-  icon: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 20,
-     resizeMode:"cover",
-
-  },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-    borderRadius: 20,
-  },
-  childrenContainer: {
-    padding: width * 0.04,
-  },
-  childCard: {
-    padding: width * 0.04,
-    marginBottom: height * 0.02,
-    borderRadius: 10,
-    backgroundColor: COLORS.BACKGROUND,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-      },
-      android: {
-          // elevation: 1,
-      },
-    }),
-  },
-  childName: {
-    fontSize: width * 0.045,
-    fontWeight: 'bold',
-    color: COLORS.TEXT,
-    marginBottom: height * 0.01,
-  },
-  serviceIcon: {
-    width: '100%',
-     height: height * 0.15,
-    borderRadius: 10,
-    // height:'auto'
-
+  content: {
+    //  padding: 20,
   },
 });
 

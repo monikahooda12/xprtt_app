@@ -7,38 +7,52 @@ import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, FlatList, StyleSheet, Dimensions, SafeAreaView } from 'react-native';
 import { COLORS, FONTS } from '../constants';
 import { commonStyles } from '../theme/Styles';
-import { responsiveFontSize, responsiveWidth } from 'react-native-responsive-dimensions';
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
+import { Responsive } from '../theme/Layout';
 
  const { width,height } = Dimensions.get('window');
 
-const SearchBar = ({ placeholder, onSearch ,onFilterPress}) => (
+ const SearchBar = ({ onFilterPress }) => (
   <View style={styles.searchBar}>
-
-
-<TouchableOpacity style={styles.searchIcon}>
-<Image
-         source={require('../assets/icons/Icon.png')}
-         style={{ marginTop:3,marginLeft:10,height:20}}
-          />
-      {/* <Text>🔍</Text> */}
-      
+ <TouchableOpacity onPress={onFilterPress} style={styles.filterButton}>
+      <Image
+        source={require('../assets/icons/filter.png')}
+        style={styles.filterIcon}
+      />
     </TouchableOpacity>
-   
-    <TextInput 
-      style={styles.searchInput}
-      placeholder={placeholder}
-      onChangeText={onSearch}
-    />
-    <TouchableOpacity onPress={onFilterPress}>
-   <Image
-         source={require('../assets/icons/filter.png')}
-         style={{padding:9 ,marginTop:15,marginRight:20}}
-          />
-
-</TouchableOpacity>
-    
   </View>
 );
+
+  
+
+// const SearchBar = ({ placeholder, onSearch ,onFilterPress}) => (
+//   <View style={styles.searchBar}>
+
+
+// <TouchableOpacity style={styles.searchIcon}>
+// <Image
+//          source={require('../assets/icons/Icon.png')}
+//          style={{ marginTop:3,marginLeft:10,height:20}}
+//           />
+//       {/* <Text>🔍</Text> */}
+      
+//     </TouchableOpacity>
+   
+//     <TextInput 
+//       style={styles.searchInput}
+//        placeholder={placeholder}
+//        onChangeText={onSearch}
+//     />
+//     <TouchableOpacity onPress={onFilterPress}>
+//    <Image
+//          source={require('../assets/icons/filter.png')}
+//          style={{padding:9 ,marginTop:15,marginRight:20}}
+//           />
+
+// </TouchableOpacity>
+    
+//   </View>
+// );
 
 const Card = ({ icon, title, onPress }) => (
   <>
@@ -59,7 +73,7 @@ const CardGrid = ({ items, onCardPress }) => (
     renderItem={({ item }) => (
       <Card 
         icon={item.icon} 
-        title={item.title} 
+         title={item.title} 
         onPress={() => onCardPress(item)}
       />
     )}
@@ -68,12 +82,14 @@ const CardGrid = ({ items, onCardPress }) => (
     columnWrapperStyle={styles.cardGridRow}
   />
 );
-const CommonLayout = ({ title, children }) => {
+const CommonLayout = ({ title, previousTitle, children }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <View style={styles.headerContainer}>
-          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.title}>
+            {previousTitle ? `${previousTitle} > ${title}` : title}
+          </Text>
         </View>
         {children}
       </View>
@@ -81,10 +97,13 @@ const CommonLayout = ({ title, children }) => {
   );
 };
 
-const CategorySection = ({ title, searchPlaceholder, categories, onSearch, onCardPress ,onFilterPress}) => (
+
+const CategorySection = ({ title, searchPlaceholder,isSearchbarHide,categories, onSearch, onCardPress ,onFilterPress}) => (
   <View style={styles.categorySection}>
+
     <Text style={styles.sectionTitle}>{title}</Text>
-    <SearchBar placeholder={searchPlaceholder} onSearch={onSearch} onFilterPress={onFilterPress} />
+    {!isSearchbarHide&&
+    <SearchBar placeholder={searchPlaceholder} onSearch={onSearch} onFilterPress={onFilterPress} />}
     <CardGrid items={categories} onCardPress={onCardPress} />
   </View>
 );
@@ -92,23 +111,25 @@ const CategorySection = ({ title, searchPlaceholder, categories, onSearch, onCar
 const styles = StyleSheet.create({
   searchBar: {
     flexDirection: 'row',
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 40,
-    // padding: 5,
-     marginBottom: 10,
-    //  paddingHorizontal:10,
-    //  paddingVertical:10,
-   
-  },
-  searchInput: {
-    flex: 1,
-    // paddingHorizontal: 60,
-  },
-  searchIcon: {
+    alignItems: 'center',
+    backgroundColor: '#f0f0f0',
+    borderRadius: 28,
+    paddingHorizontal: 10,
+    height: 50,
+    marginBottom: 20,
     
-     padding: 14,
-     
+    justifyContent: 'flex-start',
+  },
+  filterButton: {
+    // To provide some space around the filter icon if needed
+      padding:335,
+  },
+  
+  filterIcon: {
+   
+    paddingLeft:0,
+    height: 14,
+    
   },
   card: {
     alignItems: 'center',
@@ -128,7 +149,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'black',
      paddingHorizontal: 5,
-    // height: 30, // Set a fixed height for two lines of text
+    
   },
   cardGridRow: {
     justifyContent: 'space-around',

@@ -75,7 +75,8 @@ export const Blog = ({ route }) => {
         name="blog"
         component={BlogWebView} // Using the WebView component below
         options={{ headerShown: true }}
-        initialParams={{ url: "https://blog.xprrt.com/" }}
+        initialParams={{ url: "https://blog.xprrt.com/search/categories/" }}
+        
       />
       
     </Tab.Navigator>

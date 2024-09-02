@@ -81,7 +81,7 @@ export const Dashboard = ({navigation}) => {
             />
           }>
           <View style={{marginTop: 30}}>
-            {/* <Homeslider /> */}
+            <Homeslider />
           </View>
           <View style={{paddingHorizontal: 5}}>
             {/* <Iconhome/>

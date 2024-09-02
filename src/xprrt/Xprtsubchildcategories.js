@@ -6,7 +6,7 @@ import { COLORS } from "../constants";
 import { CardGrid, CommonLayout, SearchBar } from "../components/card";
 import CategoryModal from '../Modals/categorymodal';
 
-const SuperSubchild = ({ route }) => {
+const Xprtsubchildcategories = ({ route }) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [filteredServices, setFilteredServices] = useState([]);
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SuperSubchild;
+export default Xprtsubchildcategories;
 
 
 

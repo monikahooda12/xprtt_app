@@ -3,13 +3,9 @@ import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity } from
 import { useNavigation } from '@react-navigation/native';
 import { hideLoader, showLoader } from '../components';
 import { httpRequest } from '../api/http';
-import { API, FONTS } from '../constants';
+import { API } from '../constants';
 import { useDispatch } from 'react-redux';
-import {
-  setCategories,
-  setSelectedCategoryID,
-} from '../redux/categories/categorySlice';
-
+import { setCategories, setSelectedCategoryID } from '../redux/categories/categorySlice';
 import { CardGrid } from '../components/card';
 import CategoryModal from '../Modals/categorymodal';
 import { COLOR } from '../theme/Theme';
@@ -24,7 +20,7 @@ const Home = () => {
 
   const dispatch = useDispatch();
 
-  const addToCart = service => {
+  const addToCart = (service) => {
     dispatch(setSelectedCategoryID(service.id));
     navigation.navigate('Subhome', { id: service.id });
   };
@@ -36,7 +32,7 @@ const Home = () => {
         method: 'GET',
         url: API.GET_CATEGORIES,
       });
-      const categories = response?.data.list.map(item => ({
+      const categories = response?.data.list.map((item) => ({
         ...item,
         icon: { uri: item.icon },
         title: item.name,
@@ -55,21 +51,17 @@ const Home = () => {
     getAllCategories();
   }, []);
 
-  const handleSearch = text => {
-    const filtered = categoriesData.filter(category =>
-      category.title.toLowerCase().includes(text.toLowerCase())
-    );
-    setFilteredCategories(filtered);
-  };
-
-  const handleOnApply = Service => {
+  const handleOnApply = (Service) => {
     // Logic for handling selected services
   };
 
   const handleViewAllPress = () => {
-    // Navigate to Subhome page without a specific category ID
+    // Navigate to Categories page
     navigation.navigate('Categories');
   };
+
+  // Limit to 6 categories
+  const displayedCategories = filteredCategories.slice(0, 6);
 
   return (
     <ScrollView>
@@ -85,8 +77,8 @@ const Home = () => {
           </TouchableOpacity>
         </View>
 
-        {filteredCategories.length > 0 ? (
-          <CardGrid items={filteredCategories} onCardPress={addToCart} />
+        {displayedCategories.length > 0 ? (
+          <CardGrid items={displayedCategories} onCardPress={addToCart} />
         ) : (
           <Text style={styles.noDataText}>No categories available</Text>
         )}
@@ -100,7 +92,7 @@ const Home = () => {
         />
 
         <View>
-          <View style={{ width: 351, backgroundColor: '#D8D8D8', height: 1, marginBottom: 20, marginTop: 10, alignSelf: 'flex-start' }} />
+          <View style={styles.separator} />
         </View>
       </View>
     </ScrollView>
@@ -141,6 +133,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between', // To space out the title and View All button
     alignItems: 'center', // Vertically align items in the center
     marginBottom: 20,
+  },
+  separator: {
+    width: '100%',
+    backgroundColor: '#D8D8D8',
+    height: 1,
+    marginBottom: 20,
+    marginTop: 10,
   },
 });
 

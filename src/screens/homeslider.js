@@ -38,7 +38,7 @@ function Homeslider() {
         autoPlay={true}
         data={banners}
         scrollAnimationDuration={1000}
-        onSnapToItem={index => console.log('current index:', index)}
+        // onSnapToItem={index => console.log('current index:', index)}
         renderItem={({item, index}) => (
           <View
             style={{

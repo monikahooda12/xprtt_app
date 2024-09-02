@@ -19,11 +19,8 @@ const Subcategories = ({ route, navigation }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // console.log('Route params:', route?.params);
-    // console.log('Categories:', categories);
     const selectedCategory = categories?.find(category => category.id === route?.params?.id);
     if (selectedCategory) {
-      // console.log('Selected Category Child:', selectedCategory.child);
       const data = selectedCategory.child || selectedCategory.services || [];
       setTitle(selectedCategory.name || 'Service Details');
       setServicesData(data);
@@ -36,16 +33,14 @@ const Subcategories = ({ route, navigation }) => {
 
   const handleServicePress = (service) => {
     dispatch(setselectedService(service));
-    navigation.navigate('SuperSubchild',{id:service.id});
+    navigation.navigate('SuperSubchild', { id: service.id, previousTitle: title });
   };
 
-  
   const handleSearch = (text) => {
     const filtered = servicesData.filter(service => 
       service.name.toLowerCase().includes(text.toLowerCase())
     );  
     setFilteredServices(filtered);
-    //  setModalVisible(true); // Open the modal on search
   };
 
   const handleCheckboxToggle = (serviceId) => {
@@ -56,7 +51,7 @@ const Subcategories = ({ route, navigation }) => {
   };
 
   return (
-    <CommonLayout title={title}>
+    <CommonLayout title={title} previousTitle={route?.params?.previousTitle}>
       <View style={styles.container}>
         <CategorySection
           searchPlaceholder="Search services..."
@@ -65,31 +60,24 @@ const Subcategories = ({ route, navigation }) => {
             title: service.name || 'Unnamed Service',
             id: service.id
           }))}
-          onSearch={handleSearch}
-          onCardPress={handleServicePress}
-          onFilterPress={()=>{setModalVisible(true)}}
+          //  onSearch={handleSearch}
+           onCardPress={handleServicePress}
+           onFilterPress={() => setModalVisible(true)}
         />
 
         <Categorymodal
-          visible={modalVisible}
-          label={title}
-          onClose={() => setModalVisible(false)}
-          services={filteredServices}
-          selectedServices={selectedServices}
+          //  visible={modalVisible}
+          // label={title}
+          // onClose={() => setModalVisible(false)}
+          // services={filteredServices}
+          // selectedServices={selectedServices}
           onCheckboxToggle={handleCheckboxToggle}
         />
       </View>
     </CommonLayout>
   );
-};      
+};       
 
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.PRIMARY,
-  },
-});
 
 export default Subcategories;
 

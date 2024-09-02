@@ -86,10 +86,7 @@ console.log("image",image)
         />
 
 {/* /////////////////////////////filter///// */}
-<Image
-        source={require('../assets/icons/filter.png')}
-        style={styles.image}
-      />
+
       </TouchableOpacity>
 
       <FlatList

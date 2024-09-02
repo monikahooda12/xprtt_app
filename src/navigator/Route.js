@@ -23,8 +23,8 @@ import Subcategories from '../Categories/Subcategories';
 import BlogsScreen from '../screens/Blogdata';
 import Service from '../professinol/service';
 import Coverimage from '../professinol/Coverimage';
-import Subchild from '../Categories/Subchild';
-import SuperSubchild from '../Categories/Supersubchild';
+import Subchild from '../xprrt/Xprtchildcategories';
+
 import Subhome from '../Categories/Subhome';
 import Xprrt from '../xprrt/Xprrt';
 import Detailsuser from '../xprrt/Detailsuser';
@@ -34,6 +34,13 @@ import Homechild from '../home/homechild';
 import Home from '../home/Home';
 import Homesubchild from '../home/homesubchild';
 import Xpertsubcat from '../xprrt/Xpertsubcat';
+import Contactme from '../professinol/Contactme';
+import Categories from '../xprrt/Xprtcategories';
+
+import Xprtchildcategories from '../xprrt/Xprtchildcategories';
+import Xprtsubchildcategories from '../xprrt/Xprtsubchildcategories';
+
+
 
 
 // import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
@@ -55,11 +62,12 @@ export const Route = () => {
                     <Stack.Screen name='NoNetwork' component={NoNetwork} />
                     <Stack.Screen name='Webview' component={Webview} options={{ headerShown: false }} />
                     <Stack.Screen name='Home' component={Home} options={{headerShown:false}}/>
-                    <Stack.Screen name = 'Subchild' component={Subchild} options={{headerShown:false}}/>
-                     <Stack.Screen name='SuperSubchild' component={SuperSubchild} options={{headerShown:false}}/>
+                    <Stack.Screen name = 'Xprtchildcategories' component={Xprtchildcategories} options={{headerShown:false}}/>
+                     <Stack.Screen name='Xprtsubchildcategories' component={Xprtsubchildcategories} options={{headerShown:false}}/>
                      <Stack.Screen name='SearchBar' component={SearchBar} options={{headerShown:false}}/>
                      <Stack.Screen name='SearchResults' component={SearchResults} options={{headerShown:true}}/>
                      <Stack.Screen name='Detailsuser' component={Detailsuser} options={{headerShown:true}}/>
+                     <Stack.Screen name='Contactme' component={Contactme} options={{headerShown:true}}/>
                      <Stack.Screen name='Xprrt' component={Xprrt} options={{headerShown:true}}/>
                      <Stack.Screen name='Review' component={Review} options={{headerShown:true}}/>
                      <Stack.Screen name='Homechild' component={Homechild} options={{headerShown:true}}/>
@@ -69,8 +77,10 @@ export const Route = () => {
                      <Stack.Screen name='Subcategories' component={Subcategories} options={{headerShown:true}}/>
                      <Stack.Screen name='Blogscreen' component={BlogsScreen} options={{headerShown:true}}/>
                      <Stack.Screen name='Blog' component={Blog} options={{headerShown:true}}/>
+                     <Stack.Screen name='Categories' component={Categories} options={{headerShown:true}}/>
                      <Stack.Screen name='Subhome' component={Subhome} options={{headerShown:true}}/>
                      <Stack.Screen name='Xpertsubcat' component={Xpertsubcat} options={{headerShown:true}}/>
+
                     <Stack.Screen name='Maintenance' component={Maintenance}
                         options={{
                             header: () => <Header title='Maintenance' showBackButton={false} />,
