@@ -103,7 +103,7 @@ const Childcategories = ({ route, navigation }) => {
     const selectedCategory = categories?.find(category => category.id === route?.params?.id);
     if (selectedCategory) {
       const data = selectedCategory.child || selectedCategory.services || [];
-       setTitle(selectedCategory.name || 'Service Details');
+        setTitle(selectedCategory.name || 'Service Details');
       setServicesData(data);
       setFilteredServices(data);
     } else {
@@ -114,21 +114,23 @@ const Childcategories = ({ route, navigation }) => {
 
   const handleServicePress = (service) => {
     dispatch(setselectedService(service));
-    navigation.navigate('Subchildcategories', { id: service.id });
+    navigation.navigate('Subchildcategories', { id: service.id, title });
   };
 
   const handleselectsubcat = (Service) => {
     navigation.navigate("Xprrt", { categoriesSlug: Service });
   };
 
+console.log(title,'titlesbsdk')
   return (
-    <CommonLayout title={title}>
+    
+    <CommonLayout title= {title}  onPress={() =>{navigation.navigate('Parentcategories')}}>
       <View style={styles.container}>
         <CategorySection
         isSearchbarHide={true}
           categories={filteredServices.map(service => ({
             icon: { uri: service.icon },
-            title: service.name || 'Unnamed Service',
+             title: service.name || 'Unnamed Service',
             id: service.id
           }))}
           onCardPress={handleServicePress}

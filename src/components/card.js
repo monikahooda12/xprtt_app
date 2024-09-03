@@ -9,6 +9,7 @@ import { COLORS, FONTS } from '../constants';
 import { commonStyles } from '../theme/Styles';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import { Responsive } from '../theme/Layout';
+import { useNavigation } from '@react-navigation/native';
 
  const { width,height } = Dimensions.get('window');
 
@@ -23,7 +24,7 @@ import { Responsive } from '../theme/Layout';
   </View>
 );
 
-  
+
 
 // const SearchBar = ({ placeholder, onSearch ,onFilterPress}) => (
 //   <View style={styles.searchBar}>
@@ -54,6 +55,41 @@ import { Responsive } from '../theme/Layout';
 //   </View>
 // );
 
+
+
+//////////////////////find data filter.............................
+// export const findItemWithParents = (data, itemName) => {
+//   console.log('Data:', data);
+//   console.log('Item Name:', itemName);
+
+//   const findItem = (items, itemName, parents = []) => {
+//     console.log('Items:', items);
+//     for (const item of items) {
+//       console.log('Current Item:', item);
+//       if (item.name === itemName) {
+//         return { item, parents };
+//       }
+//       // Check if item.child exists and is an array before accessing its length
+//       if (item.child && Array.isArray(item.child) && item.child.length > 0) {
+//         const result = findItem(item.child, itemName, [...parents, item.name]);
+//         if (result) {
+//           return result;
+//         }
+//       }
+//     }
+//     return null;
+//   };
+
+//   for (let i = 0; i < data.length; i++) {
+//     const parent = data[i];
+//     const result = findItem([parent], itemName);
+//     if (result) {
+//       return { ...result, mainParentIndex: i };
+//     }
+//   }
+//   return null;
+// };
+
 const Card = ({ icon, title, onPress }) => (
   <>
    <TouchableOpacity style={styles.card} onPress={onPress}>
@@ -82,15 +118,22 @@ const CardGrid = ({ items, onCardPress }) => (
     columnWrapperStyle={styles.cardGridRow}
   />
 );
-const CommonLayout = ({ title, previousTitle, children }) => {
+const CommonLayout = ({ title, previousTitle, children,navigate,onTitlePress }) => {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <View style={styles.headerContainer}>
-          <Text>categories</Text>
-          <Text style={styles.title}>
-            {previousTitle ? `${previousTitle} > ${title}` : title}
-          </Text>
+          <View style= {styles.tit}>
+          <TouchableOpacity onPress={() => navigation.navigate('Parentcategories')}>
+          <Text style={styles.title}>AllCategories {`>`}</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity onPress={onTitlePress}>
+          <Text style={styles.title} ellipsizeMode="tail">
+            {previousTitle ? ` ${previousTitle} > ${title}` : title}</Text>
+          </TouchableOpacity>
+          </View>
         </View>
         {children}
       </View>
@@ -134,13 +177,13 @@ const styles = StyleSheet.create({
   },
   card: {
     alignItems: 'center',
-    width: width / 3 - 20, // Adjust based on your layout needs
+    width: (width - 60) / 3, // Adjust based on your layout needs
       marginHorizontal: responsiveWidth(10),
      marginVertical: 10,
   },
   cardIcon: {
-    width: 112,
-    height: 112,
+    width: 110,
+    height: 100,
     borderRadius: 10,
     marginBottom: 5,
   },
@@ -158,11 +201,16 @@ const styles = StyleSheet.create({
   categorySection: {
     padding: 10,
   },
-    sectionTitle: {
+   tit: {
        fontSize: 20,
+       display:'flex',
+       flexDirection: 'row',
       fontWeight: 'bold',
-      marginBottom: 10,
+      // marginBottom: 10,
+      numberOfLines:1,
+      
     },
+    
 
     safeArea: {
       flex: 1,
@@ -173,17 +221,25 @@ const styles = StyleSheet.create({
       backgroundColor: COLORS.PRIMARY,
     },
     headerContainer: {
-      backgroundColor: COLORS.PRIMARY,
-      paddingVertical: height * 0.02,
-      paddingHorizontal: width * 0.04,
+      
+
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 15,
+        borderBottomWidth: 13,
+        borderBottomColor: '#e0e0e0',
+        // paddingHorizontal:-3,
     },
     title: {
        fontFamily:FONTS.ROBOTO_BLACK,
-      fontSize: width * 0.06,
+      fontSize: responsiveFontSize(2),
+      paddingHorizontal: 5,
       fontWeight: 'bold',
       color: COLORS.TEXT,
-      textAlign: 'center',
+      
+      
     },
-  });
+  })
   
   export { SearchBar, Card, CardGrid, CategorySection,CommonLayout };

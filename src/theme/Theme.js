@@ -88,6 +88,10 @@ export const FONTS = {
     android: "Poppins-Regular",
     ios: "Poppins-Regular",
   }),
+  RobotoLight: Platform.select({
+    android: "Poppins-Regular",
+    ios: "Poppins-Regular",
+  })
 };
 
 const appTheme = { COLOR, FONTS };

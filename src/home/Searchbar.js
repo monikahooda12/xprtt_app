@@ -46,7 +46,7 @@ console.log("image",image)
 
 <View style={styles.header}>
          <TouchableOpacity>
-           <Image source={require('../assets/icons/logo.png')} style={styles.icon} />
+           <Image source={require('../assets/icons/Xprrtlogonew.png')} style={styles.icon} />
          </TouchableOpacity>
          <Text style={styles.title}>Home</Text>
          <TouchableOpacity >
@@ -54,7 +54,7 @@ console.log("image",image)
            <View style={{ ...styles.imageContainer, overflow: 'hidden' }}>
                                 <Image
                                     source={image ? { uri: image } : ICONS.AVATAR}
-                                    style={{ height: 60, width: 60, resizeMode: 'contain' }}
+                                    style={{ height: 50, width: 50, resizeMode: 'contain' }}
                                 />
                             </View>
 
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
         
        },
        title: {
-         fontSize: 20,
+         fontSize: 28,
          fontWeight: 'bold',
        },
   inputContainer: {
@@ -164,9 +164,9 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   icon: {
-         width: 24,
-         height: 24,
-         marginLeft:11
+         width: 28,
+         height: 28,
+         marginLeft:7
        },
   searchIcon: {
     marginRight: 10,

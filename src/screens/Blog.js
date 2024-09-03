@@ -72,7 +72,7 @@ export const Blog = ({ route }) => {
       }}
     >
       <Tab.Screen
-        name="blog"
+         name="blog"
         component={BlogWebView} // Using the WebView component below
         options={{ headerShown: true }}
         initialParams={{ url: "https://blog.xprrt.com/search/categories/" }}

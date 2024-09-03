@@ -7,7 +7,8 @@ import { CardGrid, CommonLayout, SearchBar } from "../components/card";
 import CategoryModal from '../Modals/categorymodal';
 
 const Subchildcategories = ({ route }) => {
-  console.log("object",route.params)
+  // console.log("titlesuccessfull",route.params.title)
+  
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [filteredServices, setFilteredServices] = useState([]);
@@ -19,7 +20,7 @@ const Subchildcategories = ({ route }) => {
       .map((category) => category.child)
       .flat()
       .find((subCat) => subCat.id === route?.params?.id);
-
+// console.log(subCategory,'subCategoryhooda')
   // Prepare the subcategory children data for CardGrid
   const subCategoryChildren = subCategory?.child?.map((child) => ({
     icon: { uri: child.icon },
@@ -36,19 +37,23 @@ const Subchildcategories = ({ route }) => {
   };
   // console.log("subCategory",subCategory)
 
+
+  const handleTitlePress = () => {
+    navigation.navigate('Childcategories'); // Navigate to the desired screen
+  };
+
   // Handle checkbox toggle in the modal
   const handlesupercat = Service => {
     navigation.navigate("Xprrt",{categoriesSlug:Service})
     // console.log("serviceID",serviceId)
 
-    // setSelectedServices(prevState => ({
-    //   ...prevState,
-    //   [serviceId]: !prevState[serviceId],
-    // }));
+   
   };
 
   return (
-    <CommonLayout title={subCategory?.name || "Subcategory"} previousTitle="checkvalue">
+    <CommonLayout title={subCategory?.name || "Subcategory"} previousTitle={route.params.title}
+    onTitlePress={handleTitlePress}
+    >
       <SafeAreaView style={styles.container}>
         <ScrollView>
           {/* Search Bar with Filter Button */}

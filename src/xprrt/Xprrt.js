@@ -45,6 +45,7 @@ const Xprrt = () => {
   const [categoryNames, setCategoryNames] = useState([]);
 
   console.log('route', categoriesSlug);
+  console.log('navigation', navigation)
   const [filters, setFilters] = useState({
     experience: '',
     gender: '',
@@ -423,7 +424,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
   },
   name: {
-    fontSize: 15,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   location: {
@@ -477,11 +478,11 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     textAlign: 'center',
   },
-  categoriesContainer: {
+  categoriesContainer: { ///////ok All////
     height: 80,
     paddingVertical: 7,
-    paddingHorizontal: 15,
-    backgroundColor: '#f5f5f5',
+     paddingHorizontal: 15,
+    // backgroundColor: 'black',
   },
   categoryItem: {
     height: 40,
@@ -512,12 +513,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    backgroundColor: '#fff',
-    paddingTop: 1,
+    backgroundColor: 'red',
+    // paddingTop: 10,
   },
   searchSection: {
     height: 48,
-    width: 305,
+    width: 319,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',

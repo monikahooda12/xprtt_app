@@ -337,3 +337,232 @@ const styles = StyleSheet.create({
 });
 
 export default Service;
+
+
+
+
+
+
+
+
+
+
+// import React, { useEffect, useState } from 'react';
+// import { View, Text, TextInput, ScrollView, Button, Alert, StyleSheet } from 'react-native';
+
+// import { useNavigation } from '@react-navigation/native';
+// import { getLocalData, storeLocalData } from './utils'; // Adjust the path accordingly
+
+// const Service = () => {
+//   const [categories, setCategories] = useState([]);
+//   const { control, handleSubmit, setValue, getValues } = useForm({
+//     defaultValues: {
+//       service: [{ title: '', category: '', min_price: '', max_price: '', description: '' }]
+//     }
+//   });
+
+//   const { fields, append, remove } = useFieldArray({
+//     control,
+//     name: 'service'
+//   });
+
+//   const navigation = useNavigation();
+
+//   useEffect(() => {
+//     fetchCategories();
+//     fetchUserData();
+//   }, []);
+
+//   const fetchCategories = async () => {
+//     try {
+//       const catObj = await getLocalData('categories');
+
+//       const categoriesList = catObj[0].child.map((child) => ({
+//         label: child.name,
+//         value: child.name,
+//         options: child.child.map((children) => ({
+//           label: children.name,
+//           value: children.name,
+//         })),
+//       }));
+
+//       setCategories(categoriesList);
+//     } catch (error) {
+//       console.error('Some error occurred', error);
+//     }
+//   };
+
+//   const fetchUserData = async () => {
+//     try {
+//       const response = await fetch('YOUR_API_ENDPOINT', {
+//         method: 'GET',
+//         headers: {
+//           'Content-Type': 'application/json',
+//           Authorization: `Bearer ${await getLocalData('token')}`,
+//         },
+//       });
+//       const data = await response.json();
+//       const professionalObj = data?.professional || {};
+      
+//       await storeLocalData('user', data);
+//       professionalObj.service = professionalObj.service.length ? professionalObj.service : [{}];
+//       professionalObj.service.forEach((service, index) => {
+//         setValue(`service[${index}]`, service);
+//       });
+//     } catch (error) {
+//       console.error('Error fetching user data:', error);
+//     }
+//   };
+
+//   const onSubmit = async (values) => {
+//     try {
+//       const response = await fetch('YOUR_API_ENDPOINT', {
+//         method: 'PUT',
+//         headers: {
+//           'Content-Type': 'application/json',
+//           Authorization: `Bearer ${await getLocalData('token')}`,
+//         },
+//         body: JSON.stringify(values),
+//       });
+
+//       const data = await response.json();
+//       // Handle response or navigation if needed
+//       console.log(data);
+//     } catch (error) {
+//       console.error('Form submission failed:', error);
+//     }
+//   };
+
+//   return (
+//     <ScrollView contentContainerStyle={styles.container}>
+//       <Text style={styles.header}>Service Details</Text>
+
+//       {fields.map((field, index) => (
+//         <View key={field.id} style={styles.card}>
+//           <Text style={styles.cardTitle}>Service {index + 1}</Text>
+
+//           <Controller
+//             control={control}
+//             name={`service[${index}].title`}
+//             render={({ field: { onChange, onBlur, value } }) => (
+//               <TextInput
+//                 style={styles.input}
+//                 placeholder="Title Name"
+//                 onBlur={onBlur}
+//                 onChangeText={onChange}
+//                 value={value}
+//               />
+//             )}
+//           />
+
+//           <Controller
+//             control={control}
+//             name={`service[${index}].category`}
+//             render={({ field: { onChange, onBlur, value } }) => (
+//               <TextInput
+//                 style={styles.input}
+//                 placeholder="Select a category"
+//                 onBlur={onBlur}
+//                 onChangeText={onChange}
+//                 value={value}
+//               />
+//             )}
+//           />
+
+//           <Controller
+//             control={control}
+//             name={`service[${index}].min_price`}
+//             render={({ field: { onChange, onBlur, value } }) => (
+//               <TextInput
+//                 style={styles.input}
+//                 placeholder="Min Price"
+//                 onBlur={onBlur}
+//                 onChangeText={onChange}
+//                 value={value}
+//                 keyboardType="numeric"
+//               />
+//             )}
+//           />
+
+//           <Controller
+//             control={control}
+//             name={`service[${index}].max_price`}
+//             render={({ field: { onChange, onBlur, value } }) => (
+//               <TextInput
+//                 style={styles.input}
+//                 placeholder="Max Price"
+//                 onBlur={onBlur}
+//                 onChangeText={onChange}
+//                 value={value}
+//                 keyboardType="numeric"
+//               />
+//             )}
+//           />
+
+//           <Controller
+//             control={control}
+//             name={`service[${index}].description`}
+//             render={({ field: { onChange, onBlur, value } }) => (
+//               <TextInput
+//                 style={styles.textArea}
+//                 placeholder="Description"
+//                 onBlur={onBlur}
+//                 onChangeText={onChange}
+//                 value={value}
+//                 multiline
+//                 numberOfLines={4}
+//               />
+//             )}
+//           />
+
+//           <Button title="Remove" onPress={() => remove(index)} />
+//         </View>
+//       ))}
+
+//       <Button title="Add More Service" onPress={() => append({ title: '', category: '', min_price: '', max_price: '', description: '' })} />
+//       <Button title="Submit" onPress={handleSubmit(onSubmit)} />
+//     </ScrollView>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     padding: 16,
+//   },
+//   header: {
+//     fontSize: 24,
+//     fontWeight: 'bold',
+//     textAlign: 'center',
+//     marginBottom: 16,
+//   },
+//   card: {
+//     padding: 16,
+//     borderWidth: 1,
+//     borderColor: '#ddd',
+//     borderRadius: 8,
+//     marginBottom: 16,
+//   },
+//   cardTitle: {
+//     fontSize: 18,
+//     fontWeight: 'bold',
+//     marginBottom: 8,
+//   },
+//   input: {
+//     borderWidth: 1,
+//     borderColor: '#ddd',
+//     borderRadius: 8,
+//     padding: 8,
+//     marginBottom: 8,
+//   },
+//   textArea: {
+//     borderWidth: 1,
+//     borderColor: '#ddd',
+//     borderRadius: 8,
+//     padding: 8,
+//     marginBottom: 8,
+//     height: 100,
+//   },
+// });
+
+// export default Service;
+

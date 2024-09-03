@@ -3,25 +3,194 @@ import Svg, { G, Path, Defs, Mask, Rect, ClipPath, Circle, Ellipse, LinearGradie
 import { COLORS, FONTS } from "../../constants"
 import { Text } from "react-native"
 
-// export function LogoSvg(props) {
-//   return (
-//     <Svg
-//       xmlns="http://www.w3.org/2000/svg"
-//       viewBox="0 0 250 53.78223434398853"
-//       preserveAspectRatio="xMidYMid meet"
-//       className="css-1wu7qa0"
-//       width={props.width ? props.width : 422}
-//       height={props.height ? props.height : 91}
-//       {...props}
-//     >
-//       <Path
-//         d="M14.136 12h4.72v18.68c0 2.554-.915 4.76-2.744 6.616l-.004.004-.01-.004-1.28-1.264-2.062-2.037.008-.007c.915-.915 1.372-2.017 1.372-3.308V12zm3.846 18.68V12.874H15.01V30.68c0 1.229-.355 2.325-1.058 3.269l1.073 1.06.003-.003.419.403.628.629c1.278-1.541 1.907-3.305 1.907-5.358zM2.88 37.297l3.349-3.35c.912.913 1.999 1.37 3.26 1.372l-.008.001V40c-2.576-.004-4.776-.904-6.601-2.703zm5.727-1.17a5.205 5.205 0 01-2.335-.986l-2.124 2.123a7.992 7.992 0 004.459 1.822v-2.96zM36.99 26l14-14v28h-4.64V23.257l-9.36 9.36-14.04-14.102V12zm13.126 13.125V14.111L37.608 26.618l-.617.618-.618-.617-12.548-12.512v4.048L36.992 31.38l10.233-10.233v17.979h2.892zM78.38 20.15c0 2.287-.82 4.236-2.46 5.849 1.64 1.586 2.46 3.537 2.46 5.85a7.846 7.846 0 01-.645 3.146 8.306 8.306 0 01-1.756 2.603 8.295 8.295 0 01-2.602 1.755 7.839 7.839 0 01-3.147.646H59.7v-4.68h10.53c.457 0 .901-.087 1.331-.262a3.382 3.382 0 001.876-1.876 3.502 3.502 0 000-2.663 3.427 3.427 0 00-1.836-1.896 3.388 3.388 0 00-1.37-.282H55.06V23.7h15.17c.456 0 .9-.094 1.33-.283.43-.188.807-.444 1.13-.766.322-.323.572-.7.746-1.13a3.623 3.623 0 000-2.703 3.394 3.394 0 00-1.875-1.875 3.505 3.505 0 00-1.332-.263H59.7L55.06 12h15.17c1.075 0 2.118.216 3.127.645a8.256 8.256 0 012.622 1.756 8.325 8.325 0 011.756 2.602c.429.996.645 2.045.645 3.147zm-.875 11.7c0-2.085-.718-3.793-2.195-5.22l-.644-.624.639-.628c1.48-1.457 2.2-3.167 2.2-5.227 0-.978-.192-1.92-.573-2.801a7.478 7.478 0 00-1.571-2.331 7.427 7.427 0 00-2.347-1.57 7.073 7.073 0 00-2.783-.575H57.158l2.905 2.931h10.166c.567 0 1.125.11 1.66.326a4.274 4.274 0 012.358 2.357 4.494 4.494 0 010 3.362 4.265 4.265 0 01-.939 1.419 4.528 4.528 0 01-1.398.949 4.165 4.165 0 01-1.68.356H55.932v2.891H70.23c.602 0 1.181.12 1.722.356a4.298 4.298 0 012.295 2.367 4.39 4.39 0 01-.938 4.74 4.376 4.376 0 01-3.079 1.265h-9.655v2.933h9.655c.978 0 1.92-.193 2.8-.574a7.452 7.452 0 002.332-1.57 7.473 7.473 0 001.57-2.332 7.02 7.02 0 00.574-2.8zm9.585 8.149h-4.64v-14.04h18.64v4.72h-14V40zm-3.766-13.166v12.291h2.892v-9.32h13.999v-2.971H83.324zm-.874-14.834h18.64v4.68h-14zm17.766 3.807v-2.933H84.548l2.906 2.933h12.763zm10.955-3.807l7.948 10.208-2.945 3.792-10.974-14h5.971zm4.999 12.579l1.84-2.37-7.267-9.335h-3.748zm-10.97 15.42l10.974-14 2.945 3.794L111.171 40h-5.97zm5.544-.873l7.267-9.334-1.84-2.371-9.176 11.705h3.748zm22.295-27.126l-10.934 14-2.986-3.792 7.989-10.208h5.93zM120.23 22.206l1.872 2.377 9.145-11.71h-3.714zm-1.111 7.586l2.986-3.793 10.934 14h-5.931zm8.415 9.333h3.713l-9.144-11.71-1.872 2.378z"
-//         transform="matrix(1.92073 0 0 1.92073 -5.531 -23.047)"
-//         fill={props.color ? props.color :'#000'}
-//       />
-//     </Svg>
+//  export function LogoSvg(props) {
+//    return (
+  
+// <Svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+// <Path d="M0 0 C3.58044066 1.19348022 3.67459463 1.76947323 5.30078125 5.0078125 C7.90002693 9.92583074 10.93423666 14.3711002 14.1875 18.875 C15.2437146 20.35140155 16.29971317 21.82795768 17.35546875 23.3046875 C18.04612427 24.2635083 18.04612427 24.2635083 18.75073242 25.24169922 C22 29.81493062 22 29.81493062 22 32.625 C20.78143988 36.7376404 18.74934489 39.6720967 16.27734375 43.14453125 C14.90549269 44.76184184 14.90549269 44.76184184 15 46 C18.465 46.495 18.465 46.495 22 47 C22.474375 46.05125 22.94875 45.1025 23.4375 44.125 C24.95833333 41.08333333 26.47916667 38.04166667 28 35 C28.66 35 29.32 35 30 35 C32.15294651 40.28830549 34.27933894 45.55123997 36 51 C35.01 51.495 35.01 51.495 34 52 C32.68 49.36 31.36 46.72 30 44 C27.09787714 47.38581001 25.70604525 49.73488687 24 54 C18.39 54 12.78 54 7 54 C6 51 6 51 7.1796875 48.58984375 C7.73914063 47.71457031 8.29859375 46.83929688 8.875 45.9375 C9.70644531 44.62072266 9.70644531 44.62072266 10.5546875 43.27734375 C11.03164062 42.52582031 11.50859375 41.77429687 12 41 C12.33 40.34 12.66 39.68 13 39 C13.99 38.071875 13.99 38.071875 15 37.125 C17.12897991 34.86295884 17.69967455 34.03096109 18 31 C17.02497321 28.63213323 17.02497321 28.63213323 15.4296875 26.26171875 C14.8625 25.35873047 14.2953125 24.45574219 13.7109375 23.52539062 C13.10507812 22.58888672 12.49921875 21.65238281 11.875 20.6875 C11.29234375 19.76259766 10.7096875 18.83769531 10.109375 17.88476562 C7.54254657 13.83596786 4.93415728 9.8646016 2.0703125 6.01953125 C0 3 0 3 0 0 Z M14 48 C14 48.33 14 48.66 14 49 C15.98 49 17.96 49 20 49 C20 48.67 20 48.34 20 48 C18.02 48 16.04 48 14 48 Z " fill="#4F3EE8" transform="translate(3,0)"/>
+// <Path d="M0 0 C5.94 0.33 11.88 0.66 18 1 C16.74379144 4.14052141 15.53802263 7.02648958 14 10 C13.67 10.66 13.34 11.32 13 12 C12.38125 12.598125 11.7625 13.19625 11.125 13.8125 C8.8699375 16.13388786 7.30367616 18.03051541 6 21 C7.43069018 26.04014383 10.5791806 30.45377419 13.3125 34.875 C13.78623047 35.65230469 14.25996094 36.42960937 14.74804688 37.23046875 C16.9954092 40.88896556 19.28881866 44.43950259 21.85546875 47.8828125 C24 51 24 51 24 54 C23.34 54 22.68 54 22 54 C20.37372557 51.5908165 18.86069681 49.18162749 17.375 46.6875 C13.68502122 40.62529581 9.8438441 34.82383238 5.59375 29.13671875 C1.99297259 24.3092059 1.99297259 24.3092059 2.0625 21.25 C3.09925353 17.65592111 4.58478045 15.55491084 6.94140625 12.7109375 C8.35076939 10.76839821 8.35076939 10.76839821 8 7 C5.2140814 6.32987578 5.2140814 6.32987578 2 7 C-1.13975304 10.48861449 -3.04165998 14.42469924 -4 19 C-4.66 19 -5.32 19 -6 19 C-6.26554687 18.32453125 -6.53109375 17.6490625 -6.8046875 16.953125 C-7.15789063 16.06109375 -7.51109375 15.1690625 -7.875 14.25 C-8.22304688 13.36828125 -8.57109375 12.4865625 -8.9296875 11.578125 C-9.94070368 9.03045726 -9.94070368 9.03045726 -11.15625 6.8125 C-12.23363814 4.49811067 -11.8403253 3.35291084 -11 1 C-9.68 3.31 -8.36 5.62 -7 8 C-6.01 8 -5.02 8 -4 8 C-2.68 5.36 -1.36 2.72 0 0 Z M4 5 C4 5.33 4 5.66 4 6 C5.98 6 7.96 6 10 6 C10 5.67 10 5.34 10 5 C8.02 5 6.04 5 4 5 Z M9 7 C10 9 10 9 10 9 Z " fill="#4E41E7" transform="translate(37,10)"/>
+// <Path d="M0 0 C0.66 0 1.32 0 2 0 C4.15294651 5.28830549 6.27933894 10.55123997 8 16 C7.34 16.33 6.68 16.66 6 17 C4.68 14.36 3.36 11.72 2 9 C-0.90212286 12.38581001 -2.29395475 14.73488687 -4 19 C-9.61 19 -15.22 19 -21 19 C-21.33 18.01 -21.66 17.02 -22 16 C-21.01 15.01 -20.02 14.02 -19 13 C-19 13.66 -19 14.32 -19 15 C-15.37 15 -11.74 15 -8 15 C-7.67 14.34 -7.34 13.68 -7 13 C-5.9886162 11.21322196 -4.96263828 9.43516643 -3.9375 7.65625 C-3.25806217 6.45590984 -2.61683908 5.23367816 -2 4 C-1.33333333 2.66666667 -0.66666667 1.33333333 0 0 Z " fill="#4B40E1" transform="translate(31,35)"/>
+// <Path d="M0 0 C2.97 0.33 5.94 0.66 9 1 C9 1.66 9 2.32 9 3 C10.32 3.33 11.64 3.66 13 4 C11.02 4.33 9.04 4.66 7 5 C7.99 5.66 8.98 6.32 10 7 C9.34 7.66 8.68 8.32 8 9 C8 8.34 8 7.68 8 7 C5.08347826 6.83318891 5.08347826 6.83318891 2 7 C1.34 7.66 0.68 8.32 0 9 C-1.125 7.3125 -1.125 7.3125 -2 5 C-1.125 2.25 -1.125 2.25 0 0 Z " fill="#5348E5" transform="translate(37,10)"/>
+// <Path d="M0 0 C0.33 0.66 0.66 1.32 1 2 C4.63 2 8.26 2 12 2 C12.33 1.34 12.66 0.68 13 0 C13 0.99 13 1.98 13 3 C13.99 3.33 14.98 3.66 16 4 C16 4.66 16 5.32 16 6 C10.39 6 4.78 6 -1 6 C-1.33 5.01 -1.66 4.02 -2 3 C-1.34 2.01 -0.68 1.02 0 0 Z " fill="#3E31DE" transform="translate(11,48)"/>
+// <Path d="M0 0 C0.99 0 1.98 0 3 0 C4.60546875 1.86328125 4.60546875 1.86328125 6.1875 4.3125 C6.71730469 5.11300781 7.24710938 5.91351563 7.79296875 6.73828125 C9 9 9 9 9 12 C8.34 12 7.68 12 7 12 C5.71593601 10.04775792 4.52058322 8.03659238 3.375 6 C2.74335937 4.88625 2.11171875 3.7725 1.4609375 2.625 C0.97882812 1.75875 0.49671875 0.8925 0 0 Z " fill="#4D45DE" transform="translate(52,52)"/>
+// <Path d="M0 0 C3.01327566 1.50663783 3.61056618 4.03166411 5 7 C5.66 7 6.32 7 7 7 C6.34 8.32 5.68 9.64 5 11 C2.65808437 8.8709858 1.16445046 6.95591271 0 4 C0 2.68 0 1.36 0 0 Z " fill="#443BDF" transform="translate(25,11)"/>
+// <Path d="M0 0 C0.33 0.66 0.66 1.32 1 2 C4.02934491 2.65772428 4.02934491 2.65772428 7 3 C7 3.33 7 3.66 7 4 C3.37 4 -0.26 4 -4 4 C-4 3.01 -4 2.02 -4 1 C-2 0 -2 0 0 0 Z " fill="#5043E5" transform="translate(16,46)"/>
+// <Path d="M0 0 C2.97 0 5.94 0 9 0 C8.67 0.99 8.34 1.98 8 3 C5.9375 3.6875 5.9375 3.6875 4 4 C4 3.34 4 2.68 4 2 C2.68 2 1.36 2 0 2 C0 1.34 0 0.68 0 0 Z " fill="#4A38DB" transform="translate(46,11)"/>
+// <Path d="M0 0 C0.33 0.66 0.66 1.32 1 2 C2.32 2.33 3.64 2.66 5 3 C0.545 3.495 0.545 3.495 -4 4 C-4.33 3.01 -4.66 2.02 -5 1 C-3.35 0.67 -1.7 0.34 0 0 Z " fill="#5947F2" transform="translate(45,11)"/>
+// <Path d="M0 0 C0.99 0 1.98 0 3 0 C3.66 1.65 4.32 3.3 5 5 C4.01 5 3.02 5 2 5 C1.34 3.35 0.68 1.7 0 0 Z " fill="#4142E7" transform="translate(18,24)"/>
+// <Path d="M0 0 C0.66 0.33 1.32 0.66 2 1 C1.67 2.32 1.34 3.64 1 5 C-0.32 5 -1.64 5 -3 5 C-2.01 3.35 -1.02 1.7 0 0 Z " fill="#5446EE" transform="translate(45,21)"/>
+// <Path d="M0 0 C4.29 0 8.58 0 13 0 C13 0.33 13 0.66 13 1 C8.71 1 4.42 1 0 1 C0 0.67 0 0.34 0 0 Z " fill="#0702D9" transform="translate(38,9)"/>
+// <Path d="" fill="#2311BE" transform="translate(0,0)"/>
+// <Path d="" fill="#483DC0" transform="translate(0,0)"/>
+// <Path d="" fill="#3725CD" transform="translate(0,0)"/>
+// <Path d="" fill="#493FC3" transform="translate(0,0)"/>
+// <Path d="" fill="#4231D3" transform="translate(0,0)"/>
+// <Path d="" fill="#453BC1" transform="translate(0,0)"/>
+// <Path d="" fill="#4F4BE3" transform="translate(0,0)"/>
+// <Path d="" fill="#847DF3" transform="translate(0,0)"/>
+// <Path d="" fill="#1A09AB" transform="translate(0,0)"/>
+// <Path d="" fill="#8462DC" transform="translate(0,0)"/>
+// <Path d="" fill="#3117B5" transform="translate(0,0)"/>
+// <Path d="" fill="#3B31C6" transform="translate(0,0)"/>
+// <Path d="" fill="#3D3EA6" transform="translate(0,0)"/>
+// <Path d="" fill="#3D28D4" transform="translate(0,0)"/>
+// <Path d="" fill="#3330C1" transform="translate(0,0)"/>
+// <Path d="" fill="#3E2FD2" transform="translate(0,0)"/>
+// <Path d="" fill="#4F44EE" transform="translate(0,0)"/>
+// <Path d="" fill="#5B58D6" transform="translate(0,0)"/>
+// <Path d="" fill="#5E4ECC" transform="translate(0,0)"/>
+// <Path d="" fill="#3331B7" transform="translate(0,0)"/>
+// <Path d="" fill="#5148CC" transform="translate(0,0)"/>
+// <Path d="" fill="#4544CF" transform="translate(0,0)"/>
+// <Path d="" fill="#4938E7" transform="translate(0,0)"/>
+// <Path d="" fill="#7D77FF" transform="translate(0,0)"/>
+// <Path d="" fill="#3033BF" transform="translate(0,0)"/>
+// <Path d="" fill="#5336C6" transform="translate(0,0)"/>
+// <Path d="" fill="#2B1BAB" transform="translate(0,0)"/>
+// <Path d="" fill="#3127A9" transform="translate(0,0)"/>
+// <Path d="" fill="#4020F1" transform="translate(0,0)"/>
+// <Path d="" fill="#3C30BE" transform="translate(0,0)"/>
+// <Path d="" fill="#422AD6" transform="translate(0,0)"/>
+// <Path d="" fill="#2813E1" transform="translate(0,0)"/>
+// <Path d="" fill="#4040E5" transform="translate(0,0)"/>
+// <Path d="" fill="#2E2B8F" transform="translate(0,0)"/>
+// <Path d="" fill="#4A33F4" transform="translate(0,0)"/>
+// <Path d="" fill="#4F3DE8" transform="translate(0,0)"/>
+// <Path d="" fill="#5844FC" transform="translate(0,0)"/>
+// <Path d="" fill="#161599" transform="translate(0,0)"/>
+// <Path d="" fill="#534CF0" transform="translate(0,0)"/>
+// <Path d="" fill="#4F3CEF" transform="translate(0,0)"/>
+// <Path d="" fill="#2F2DDE" transform="translate(0,0)"/>
+// <Path d="" fill="#3229B4" transform="translate(0,0)"/>
+// <Path d="" fill="#7A38D8" transform="translate(0,0)"/>
+// <Path d="" fill="#4C45BF" transform="translate(0,0)"/>
+// <Path d="" fill="#422CB4" transform="translate(0,0)"/>
+// <Path d="" fill="#352BBF" transform="translate(0,0)"/>
+// <Path d="" fill="#3D47C9" transform="translate(0,0)"/>
+// <Path d="" fill="#734EBD" transform="translate(0,0)"/>
+// <Path d="" fill="#3E0BDA" transform="translate(0,0)"/>
+// <Path d="" fill="#6F68E7" transform="translate(0,0)"/>
+// <Path d="" fill="#3435CD" transform="translate(0,0)"/>
+// <Path d="" fill="#514BC5" transform="translate(0,0)"/>
+// <Path d="" fill="#6A6AD9" transform="translate(0,0)"/>
+// <Path d="" fill="#3922E7" transform="translate(0,0)"/>
+// <Path d="" fill="#3130CA" transform="translate(0,0)"/>
+// <Path d="" fill="#362FAE" transform="translate(0,0)"/>
+// <Path d="" fill="#7E73FE" transform="translate(0,0)"/>
+// <Path d="" fill="#7B7BEA" transform="translate(0,0)"/>
+// <Path d="" fill="#3F2CC5" transform="translate(0,0)"/>
+// <Path d="" fill="#3431C3" transform="translate(0,0)"/>
+// <Path d="" fill="#33308A" transform="translate(0,0)"/>
+// <Path d="" fill="#7C77F7" transform="translate(0,0)"/>
+// <Path d="" fill="#3E31C5" transform="translate(0,0)"/>
+// <Path d="" fill="#4211AB" transform="translate(0,0)"/>
+// <Path d="" fill="#150CA5" transform="translate(0,0)"/>
+// <Path d="" fill="#7C78F2" transform="translate(0,0)"/>
+// <Path d="" fill="#4C3DE7" transform="translate(0,0)"/>
+// <Path d="" fill="#5519B2" transform="translate(0,0)"/>
+// <Path d="" fill="#3931B8" transform="translate(0,0)"/>
+// <Path d="" fill="#392FD3" transform="translate(0,0)"/>
+// <Path d="" fill="#3C36A4" transform="translate(0,0)"/>
+// <Path d="" fill="#3423D0" transform="translate(0,0)"/>
+// <Path d="" fill="#5648C6" transform="translate(0,0)"/>
+// <Path d="" fill="#473CC7" transform="translate(0,0)"/>
+// <Path d="" fill="#1B10C5" transform="translate(0,0)"/>
+// <Path d="" fill="#0C00AB" transform="translate(0,0)"/>
+// <Path d="" fill="#1E218B" transform="translate(0,0)"/>
+// <Path d="" fill="#6F77F1" transform="translate(0,0)"/>
+// <Path d="" fill="#9580FF" transform="translate(0,0)"/>
+// <Path d="" fill="#8181D5" transform="translate(0,0)"/>
+// <Path d="" fill="#6357F5" transform="translate(0,0)"/>
+// <Path d="" fill="#5E4AF9" transform="translate(0,0)"/>
+// <Path d="" fill="#5953CC" transform="translate(0,0)"/>
+// <Path d="" fill="#1204C8" transform="translate(0,0)"/>
+// <Path d="" fill="#0C0A98" transform="translate(0,0)"/>
+// <Path d="" fill="#5E4EE7" transform="translate(0,0)"/>
+// <Path d="" fill="#8681F4" transform="translate(0,0)"/>
+// <Path d="" fill="#9279F8" transform="translate(0,0)"/>
+// <Path d="" fill="#684DF3" transform="translate(0,0)"/>
+// <Path d="" fill="#8B7DEF" transform="translate(0,0)"/>
+// <Path d="" fill="#704DEF" transform="translate(0,0)"/>
+// <Path d="" fill="#5859DD" transform="translate(0,0)"/>
+// <Path d="" fill="#504DC2" transform="translate(0,0)"/>
+// <Path d="" fill="#6256F0" transform="translate(0,0)"/>
+// <Path d="" fill="#3D32B0" transform="translate(0,0)"/>
+// <Path d="" fill="#5E5CBC" transform="translate(0,0)"/>
+// <Path d="" fill="#827EF8" transform="translate(0,0)"/>
+// <Path d="" fill="#8379FC" transform="translate(0,0)"/>
+// <Path d="" fill="#574BF5" transform="translate(0,0)"/>
+// <Path d="" fill="#6357FF" transform="translate(0,0)"/>
+// <Path d="" fill="#744AEA" transform="translate(0,0)"/>
+// <Path d="" fill="#544DCA" transform="translate(0,0)"/>
+// <Path d="" fill="#6154EA" transform="translate(0,0)"/>
+// <Path d="" fill="#5B56FF" transform="translate(0,0)"/>
+// <Path d="" fill="#594ED6" transform="translate(0,0)"/>
+// <Path d="" fill="#4E55FF" transform="translate(0,0)"/>
+// <Path d="" fill="#7E7AFF" transform="translate(0,0)"/>
+// <Path d="" fill="#5E4EFF" transform="translate(0,0)"/>
+// <Path d="" fill="#5A5BEC" transform="translate(0,0)"/>
+// <Path d="" fill="#5656EF" transform="translate(0,0)"/>
+// <Path d="" fill="#564FC1" transform="translate(0,0)"/>
+// <Path d="" fill="#5E4EDA" transform="translate(0,0)"/>
+// <Path d="" fill="#5D57C2" transform="translate(0,0)"/>
+// <Path d="" fill="#6E59FF" transform="translate(0,0)"/>
+// <Path d="" fill="#5E55EA" transform="translate(0,0)"/>
+// <Path d="" fill="#8479FF" transform="translate(0,0)"/>
+// <Path d="" fill="#594CD2" transform="translate(0,0)"/>
+// <Path d="" fill="#6155D7" transform="translate(0,0)"/>
+// <Path d="" fill="#655FE3" transform="translate(0,0)"/>
+// <Path d="" fill="#631FE3" transform="translate(0,0)"/>
+// <Path d="" fill="#8074FF" transform="translate(0,0)"/>
+// <Path d="" fill="#050052" transform="translate(0,0)"/>
+// <Path d="" fill="#8685DC" transform="translate(0,0)"/>
+// <Path d="" fill="#8281FF" transform="translate(0,0)"/>
+// <Path d="" fill="#7758EB" transform="translate(0,0)"/>
+// <Path d="" fill="#5F57DC" transform="translate(0,0)"/>
+// <Path d="" fill="#7B78FB" transform="translate(0,0)"/>
+// <Path d="" fill="#4942C4" transform="translate(0,0)"/>
+// <Path d="" fill="#6550DD" transform="translate(0,0)"/>
+// <Path d="" fill="#4B2BC5" transform="translate(0,0)"/>
+// <Path d="" fill="#6660DB" transform="translate(0,0)"/>
+// <Path d="" fill="#5050E9" transform="translate(0,0)"/>
+// <Path d="" fill="#5E51F5" transform="translate(0,0)"/>
+// <Path d="" fill="#5C5AE3" transform="translate(0,0)"/>
+// <Path d="" fill="#5E5AEF" transform="translate(0,0)"/>
+// <Path d="" fill="#5857F9" transform="translate(0,0)"/>
+// <Path d="" fill="#5E51F5" transform="translate(0,0)"/>
+// <Path d="" fill="#6051FF" transform="translate(0,0)"/>
+// <Path d="" fill="#5A47E1" transform="translate(0,0)"/>
+// <Path d="" fill="#5E57FF" transform="translate(0,0)"/>
+// <Path d="" fill="#635BF0" transform="translate(0,0)"/>
+// <Path d="" fill="#6366A7" transform="translate(0,0)"/>
+// <Path d="" fill="#7B71FF" transform="translate(0,0)"/>
+// <Path d="" fill="#6055FA" transform="translate(0,0)"/>
+// <Path d="" fill="#4039D4" transform="translate(0,0)"/>
+// <Path d="" fill="#816EEF" transform="translate(0,0)"/>
+// <Path d="" fill="#7B7DF0" transform="translate(0,0)"/>
+// <Path d="" fill="#8280EE" transform="translate(0,0)"/>
+// <Path d="" fill="#644ED7" transform="translate(0,0)"/>
+// <Path d="" fill="#5954F3" transform="translate(0,0)"/>
+// <Path d="" fill="#4A4BC3" transform="translate(0,0)"/>
+// <Path d="" fill="#7A7BF1" transform="translate(0,0)"/>
+// <Path d="" fill="#5837BD" transform="translate(0,0)"/>
+// <Path d="" fill="#5D56D3" transform="translate(0,0)"/>
+// <Path d="" fill="#5237CD" transform="translate(0,0)"/>
+// <Path d="" fill="#8C7CED" transform="translate(0,0)"/>
+// <Path d="" fill="#8084FB" transform="translate(0,0)"/>
+// <Path d="" fill="#6E5BEC" transform="translate(0,0)"/>
+// <Path d="" fill="#584BD1" transform="translate(0,0)"/>
+// <Path d="" fill="#5E4FFF" transform="translate(0,0)"/>
+// <Path d="" fill="#6154E8" transform="translate(0,0)"/>
+// <Path d="" fill="#7D7AD3" transform="translate(0,0)"/>
+// <Path d="" fill="#9081FF" transform="translate(0,0)"/>
+// <Path d="" fill="#8278FF" transform="translate(0,0)"/>
+// <Path d="" fill="#0E0B8E" transform="translate(0,0)"/>
+// <Path d="" fill="#1D04E7" transform="translate(0,0)"/>
+// <Path d="" fill="#0D00CF" transform="translate(0,0)"/>
+// </Svg>
+
 //   )
-// }
+//  }
 
 export function LogoSvg(props) {
   return (

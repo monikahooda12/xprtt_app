@@ -1,17 +1,8 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  Linking,
-  Dimensions,
-  Modal,
+import { View,Text,StyleSheet,Image, ScrollView, TouchableOpacity,Linking,Dimensions, Modal,
 } from 'react-native';
 import Review from './Review';
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 //components
 import {Professional} from '../components/cards/ProfessionalDetails';
@@ -22,6 +13,7 @@ const placeholder_image = {uri: 'https://via.placeholder.com/150'};
 
 const LazyImage = ({source, style, placeholder}) => {
   const [loaded, setLoaded] = useState(false);
+  
 
   return (
     <View style={style}>
@@ -46,7 +38,7 @@ const Detailsuser = () => {
   const {data, portfolio} = route.params;
   console.log("portfolio data",portfolio)
   const [showCoverImages, setShowCoverImages] = useState(false);
-
+const  navigation = useNavigation();
   const Card = ({children}) => <View style={styles.card}>{children}</View>;
 
   const Section = ({title, children}) => (
@@ -106,15 +98,20 @@ const Detailsuser = () => {
 
           <View style={styles.overlay}>
             <View style={styles.nameLocationContainer}>
+
               <Text style={styles.name}>{data.name}</Text>
+             
               <View style={styles.locationContainer}>
+             
                 <LazyImage
                   source={require('../assets/icons/carbon_location-filled.png')}
                   style={{height: 16, width: 16}}
                 />
+                 
                 <Text style={styles.location}>
                   {data.city}, {data.state}
                 </Text>
+                
               </View>
             </View>
             <View style={styles.skillsContainer}>
@@ -226,12 +223,13 @@ const Detailsuser = () => {
               />
             </View>
           ))}
-          <TouchableOpacity style={styles.servicecontactButton}>
+          <TouchableOpacity style={styles.servicecontactButton} onPress={() => navigation.navigate("Contactme")} >
             <Text style={styles.servicecontactButtonText}>Contact Me</Text>
           </TouchableOpacity>
         </View>
       </Card>
       <Card>
+        {/* ////////////skilll/////// */}
         <Section title="Skills">
           {data.professional.skill.map((obj, index) => (
             <View
@@ -440,23 +438,24 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 20,
   },
-  nameLocationContainer: {},
+  nameLocationContainer: {},//////////////cover image///
   name: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#fff',
-    marginBottom: 5,
+    
   },
   locationContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    // marginTop: 5,
+     alignItems: 'center',
+     marginVertical: 25,
   },
   location: {
     fontSize: 16,
-    color: '#fff',
+     color: '#fff',
     // marginLeft: 5,
   },
+  //////coverimage k uper skill show.....
   skillsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -706,6 +705,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
     borderRadius: 7,
   },
+  /////////skill,language,education/////
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',

@@ -49,3 +49,40 @@ export const Button: React.FC<ButtonProps> = ({
     </View>
   );
 };
+
+
+
+
+
+
+  // export const findItemWithParents = (data, itemName) => {
+  //   const findItem = (items, itemName, parents = []) => {
+  //     for (const item of items) {
+  //       if (item.name === itemName) {
+  //         return { item, parents };
+  //       }
+  //       if (item.child && item.child.length > 0) {
+  //         const result = findItem(item.child, itemName, [...parents, item.name]);
+  //         if (result) {
+  //           return result;
+  //         }
+  //       }
+  //     }
+  //     return null;
+  //   };
+  
+  //   for (let i = 0; i < data.length; i++) {
+  //     const parent = data[i];
+  //     const result = findItem([parent], itemName);
+  //     if (result) {
+  //       return { ...result, mainParentIndex: i };
+  //     }
+  //   }
+  //   return null;
+  // };
+  
+
+
+
+
+  

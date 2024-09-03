@@ -4,16 +4,18 @@ import { API, COLORS } from "../constants";
 import { httpRequest } from "../api/http";
 import { useNavigation } from "@react-navigation/native";
 import { commonStyles } from "../theme/Styles";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 
 const { width, height } = Dimensions.get('window');
 const DEFAULT_IMAGE = "https://via.placeholder.com/150";  // Default image placeholder
 
 const CategoryItem = ({ item }) => {
-
+ 
   const navigation = useNavigation()
   const handleCategoryPress = category => {
-    navigation.navigate('Xprrt', { categoriesSlug: category.slug });
+    console.log('Category slug:', category.slug);
+    navigation.navigate('Xprrt', { categoriesItem: category.slug });
   };
 return(
 
@@ -101,12 +103,10 @@ const styles = StyleSheet.create({
   },
   Cards: {
     alignItems: 'center',
-    width: 133, // Adjust based on your layout needs
-    height:112.29,
-     marginHorizontal: 5,
-    marginVertical: 10,
-    marginBottom:24,
-    paddingLeft:20,
+    width: (width - 60) / 3, // Adjust based on your layout needs
+      marginHorizontal: responsiveWidth(1.5),
+     marginVertical: 10,
+     
     
 
   },
