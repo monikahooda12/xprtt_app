@@ -30,11 +30,11 @@ import Coverimage from '../professinol/Coverimage';
 const { width } = Dimensions.get('window');
 const cardWidth = width * 0.91;
 
-const Xprrt = () => {
+const Xprrt = ({}) => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
   const route = useRoute();
-  const { itemName, categoriesSlug } = route.params || {};
+  const { itemName, categoriesSlug,childData } = route.params || {};
   const [categories, setCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -42,6 +42,13 @@ const Xprrt = () => {
   const [isFilterVisible, setFilterVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [categoryNames, setCategoryNames] = useState([]);
+
+
+
+ // Safeguard: ensure childData is an array or fallback to an empty array
+ const children = Array.isArray(childData) ? childData : [];
+
+
 
   console.log('itemName', itemName, route);
   // console.log('navigation', navigation)
@@ -198,9 +205,25 @@ const Xprrt = () => {
                     flex: 1,
                     justifyContent: 'space-between',
                   }}>
+              {/*::::::::::::::::::::::::searchresult::::::::::::::::: */}
                   <View>
                     <Text style={styles.name}>{item.name}</Text>
-                    {/* <Text style={styles.name}>{item.slug}</Text> */}
+
+ 
+ {/* {childData.length > 0 ? (
+        <View>
+          <Text>Child Categories:</Text>
+          {childData.map((child, index) => (
+            <Text key={index}>{child.name}</Text>
+          ))}
+        </View>
+      ) : (
+        <Text>No child categories available</Text>
+      )} */}
+
+
+
+                    
                     <View style={styles.location}>
                       <Image
                         source={require('../assets/icons/carbon_location-filled.png')}
@@ -239,40 +262,40 @@ const Xprrt = () => {
     });
   };
 
-  const renderCategories = () => (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      style={styles.categoriesContainer}>
-      <TouchableOpacity
-        style={[
-          styles.categoryItem,
-          selectedCategories.length === 0 && styles.selectedCategory,
-        ]}
-        onPress={() => setSelectedCategories([])}>
-        <Text style={styles.categoryText}>All</Text>
-      </TouchableOpacity>
-      {categories.map((category, index) => (
-        <TouchableOpacity
-           key={`${category.id}-${index}`}
-          style={[
-            styles.categoryItem,
-            selectedCategories.includes(category.name) &&
-            styles.selectedCategory,
-          ]}
-          onPress={() => toggleCategory(category.name)}>
-          <Text style={styles.categoryText}>{category.name}</Text>
-          {selectedCategories.includes(category.name) && (
-            <TouchableOpacity
-              style={styles.removeCategory}
-              onPress={() => toggleCategory(category.name)}>
-              <Text style={styles.removeCategoryText}>×</Text>
-            </TouchableOpacity>
-          )}
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
-  );
+  // const renderCategories = () => (
+  //   <ScrollView
+  //     horizontal
+  //     showsHorizontalScrollIndicator={false}
+  //     style={styles.categoriesContainer}>
+  //     <TouchableOpacity
+  //       style={[
+  //         styles.categoryItem,
+  //         selectedCategories.length === 0 && styles.selectedCategory,
+  //       ]}
+  //       onPress={() => setSelectedCategories([])}>
+  //       <Text style={styles.categoryText}>All</Text>
+  //     </TouchableOpacity>
+  //     {categories.map((category, index) => (
+  //       <TouchableOpacity
+  //          key={`${category.id}-${index}`}
+  //         style={[
+  //           styles.categoryItem,
+  //           selectedCategories.includes(category.name) &&
+  //           styles.selectedCategory,
+  //         ]}
+  //         onPress={() => toggleCategory(category.name)}>
+  //         <Text style={styles.categoryText}>{category.name}</Text>
+  //         {selectedCategories.includes(category.name) && (
+  //           <TouchableOpacity
+  //             style={styles.removeCategory}
+  //             onPress={() => toggleCategory(category.name)}>
+  //             <Text style={styles.removeCategoryText}>×</Text>
+  //           </TouchableOpacity>
+  //         )}
+  //       </TouchableOpacity>
+  //     ))}
+  //   </ScrollView>
+  // );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -291,8 +314,8 @@ const Xprrt = () => {
           </TouchableOpacity>
           <TextInput
             style={styles.searchInput}
-            value={searchQuery}
-            onChangeText={setSearchQuery}
+             value={searchQuery}
+            // onChangeText={setSearchQuery}
             onSubmitEditing={handleSearch}
           />
         </View>
@@ -322,11 +345,11 @@ const Xprrt = () => {
         </View>
       ) : (
         <>
-          {renderCategories()}
+          {/* {renderCategories()} */}
           {renderProfileCard()}
         </>
       )}
-
+{/* ////////////////total pages show//////////////////////// */}
       <View style={styles.paginationInfo}>
         <Text style={styles.paginationText}>
           Page {payload.currentPage + 1} of {payload.totalPages}
@@ -335,11 +358,11 @@ const Xprrt = () => {
           Total Users: {payload.totalCount}
         </Text>
       </View>
-
+{/* //////////////////////////////////////////filtermodal///////////// */}
       <Modal
         visible={isFilterVisible}
         animationType="slide"
-        transparent={true}
+        transparent={false}
         onRequestClose={() => setFilterVisible(false)}>
         <View style={styles.modalContainer}>
           <Userfilter
@@ -358,6 +381,10 @@ const Xprrt = () => {
 };
 
 const styles = StyleSheet.create({
+
+  closeButtonText:{
+    color:'red',
+  },
   paginationInfo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -536,6 +563,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  //////Modal container////
+  modalContainer: {
+    flex: 1, // Ensures full screen
+    backgroundColor: '#fff', // Sets a background color
+    padding: 20, // Adds some padding for inner content
+  },
+  closeButton: {
+    marginTop: 20,
+    alignSelf: 'center',
+  },
+  closeButtonText: {
+    color: 'red',
+    fontSize: 16,
   },
 });
 

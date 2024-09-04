@@ -28,13 +28,11 @@ import SearchBar from '../home/Searchbar';
 import Home from '../home/Home';
 
 import Homeslider from './homeslider';
-import Iconhome from '../home/Iconhome';
-import Homechild from '../home/homechild';
-import ChildData from '../components/ChildData';
+
+
+
 import Homesubchild from '../home/homesubchild';
 
-import Subcategories from '../Categories/Subcategories';
-import Superchildcategories from '../Categories/Subchildcategories';
 import Subhome from '../Categories/Subhome';
 
 export const Dashboard = ({navigation}) => {
@@ -62,12 +60,12 @@ export const Dashboard = ({navigation}) => {
       screenLoading(false);
     }
   };
-
+//////////home slider components not working in inner layer//////
   const handleCategoryPress = category => {
     console.log('Category slug:', category.slug, category.name);
     navigation.navigate('Xprrt', { itemName: category.name, categoriesSlug: category.slug });
   };
-
+//////////////////////////////////////////////////////////////////
   return (
     <SafeAreaView
       style={{
@@ -89,15 +87,7 @@ export const Dashboard = ({navigation}) => {
             <Homeslider />
           </View>
           <View style={{paddingHorizontal: 5}}>
-            {/* <Iconhome/>
-            
-           <Homechild/>
-            <ChildData/> */}
-
-
-{/* <Subcategories/> */}
-{/* <Superchildcategories/> */}
-            <Home />
+           <Home />
            
           </View>
           <Homesubchild handleCategoryPress={handleCategoryPress} />

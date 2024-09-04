@@ -36,11 +36,19 @@ const searchSlice = createSlice({
   reducers: {
     setSearchTerm: (state, action) => {
       state.searchTerm = action.payload;
-      state.filteredItems = state.allItems.filter(item => 
-        item.name.toLowerCase().includes(action.payload.toLowerCase()) ||
-        (item.professional?.job_title && item.professional.job_title.toLowerCase().includes(action.payload.toLowerCase()))
-      );
+      state.filteredItems = state.allItems.filter(item => {
+        const matchesItem = item.name.toLowerCase().includes(action.payload.toLowerCase()) ||
+          (item.professional?.job_title && item.professional.job_title.toLowerCase().includes(action.payload.toLowerCase()));
+        
+        // Check if any child items match the search term
+        const matchesChild = item.child?.some(child => 
+          child.name.toLowerCase().includes(action.payload.toLowerCase())
+        );
+  
+        return matchesItem || matchesChild;
+      });
     },
+  
   },
   extraReducers: (builder) => {
     builder

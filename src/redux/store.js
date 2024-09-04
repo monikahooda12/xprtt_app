@@ -4,6 +4,7 @@ import  useReducer  from '../redux/users/userSlice';
 import dataReducer from '../redux/data/dataSlice';
 import searchReducer from '../redux/searchSlice';
 import { thunk } from 'redux-thunk';
+import lazyLoaderSlice from './lazyloder/lazyLoaderSlice';
 
 
 const store = configureStore({
@@ -12,6 +13,8 @@ const store = configureStore({
     user:useReducer,
     data:dataReducer,
     search: searchReducer,
+    lazyLoader:lazyLoaderSlice,
+    
   
   },
 

@@ -17,19 +17,25 @@ const SearchResults = () => {
     dispatch(setSearchTerm(text));
   };
 
-  const renderItem = ({ item }) => ( 
-    <TouchableOpacity onPress={() => navigation.navigate('Xprrt',  { itemName: item.name, categoriesSlug: item.slug })}>
-     
-       {/* <Text>detail for</Text> */}
-      <View style={styles.itemContainer}>
-        <Text style={styles.itemName}>{item.name}</Text>
-        {/* {item.professional?.job_title && ( */}
-          {/* <Text style={styles.itemDescription}>{item.professional.job_title}</Text> */}
-        {/* )} */}
-      </View>
-    </TouchableOpacity>
-   
-  );
+  const renderItem = ({ item }) => {
+    // Safeguard: ensure item.child is an array or fallback to an empty array
+    const childData = Array.isArray(item.child) ? item.child : [];
+  
+    return (
+      <TouchableOpacity 
+        onPress={() => navigation.navigate('Xprrt', { 
+          itemName: item.name, 
+          categoriesSlug: item.slug, 
+          childData: childData  // Passing child data to the next page
+        })}
+      >
+        <View style={styles.itemContainer}>
+          <Text style={styles.itemName}>{item.name}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+  
 
   if (loading) {
     return (

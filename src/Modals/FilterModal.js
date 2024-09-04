@@ -1,8 +1,10 @@
+
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { httpRequest } from '../api/http';
 import { API } from '../constants';
+const GOOGLE_API_KEY = 'AIzaSyD8y4F3DecFx7ayX9ECDwAsOPnaLJb8QqU'; // Your Google API Key
 
 const Userfilter = ({ onClose, onFilterApplied }) => {
   const [minExperience, setMinExperience] = useState(0);
@@ -88,6 +90,28 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
     }
   };
 
+
+    // Function to fetch state from location
+    const fetchStateFromLocation = async (location) => {
+      try {
+        const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(location)}&key=${GOOGLE_API_KEY}`);
+        const data = await response.json();
+  
+        if (data.status === 'OK') {
+          const addressComponents = data.results[0].address_components;
+          const stateComponent = addressComponents.find(component => component.types.includes('administrative_area_level_1'));
+          if (stateComponent) {
+            setState(stateComponent.long_name);
+          }
+        } else {
+          console.error('Error fetching location data:', data.status);
+        }
+      } catch (error) {
+        console.error('Error fetching state from location:', error);
+        Alert.alert('Error', 'Failed to fetch state information. Please try again.');
+      }
+    };
+
   // const handleApplyFilters = () => {
   //   fetchFilteredUsers();
   //   onClose(); // Close the filter modal after applying filters
@@ -129,17 +153,20 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
           <TouchableOpacity
             style={[styles.button, gender === 'Female' && styles.selectedButton]}
             onPress={() => setGender('Female')}>
-            <Text style={styles.buttonText}>Female</Text>
+            {/* <Text style={styles.buttonText}>Female</Text> */}
+            <Text style={[styles.buttonText, gender === 'Female' && styles.selectedButtonText]}>Female</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, gender === 'Male' && styles.selectedButton]}
             onPress={() => setGender('Male')}>
-            <Text style={styles.buttonText}>Male</Text>
+                <Text style={[styles.buttonText, gender === 'Male' && styles.selectedButtonText]}>Male</Text>
+            {/* <Text style={styles.buttonText}>Male</Text> */}
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, gender === 'Other' && styles.selectedButton]}
             onPress={() => setGender('Other')}>
-            <Text style={styles.buttonText}>Other</Text>
+               <Text style={[styles.buttonText, gender === 'Other' && styles.selectedButtonText]}>Other</Text>
+            {/* <Text style={styles.buttonText}>Other</Text> */}
           </TouchableOpacity>
         </View>
         <Text style={styles.simpletext}>Select the language you’re comfortable </Text>
@@ -152,17 +179,20 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
           <TouchableOpacity
             style={[styles.button, language === 'Hindi' && styles.selectedButton]}
             onPress={() => setLanguage('Hindi')}>
-            <Text style={styles.buttonText}>Hindi</Text>
-          </TouchableOpacity>
+            {/* <Text style={styles.buttonText}>Hindi</Text> */}
+            <Text style={[styles.buttonText, language === 'Hindi' && styles.selectedButtonText]}>Hindi</Text>
+  </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, language === 'English' && styles.selectedButton]}
             onPress={() => setLanguage('English')}>
-            <Text style={styles.buttonText}>English</Text>
+            {/* <Text style={styles.buttonText}>English</Text> */}
+            <Text style={[styles.buttonText, language === 'English' && styles.selectedButtonText]}>English</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, language === 'Other' && styles.selectedButton]}
             onPress={() => setLanguage('Other')}>
-            <Text style={styles.buttonText}>Other</Text>
+            {/* <Text style={styles.buttonText}>Other</Text> */}
+            <Text style={[styles.buttonText, language === 'Other' && styles.selectedButtonText]}>Other</Text>
           </TouchableOpacity>
         </View>
         <Text style={styles.simpletext}>Select Suitable Location</Text>
@@ -171,10 +201,12 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
           <Text style={styles.sliderValue}>{state}</Text>
         </View>
         <TextInput
-          style={styles.input}
-          value={state}
-          onChangeText={setState}
-          placeholder="Enter State"
+         style={styles.input}
+         value={state}
+         onChangeText={text => {
+           setState(text);
+           fetchStateFromLocation(text); // Fetch state data when input changes
+         }}
         />
 
         <TouchableOpacity style={styles.submitButton} onPress={handleApplyFilters}>
@@ -191,8 +223,9 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop:80,
     padding: 20,
-    backgroundColor: '#F3F4F6',
+     backgroundColor: 'white',
   },
   header: {
     fontSize: 18,
@@ -272,6 +305,14 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     color: '#BEC2C7',
   },
+  buttonText: {
+    color: '#374151',
+  },
+  selectedButtonText: {
+    color: 'white', // Text color for selected buttons
+  },
+
+  
 });
 
 export default Userfilter;
