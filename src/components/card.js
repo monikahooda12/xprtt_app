@@ -126,7 +126,7 @@ const CommonLayout = ({ title, previousTitle, children,navigate,onTitlePress }) 
         <View style={styles.headerContainer}>
           <View style= {styles.tit}>
           <TouchableOpacity onPress={() => navigation.navigate('Parentcategories')}>
-          <Text style={styles.title}>AllCategories {`>`}</Text>
+          <Text style={styles.title}>All Categories {`>`}</Text>
           </TouchableOpacity>
           
           <TouchableOpacity onPress={onTitlePress}>
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 10,
         paddingVertical: 15,
-        borderBottomWidth: 13,
+        borderBottomWidth: 1,
         borderBottomColor: '#e0e0e0',
         // paddingHorizontal:-3,
     },

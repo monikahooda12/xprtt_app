@@ -18,9 +18,9 @@ const flattenItems = (items) => {
   let flattened = [];
   items.forEach(item => {
     flattened.push(item);
-    // if (item.child && item.child.length > 0) {
-      // flattened = flattened.concat(flattenItems(item.child)); 
-    // }
+     if (item.child && item.child.length > 0) {
+       flattened = flattened.concat(flattenItems(item.child)); 
+     }
   });
   return flattened;
 };
@@ -29,7 +29,7 @@ const searchSlice = createSlice({
   name: 'search',
   initialState: {
     allItems: [],
-    // filteredItems: [],
+     filteredItems: [],
     loading: false,
     searchTerm: '',
   },

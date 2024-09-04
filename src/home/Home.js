@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { hideLoader, showLoader } from '../components';
 import { httpRequest } from '../api/http';
@@ -22,7 +22,7 @@ const Home = () => {
 
   const addToCart = (service) => {
     dispatch(setSelectedCategoryID(service.id));
-    navigation.navigate('Subhome', { id: service.id });
+    navigation.navigate('Subhome', { id: service.id, title: service.title });
   };
 
   const getAllCategories = async () => {

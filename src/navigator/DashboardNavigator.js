@@ -23,7 +23,7 @@ const Stack = createStackNavigator();
 function DashboardStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Dashboard" component={Dashboard} options={{ headerShown: false }} />
+      <Stack.Screen name="Home" component={Dashboard} options={{ headerShown: false }} />
       {/* Add more screens if needed for the Dashboard tab */}
     </Stack.Navigator>
   );
@@ -32,10 +32,12 @@ function DashboardStack() {
 function CategoriesStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Parentcategories" component={Parentcategories} options={{ headerShown: false }} />
-      {/* <Stack.Screen name="Parentcategories" component={Parentcategories} options={{ header: () => <Header title='Xprrt Watch'  showBackButton={true} tintColor={COLORS.WHITE} backgroundColor={COLORS.PRIMARY} />, }} /> */}
-      <Stack.Screen name="Childcategories" component={Childcategories} options={{ headerShown: false }} />
-      <Stack.Screen name="Subchildcategories" component={Subchildcategories} options={{ headerShown: false }} />
+      {/* <Stack.Screen name="Parentcategories" component={Parentcategories} options={{ header: () => <Header title='X'  showBackButton={true} tintColor={COLORS.WHITE} backgroundColor={COLORS.PRIMARY} />, }} />  */}
+      <Stack.Screen name="Parentcategories" component={Parentcategories} options={{ header: () => <Header title='All Categories' showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />, }} />
+      <Stack.Screen name="Childcategories" component={Childcategories} options={{ header: () => <Header title='Categories' showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />, }} />
+      <Stack.Screen name="Subchildcategories" component={Subchildcategories} options={{ header: () => <Header title='Categories' showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />, }} />
+      {/* <Stack.Screen name="Childcategories" component={Childcategories} options={{ headerShown: false }} /> */}
+      {/* <Stack.Screen name="Subchildcategories" component={Subchildcategories} options={{ headerShown: false }} /> */}
       {/* Add more screens if needed for the Categories tab */}
     </Stack.Navigator>
   );
@@ -44,8 +46,8 @@ function CategoriesStack() {
 function XprrtStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Xprrt" component={Xprrt} options={{ header: () => <Header title='Xprrt Watch' showBackButton={true} tintColor={COLORS.WHITE} backgroundColor={COLORS.PRIMARY} />, }} />
-      <Stack.Screen name="Xprtcategories" component={Xprtcategories} options={{ headerShown: false }} />
+      <Stack.Screen name="Xprrt" component={Xprrt} options={{ header: () => <Header title='Xprrt Watch' showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />, }} />
+      <Stack.Screen name="Xprtcategories" component={Xprtcategories} options={{ headerShown: true }} />
       {/* Add more screens if needed for the Xprrt tab */}
     </Stack.Navigator>
   );
@@ -54,7 +56,8 @@ function XprrtStack() {
 function BlogStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Blog" component={Blog} options={{ headerShown: false }} />
+       {/* <Stack.Screen name="Xprrt" component={Xprrt} options={{ header: () => <Header title='Xprrt Watch' showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />, }} /> */}
+      <Stack.Screen name="Blog" component={Blog} options={{ header: () => <Header title='Blog Watch' showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />, }} />
       {/* Add more screens if needed for the Blog tab */}
     </Stack.Navigator>
   );
@@ -91,6 +94,7 @@ export const DashboardNavigator = () => {
         name={"Dashboard"}
         component={DashboardStack}
         options={{
+          headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => (
             <View style={styles.tabContainer}>
@@ -103,11 +107,31 @@ export const DashboardNavigator = () => {
         }}
       />
 
-      <Tab.Screen
-         name={"Categories"}
+      {/* <Tab.Screen */}
+        {/* name={"Categories"}
         component={CategoriesStack}
         options={{
           tabBarShowLabel: false,
+          tabBarIcon: ({ focused }) => (
+            <View style={styles.tabContainer}>
+              <HomeSvg color={focused ? COLORS.SECONDARY : COLORS.DESCRIPTION} />
+              <Text style={{ color: focused ? COLORS.SECONDARY : COLORS.DESCRIPTION, fontFamily: FONTS.SEMI_BOLD, top: 5, fontSize: 13 }}>
+                Home
+              </Text>
+            </View>
+          ),
+        }} */}
+      {/* /> */}
+
+
+
+
+
+
+      <Tab.Screen name={"Categories"} component={CategoriesStack}
+        options={{
+          tabBarShowLabel: false,
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <View style={styles.tabContainer}>
               <IndicesSvg color={focused ? COLORS.SECONDARY : COLORS.DESCRIPTION} />
@@ -119,7 +143,31 @@ export const DashboardNavigator = () => {
         }}
       />
 
+
+
       <Tab.Screen
+        name={"XprrtTab"}
+        component={XprrtStack}
+        options={{
+          tabBarShowLabel: false,
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <View style={styles.tabContainer}>
+              <IndicesSvg color={focused ? COLORS.SECONDARY : COLORS.DESCRIPTION} />
+              <Text style={{ color: focused ? COLORS.SECONDARY : COLORS.DESCRIPTION, fontFamily: FONTS.SEMI_BOLD, top: 5, fontSize: 13 }}>
+                Xprrt
+              </Text>
+            </View>
+          ),
+        }}
+      />
+
+
+
+
+
+
+      {/* <Tab.Screen
         name={"Xprrt"}
         component={XprrtStack}
         options={{
@@ -133,13 +181,14 @@ export const DashboardNavigator = () => {
             </View>
           ),
         }}
-      />
+      /> */}
 
       <Tab.Screen
         name={'Blog'}
         component={BlogStack}
         options={{
           tabBarShowLabel: false,
+          headerShown: false,
           tabBarIcon: ({ focused }) => (
             <View style={styles.tabContainer}>
               <CurrenciesSvg color={focused ? COLORS.SECONDARY : COLORS.DESCRIPTION} />

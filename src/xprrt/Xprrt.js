@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -12,13 +12,13 @@ import {
   Modal,
   ActivityIndicator,
 } from 'react-native';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 //constants
-import {API} from '../constants';
+import { API } from '../constants';
 
 //api
-import {httpRequest} from '../api/http';
+import { httpRequest } from '../api/http';
 
 //modals
 import Userfilter from '../Modals/FilterModal';
@@ -27,25 +27,24 @@ import SearchBar from '../home/Searchbar';
 import SearchResults from '../home/Searchresult';
 import Coverimage from '../professinol/Coverimage';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 const cardWidth = width * 0.91;
 
 const Xprrt = () => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
-   const route = useRoute();
-  const {itemName} = route.params || {};
+  const route = useRoute();
+  const { itemName, categoriesSlug } = route.params || {};
   const [categories, setCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [isFilterVisible, setFilterVisible] = useState(false);
-  const {categoriesSlug} = route.params || [];
   const [isLoading, setIsLoading] = useState(false);
   const [categoryNames, setCategoryNames] = useState([]);
 
-  console.log('route', categoriesSlug);
-  console.log('navigation', navigation)
+  console.log('itemName', itemName, route);
+  // console.log('navigation', navigation)
   const [filters, setFilters] = useState({
     experience: '',
     gender: '',
@@ -60,7 +59,7 @@ const Xprrt = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, [payload.currentPage,route.params]);
+  }, [payload.currentPage, route.params]);
 
   const fetchUsers = async () => {
     setIsLoading(true);
@@ -68,7 +67,6 @@ const Xprrt = () => {
       const allData = [];
       let currentPage = 0;
       let totalPages = 1;
-  
       while (currentPage < totalPages) {
         const response = await httpRequest({
           url: API.USERS,
@@ -77,11 +75,10 @@ const Xprrt = () => {
             page: currentPage,
           },
         });
-  
+
         if (response.data) {
           const userData = response.data.list || [];
           totalPages = response.data.totalPages || totalPages;
-  
           if (categoriesSlug && categoriesSlug.length > 0) {
             const matchedCategories = userData
               .map(item => {
@@ -93,15 +90,14 @@ const Xprrt = () => {
                 };
               })
               .filter(item => item.categories.length > 0);
-  
+
             console.log('Matched Categories:', JSON.stringify(matchedCategories));
-  
+
             // Extract category names and set them in state
             const matchedCategoryNames = matchedCategories.flatMap(item =>
               item.categories.map(cat => cat.name)
             );
             setCategoryNames(matchedCategoryNames);
-  
             setData(matchedCategories);
           } else {
             allData.push(...userData);
@@ -118,7 +114,6 @@ const Xprrt = () => {
         totalPages,
         totalCount: allData.length,
       });
-  
       if (allData.length > 0) {
         const allCategories = allData.flatMap(user => user.categories || []);
         const uniqueCategories = [
@@ -132,7 +127,7 @@ const Xprrt = () => {
       setIsLoading(false);
     }
   };
-  
+
 
   const handleFilterApplied = users => {
     console.log('Filtered users received in handleFilterApplied:', users);
@@ -163,32 +158,32 @@ const Xprrt = () => {
         {filteredData.map(item => (
           <TouchableOpacity
             key={item.registration_id}
-            onPress={() => navigation.navigate('Detailsuser', {data: item, portfolio : item.professional.portfolio})}>
+            onPress={() => navigation.navigate('Detailsuser', { data: item, portfolio: item.professional.portfolio })}>
             <View style={styles.card}>
               {item.professional.cover_images
                 .slice(0, 1)
                 .map((coverImage, coverImageIndex) => (
                   <Image
                     key={coverImageIndex}
-                    source={{uri: coverImage}}
+                    source={{ uri: coverImage }}
                     style={styles.backgroundImage}
                   />
                 ))}
 
-<View style={styles.overlay}>
-  <Text style={styles.experienceText}>
-    {item.professional.total_experience} years exp.
-  </Text>
-  <View style={styles.servicesContainer}>
-    {item.professional.service?.slice(0, 1).map((service, index) => (
-      <View key={index} style={styles.serviceBadge}>
-        <Text style={styles.priceText}>
-          ${service.min_price} - ${service.max_price}
-        </Text>
-      </View>
-    )) || <Text>No services available</Text>}
-  </View>
-</View>
+              <View style={styles.overlay}>
+                <Text style={styles.experienceText}>
+                  {item.professional.total_experience} years exp.
+                </Text>
+                <View style={styles.servicesContainer}>
+                  {item.professional.service?.slice(0, 1).map((service, index) => (
+                    <View key={index} style={styles.serviceBadge}>
+                      <Text style={styles.priceText}>
+                        ${service.min_price} - ${service.max_price}
+                      </Text>
+                    </View>
+                  )) || <Text>No services available</Text>}
+                </View>
+              </View>
 
               <View style={styles.profileInfo}>
                 <View>
@@ -263,7 +258,7 @@ const Xprrt = () => {
           style={[
             styles.categoryItem,
             selectedCategories.includes(category.name) &&
-              styles.selectedCategory,
+            styles.selectedCategory,
           ]}
           onPress={() => toggleCategory(category.name)}>
           <Text style={styles.categoryText}>{category.name}</Text>
@@ -291,7 +286,7 @@ const Xprrt = () => {
         }}>
         <View style={styles.searchSection}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Categories', {itemName})}>
+            onPress={() => navigation.navigate('Xprtcategories', { itemName })}>
             <Text style={styles.title}> {itemName}</Text>
           </TouchableOpacity>
           <TextInput
@@ -481,7 +476,7 @@ const styles = StyleSheet.create({
   categoriesContainer: { ///////ok All////
     height: 80,
     paddingVertical: 7,
-     paddingHorizontal: 15,
+    paddingHorizontal: 15,
     // backgroundColor: 'black',
   },
   categoryItem: {
@@ -528,7 +523,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     elevation: 3,
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },

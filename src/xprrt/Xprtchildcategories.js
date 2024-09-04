@@ -142,7 +142,8 @@ const Xprtchildcategories = ({ route, navigation }) => {
   
 
   return (
-    <CommonLayout title={title}>
+    
+    <CommonLayout title= {title}  onPress={() =>{navigation.goBack('Xprtcategories')}}>
       <View style={styles.container}>
         <CategorySection
           searchPlaceholder="Search services..."

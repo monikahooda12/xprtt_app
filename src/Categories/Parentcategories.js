@@ -110,7 +110,7 @@ const Parentcategories = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Categories</Text>
+      {/* <Text style={styles.title}>Categories</Text> */}
      
       {/* <SearchBar
          placeholder="Search categories..."
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLOR.white,
-    marginTop: -20,
+    // marginTop: -20,
      padding: 15,
   },
   title: {

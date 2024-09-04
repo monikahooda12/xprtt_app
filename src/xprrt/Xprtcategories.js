@@ -77,7 +77,7 @@ const Xprtcategories = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Xprrt-categories</Text>
+      {/* <Text style={styles.title}>Xprrt-categories</Text> */}
      
       <SearchBar
         placeholder="Search categories..."

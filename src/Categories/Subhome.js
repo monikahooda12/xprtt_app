@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import {
+  ActivityIndicator,
+  Alert,
   Dimensions,
   FlatList,
   Image,
@@ -22,11 +24,12 @@ import { commonStyles } from '../theme/Styles';
 const { width } = Dimensions.get('window');
 
 const Subhome = ({ route }) => {
-  const { id } = route.params;
+  const { id, title } = route.params;
   const navigation = useNavigation();
   const [categoriesData, setCategoriesData] = useState([]);
   const [subCategoriesData, setSubCategoriesData] = useState({});
   const [categories,setCategories] =  useState([]);
+  const [loading, setLoading] = useState(true)
   const getallcatergies = async () => {
     try {
       const response = await httpRequest({
@@ -47,13 +50,21 @@ const Subhome = ({ route }) => {
 
       setCategoriesData(childcategory);
       setSubCategoriesData(subChildArray);
+      setLoading(false)
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
   };
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: title, // You can dynamically set this value
+    });
+  }, [navigation]);
+
   const handleCategoryPress = category => {
-    navigation.navigate('Xprrt', { categoriesSlug: category.slug });
+    console.log('category', category)
+    navigation.navigate('Xprrt', { itemName: category.name, categoriesSlug: category.slug });
   };
 
   useEffect(() => {
@@ -113,6 +124,14 @@ const Subhome = ({ route }) => {
       </Slick>
     );
   };
+
+  if (loading) {
+    return (
+      <View style={{ justifyContent: "center", flex: 1, alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    )
+  }
 
   return (
     <View style={styles.container}>

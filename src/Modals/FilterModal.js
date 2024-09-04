@@ -7,9 +7,9 @@ import { API } from '../constants';
 const Userfilter = ({ onClose, onFilterApplied }) => {
   const [minExperience, setMinExperience] = useState(0);
   const [maxExperience, setMaxExperience] = useState(12);
-  const [gender, setGender] = useState('Male');
-  const [language, setLanguage] = useState('Hindi');
-  const [state, setState] = useState('Delhi');
+  const [gender, setGender] = useState('');
+  const [language, setLanguage] = useState('');
+  const [state, setState] = useState('');
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [categories,setCategories] =  useState([]);

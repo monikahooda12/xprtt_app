@@ -47,7 +47,7 @@ const Xprtsubchildcategories = ({ route }) => {
   };
 
   return (
-    <CommonLayout title={subCategory?.name || "Subcategory"}>
+    <CommonLayout title={subCategory?.name || "Subcategory"} onPress={() =>{navigation.goBack('Xprtchildcategories')}} >
       <SafeAreaView style={styles.container}>
         <ScrollView>
           {/* Search Bar with Filter Button */}

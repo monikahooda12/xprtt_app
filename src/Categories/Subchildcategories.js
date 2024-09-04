@@ -39,7 +39,7 @@ const Subchildcategories = ({ route }) => {
 
 
   const handleTitlePress = () => {
-    navigation.navigate('Childcategories'); // Navigate to the desired screen
+    navigation.goBack(); // Navigate to the desired screen
   };
 
   // Handle checkbox toggle in the modal

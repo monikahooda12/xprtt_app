@@ -18,15 +18,17 @@ const SearchResults = () => {
   };
 
   const renderItem = ({ item }) => ( 
-    <TouchableOpacity onPress={() => navigation.navigate('Xprrt',  { itemName: item.name })}>
+    <TouchableOpacity onPress={() => navigation.navigate('Xprrt',  { itemName: item.name, categoriesSlug: item.slug })}>
+     
        {/* <Text>detail for</Text> */}
       <View style={styles.itemContainer}>
         <Text style={styles.itemName}>{item.name}</Text>
-        {item.professional?.job_title && (
-          <Text style={styles.itemDescription}>{item.professional.job_title}</Text>
-        )}
+        {/* {item.professional?.job_title && ( */}
+          {/* <Text style={styles.itemDescription}>{item.professional.job_title}</Text> */}
+        {/* )} */}
       </View>
     </TouchableOpacity>
+   
   );
 
   if (loading) {

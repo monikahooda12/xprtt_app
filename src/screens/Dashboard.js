@@ -63,6 +63,11 @@ export const Dashboard = ({navigation}) => {
     }
   };
 
+  const handleCategoryPress = category => {
+    console.log('Category slug:', category.slug, category.name);
+    navigation.navigate('Xprrt', { itemName: category.name, categoriesSlug: category.slug });
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -95,7 +100,7 @@ export const Dashboard = ({navigation}) => {
             <Home />
            
           </View>
-          <Homesubchild/>
+          <Homesubchild handleCategoryPress={handleCategoryPress} />
         </ScrollView>
       </View>
     </SafeAreaView>
