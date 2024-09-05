@@ -114,6 +114,7 @@ const Subhome = ({ route }) => {
           </View>
         }
       >
+
         {slides.map((slide, index) => (
           <View key={index} style={styles.slide}>
             {slide.map(subItem => (
@@ -150,7 +151,6 @@ const Subhome = ({ route }) => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -192,6 +192,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     height: 30,
   },
+  ////////////////////////////slider ///////// 
   slickWrapper: {
     height: 180,
   },

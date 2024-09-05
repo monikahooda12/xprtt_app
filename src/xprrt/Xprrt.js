@@ -261,70 +261,112 @@ const Xprrt = ({}) => {
       }
     });
   };
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+  ///////////////////////////////slider////////
+
+
+
+// Function to flatten the items
+const flattenItems = (items) => {
+  let flattened = [];
+  items.forEach(item => {
+    flattened.push(item);
+    if (item.child && item.child.length > 0) {
+      flattened = flattened.concat(flattenItems(item.child)); 
+    }
+  });
+  return flattened;
+};
+
+const renderCategories = () => {
+  // Check if childData exists
+  console.log("childData:", childData);
+
+  // Flatten the childData before rendering
+  const flattenedData = flattenItems(childData || []);
+  console.log("Flattened Data:", flattenedData);
+
+  return (
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      style={styles.categoriesContainer}>
+
+      {/* Show "All" option only when there is data */}
+      {flattenedData.length > 0 && (
+        <TouchableOpacity
+          style={[
+            styles.categoryItem,
+            selectedCategories.length === 0 && styles.selectedCategory,
+          ]}
+          onPress={() => setSelectedCategories([])}>
+          <Text style={styles.categoryText}>All</Text>
+          <Text style={styles.title}>{itemName}</Text>
+        </TouchableOpacity>
+      )}
+
+      {/* Iterate through flattenedData */}
+      {flattenedData.map((data) => (
+        <TouchableOpacity
+          key={data.id}
+          style={[
+            styles.categoryItem,
+            selectedCategories.includes(data.name) && styles.selectedCategory,
+          ]}
+          onPress={() => toggleCategory(data.name)}>
+          
+          {/* Display the data.name */}
+          <Text>{data.name}</Text>
+
+          {/* Show "X" for selected items */}
+          {selectedCategories.includes(data.name) && (
+            <TouchableOpacity
+              style={styles.removeCategory}
+              onPress={() => toggleCategory(data.name)}>
+              <Text style={styles.removeCategoryText}>×</Text>
+            </TouchableOpacity>
+          )}
+        </TouchableOpacity>
+      ))}
+    </ScrollView>
+  );
+};
+
   
-  // const renderCategories = () => (
-    //   <ScrollView
-    //     horizontal
-    //     showsHorizontalScrollIndicator={false}
-    //     style={styles.categoriesContainer}>
-    //     <TouchableOpacity
-    //       style={[
-      //         styles.categoryItem,
-      //         selectedCategories.length === 0 && styles.selectedCategory,
-      //       ]}
-      //       onPress={() => setSelectedCategories([])}>
-      //       <Text style={styles.categoryText}>All</Text>
-      //     </TouchableOpacity>
-      //     {categories.map((category, index) => (
-        //       <TouchableOpacity
-        //          key={`${category.id}-${index}`}
-        //         style={[
-          //           styles.categoryItem,
-          //           selectedCategories.includes(category.name) &&
-          //           styles.selectedCategory,
-          //         ]}
-          //         onPress={() => toggleCategory(category.name)}>
-          //         <Text style={styles.categoryText}>{category.name}</Text>
-          //         {selectedCategories.includes(category.name) && (
-  //           <TouchableOpacity
-  //             style={styles.removeCategory}
-  //             onPress={() => toggleCategory(category.name)}>
-  //             <Text style={styles.removeCategoryText}>×</Text>
-  //           </TouchableOpacity>
-  //         )}
-  //       </TouchableOpacity>
-  //     ))}
-  //   </ScrollView>
-  // );
+  
+  
   
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>{/* Header content can go here */}</View>
       <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginRight: 10,
-          paddingRight: 40,
-        }}>
+        style={{flexDirection: 'row',alignItems: 'center',marginRight: 10, paddingRight: 40,}}>
         <View style={styles.searchSection}>
           <TouchableOpacity
-              /////////////////////////searchresult////////////////////////////
+    /////////////////////////////searchresult//////////////////////////////////////
             onPress={() => navigation.navigate('Xprtcategories', { itemName })}>
             <Text style={styles.title}> {itemName}</Text>
          
          {   childData&&childData.map((data)=>(
-          <Text>{data.name}</Text>
+           <TouchableOpacity
+           onPress={()=>({renderCategories})}>
+
+           </TouchableOpacity>
          ))}
            
           </TouchableOpacity>
-          {/* <TextInput
-            style={styles.searchInput}
-             value={searchQuery}
-            //  disable={true}
-            // onChangeText={setSearchQuery}
-            onSubmitEditing={handleSearch}
-          /> */}
+
+
+
+
+
+
+         
         </View>
         <View
           style={{
@@ -352,7 +394,7 @@ const Xprrt = ({}) => {
         </View>
       ) : (
         <>
-          {/* {renderCategories()} */}
+          {renderCategories()}
           {renderProfileCard()}
         </>
       )}
