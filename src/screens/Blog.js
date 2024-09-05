@@ -91,6 +91,15 @@ const BlogWebView = ({ route }) => {
       injectedJavaScript={`
         document.querySelector('.sticky').style.display = 'none';
         document.querySelector('footer').style.display = 'none';
+
+
+ // Remove z-index: 999 from any element
+    var elements = document.querySelectorAll('[style*="z-index: 999"]');
+    elements.forEach(function(element) {
+      element.style.zIndex = '0'; // Set z-index to 0 or any other lower value
+    });
+
+        
       `}
       source={{ uri: url }}
       style={{ flex: 1 }}

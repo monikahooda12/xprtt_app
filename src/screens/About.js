@@ -10,19 +10,19 @@ import { CommonStyles } from '../styles/styles';
 
 export const About = ({ navigation }) => {
 
-    const message = `Discover JMBFX – invest smartly and earn effortlessly! 📈💰
-    https://play.google.com/store/apps/details?id=${DeviceInfo.getBundleId()}`
+    // const message = `Discover JMBFX – invest smartly and earn effortlessly! 📈💰
+    // https://play.google.com/store/apps/details?id=${DeviceInfo.getBundleId()}`
 
     return (
         <View style={{flex:1, backgroundColor: COLORS.WHITE }}>
 
-            <LogoSvg width={'30%'} style={{ alignSelf: 'center' }} />
+            {/* <LogoSvg width={'30%'} style={{ alignSelf: 'center' }} /> */}
 
-            <Text style={{ alignSelf: 'center', marginBottom: responsiveHeight(3), color: COLORS.WHITE, fontFamily: FONTS.BOLD }}>
+            {/* <Text style={{ alignSelf: 'center', marginBottom: responsiveHeight(3), color: COLORS.WHITE, fontFamily: FONTS.BOLD }}>
                 Version: {DeviceInfo.getVersion()}
-            </Text>
+            </Text> */}
 
-            <View style={CommonStyles.horizontalLine}/>
+            {/* <View style={CommonStyles.horizontalLine}/> */}
 
             <View style={{ paddingHorizontal: responsiveWidth(3.8), paddingTop: responsiveHeight(1), }}>
                 {/* <Menu title="Privacy Policy" onPress={() => navigation.navigate("Webview", { url: WEBSITE_PAGES.PRIVACY_POLICY })} /> */}

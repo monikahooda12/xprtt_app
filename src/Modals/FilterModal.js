@@ -92,25 +92,55 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
 
 
     // Function to fetch state from location
-    const fetchStateFromLocation = async (location) => {
-      try {
-        const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(location)}&key=${GOOGLE_API_KEY}`);
-        const data = await response.json();
+
+    function searchPlaces(keyword, country) {
+      // const apiKey = vars.gcp_key;
+      const regionParam = country
+        ? `&region=${encodeURIComponent(country)}`
+        : '&region=ca';
+      const countryRestrictions = '&components=country:ca';
+      const apiUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${keyword}&key=${'AIzaSyBm1sjZor8Z1jKqBGYEBdeCfXrTtICgeXQ'}`;
   
-        if (data.status === 'OK') {
-          const addressComponents = data.results[0].address_components;
-          const stateComponent = addressComponents.find(component => component.types.includes('administrative_area_level_1'));
-          if (stateComponent) {
-            setState(stateComponent.long_name);
-          }
-        } else {
-          console.error('Error fetching location data:', data.status);
-        }
-      } catch (error) {
-        console.error('Error fetching state from location:', error);
-        Alert.alert('Error', 'Failed to fetch state information. Please try again.');
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          console.log("locationdata...",data)
+          // if (data.status === 'OK') {
+          //   const placeIds = data.predictions.map(
+          //     prediction => prediction.place_id,
+          //   );
+          //   // Fetch details for each place using Geocoding API
+          //   return Promise.all(
+          //     placeIds.map(placeId => fetchPlaceDetails(placeId, apiKey)),
+          //   );
+          // } else {
+          //   console.error('Error:', data.status);
+          // }
+        })
+        // .then(detailsArray => {
+        //   // Extract postal codes from detailsArray
+        //   const postalCodeResults = detailsArray
+        //     .filter(details =>
+        //       details.address_components.some(component =>
+        //         component.types.includes('postal_code'),
+        //       ),
+        //     )
+        //     .map(details => details.formatted_address);
+  
+        //   setSearchedData(prev => [...prev, ...postalCodeResults]);
+        // })
+        .catch(error => console.error('Error:', error));
+    }
+  
+   
+    function handlePlacesSearch(text) { 
+      setState(text)
+      setTimeout(function () {
+      if (text?.length > 3) {
+        searchPlaces(text);
       }
-    };
+    }, 200);
+  }
 
   // const handleApplyFilters = () => {
   //   fetchFilteredUsers();
@@ -203,10 +233,14 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
         <TextInput
          style={styles.input}
          value={state}
-         onChangeText={text => {
-           setState(text);
-           fetchStateFromLocation(text); // Fetch state data when input changes
-         }}
+        //  onChangeText={text => {
+        //    setState(text);
+          //  fetchStateFromLocation(text); // Fetch state data when input changes
+          onChangeText={(text) => {
+            handlePlacesSearch(text);
+          }}
+        
+         
         />
 
         <TouchableOpacity style={styles.submitButton} onPress={handleApplyFilters}>
@@ -316,3 +350,6 @@ const styles = StyleSheet.create({
 });
 
 export default Userfilter;
+
+
+

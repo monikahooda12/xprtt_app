@@ -36,11 +36,12 @@ export const SelectList = (data) => {
             <TouchableOpacity
                 activeOpacity={0.7}
                 style={{
-                    backgroundColor: COLORS.PRIMARY_LIGHT,
-                    width: '100%',
+                    // backgroundColor: COLORS.PRIMARY_LIGHT,
+                     width: '100%',
                     height: 50,
                     borderWidth: responsiveWidth(0.3),
-                    borderColor: COLORS.PRIMARY_LIGHTER,
+                    // borderColor: COLORS.PRIMARY_LIGHTER,
+                    borderRadius:8,
                     alignSelf: 'center',
                     flexDirection: 'row',
                     justifyContent: 'space-between',
@@ -50,7 +51,7 @@ export const SelectList = (data) => {
                     paddingRight: 15,
                 }}
                 onPress={() => { setClicked(!clicked); }}>
-                <Text style={{ fontFamily: FONTS.SEMI_BOLD, color: COLORS.WHITE, fontSize: 16 }}>
+                <Text style={{ fontFamily: FONTS.SEMI_BOLD, color: COLORS.BLACK, fontSize: 16 }}>
                     {value ? capitalize(value) : selectedItem ? selectedItem : label}
                 </Text>
                 <ArrowSvg color={COLORS.SECONDARY} />
@@ -123,9 +124,10 @@ export const SelectList = (data) => {
 const styles = StyleSheet.create({
     modalContainer: {
         flex: 1,
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0,0.3)'
+        //  backgroundColor: 'rgba(0,0,0,0.3)'
+        backgroundColor:'white',
     },
     modalContent: {
         maxHeight: 300,

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Modal, Pressable, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { TextInput, Button } from "../components";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { TextInput, Button, SelectList } from "../components";
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import { COLORS } from '../constants';
 import { responsiveWidth } from 'react-native-responsive-dimensions';
 import { transparent } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 import { CustomText } from '../components/textInputs/text';
+import { SlideInDown } from 'react-native-reanimated';
 
 const Service = () => {
     const [services, setServices] = useState([]);
@@ -16,7 +17,7 @@ const Service = () => {
 
     useEffect(() => {
         loadServices();
-        loadCategories();
+        
     }, []);
 
     const loadServices = async () => {
@@ -32,19 +33,13 @@ const Service = () => {
         }
     };
 
-    const loadCategories = async () => {
-        try {
-            const savedCategories = await AsyncStorage.getItem('categories');
-            if (savedCategories !== null) {
-                setCategories(JSON.parse(savedCategories));
-            } else {
-                // Set some default categories if none are saved
-                setCategories(['Web Development', 'Mobile Development', 'Design', 'Writing', 'Marketing']);
-            }
-        } catch (error) {
-            console.error('Error loading categories:', error);
-        }
-    };
+   
+
+
+    const handleCategoryChange = (category) => {
+        // Navigate to SearchResult page with the selected category as a parameter
+        navigation.navigate('SearchResults', { category });
+      };
 
     const saveServices = async (updatedServices) => {
         try {
@@ -76,10 +71,10 @@ const Service = () => {
         setProjectTypeModalVisible(false);
     };
 
-    const handleCategoryChange = (value) => {
-        updateServiceField(selectedServiceIndex, 'category', value);
-        setCategoryModalVisible(false);
-    };
+    // const handleCategoryChange = (value) => {
+    //     updateServiceField(selectedServiceIndex, 'category', value);
+    //     setCategoryModalVisible(false);
+    // };
 
     const updateServiceField = (index, field, value) => {
         const updatedServices = services.map((service, i) =>
@@ -103,7 +98,7 @@ const Service = () => {
                     <View style={styles.inputContainer}>
                     <CustomText>Title Name</CustomText>
                         <TextInput
-                            label="Title Name"
+                            label="title name"
                             value={service.title}
                             onChangeText={(text) => updateServiceField(index, 'title', text)}
                             // style={styles.input}
@@ -186,9 +181,9 @@ const Service = () => {
             >
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
-                        <Pressable onPress={() => handleProjectTypeChange('fixed')}>
+                        <SelectList onPress={() => handleProjectTypeChange('fixed')}>
                             <Text style={styles.modalOption}>Fixed Project</Text>
-                        </Pressable>
+                        </SelectList>
                         <Pressable onPress={() => handleProjectTypeChange('hourly')}>
                             <Text style={styles.modalOption}>Hourly Based Project</Text>
                         </Pressable>
@@ -208,6 +203,7 @@ const Service = () => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <ScrollView>
+                            
                             {categories.map((category, index) => (
                                 <Pressable key={index} onPress={() => handleCategoryChange(category)}>
                                     <Text style={styles.modalOption}>{category}</Text>
@@ -293,7 +289,7 @@ const styles = StyleSheet.create({
         // borderRadius: 8,
         padding: 12,
         marginBottom: 16,
-        backgroundColor: '#00150F',
+        backgroundColor: '#E0E0E0',
         marginHorizontal:5,
         
 

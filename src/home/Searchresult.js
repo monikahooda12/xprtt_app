@@ -3,6 +3,7 @@ import { View, Text, FlatList, ActivityIndicator, StyleSheet, TextInput, Touchab
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchItems, setSearchTerm } from '../redux/searchSlice';
 import { useNavigation } from '@react-navigation/native';
+import ChildData from '../components/ChildData';
 
 const SearchResults = () => {
   const dispatch = useDispatch();
@@ -20,11 +21,15 @@ const SearchResults = () => {
   const renderItem = ({ item }) => {
     // Safeguard: ensure item.child is an array or fallback to an empty array
     const childData = Array.isArray(item.child) ? item.child : [];
+    console.log(JSON.stringify(childData))
+    // const  childData = item.child?.map(child=>)
+      // const childData = item.child || [];
   
     return (
       <TouchableOpacity 
         onPress={() => navigation.navigate('Xprrt', { 
           itemName: item.name, 
+          itmeChild:item.child,
           categoriesSlug: item.slug, 
           childData: childData  // Passing child data to the next page
         })}

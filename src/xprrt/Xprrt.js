@@ -46,11 +46,12 @@ const Xprrt = ({}) => {
 
 
  // Safeguard: ensure childData is an array or fallback to an empty array
- const children = Array.isArray(childData) ? childData : [];
+//  const children = Array.isArray(childData) ? childData : [];
 
 
 
-  console.log('itemName', itemName, route);
+  // console.log('itemName', itemName,childData );
+  console.log(JSON.stringify(childData))
   // console.log('navigation', navigation)
   const [filters, setFilters] = useState({
     experience: '',
@@ -98,7 +99,7 @@ const Xprrt = ({}) => {
               })
               .filter(item => item.categories.length > 0);
 
-            console.log('Matched Categories:', JSON.stringify(matchedCategories));
+             console.log('Matched Categories:', JSON.stringify(matchedCategories));
 
             // Extract category names and set them in state
             const matchedCategoryNames = matchedCategories.flatMap(item =>
@@ -205,12 +206,11 @@ const Xprrt = ({}) => {
                     flex: 1,
                     justifyContent: 'space-between',
                   }}>
-              {/*::::::::::::::::::::::::searchresult::::::::::::::::: */}
                   <View>
                     <Text style={styles.name}>{item.name}</Text>
 
  
- {/* {childData.length > 0 ? (
+  {childData?.length > 0 ? (
         <View>
           <Text>Child Categories:</Text>
           {childData.map((child, index) => (
@@ -219,7 +219,7 @@ const Xprrt = ({}) => {
         </View>
       ) : (
         <Text>No child categories available</Text>
-      )} */}
+      )} 
 
 
 
@@ -228,7 +228,7 @@ const Xprrt = ({}) => {
                       <Image
                         source={require('../assets/icons/carbon_location-filled.png')}
                         style={{height: 19, width: 17}}
-                      />
+                        />
                       <Text style={styles.city}>{item.city},</Text>
                       <Text style={styles.city}>{item.state}</Text>
                     </View>
@@ -261,31 +261,31 @@ const Xprrt = ({}) => {
       }
     });
   };
-
+  
   // const renderCategories = () => (
-  //   <ScrollView
-  //     horizontal
-  //     showsHorizontalScrollIndicator={false}
-  //     style={styles.categoriesContainer}>
-  //     <TouchableOpacity
-  //       style={[
-  //         styles.categoryItem,
-  //         selectedCategories.length === 0 && styles.selectedCategory,
-  //       ]}
-  //       onPress={() => setSelectedCategories([])}>
-  //       <Text style={styles.categoryText}>All</Text>
-  //     </TouchableOpacity>
-  //     {categories.map((category, index) => (
-  //       <TouchableOpacity
-  //          key={`${category.id}-${index}`}
-  //         style={[
-  //           styles.categoryItem,
-  //           selectedCategories.includes(category.name) &&
-  //           styles.selectedCategory,
-  //         ]}
-  //         onPress={() => toggleCategory(category.name)}>
-  //         <Text style={styles.categoryText}>{category.name}</Text>
-  //         {selectedCategories.includes(category.name) && (
+    //   <ScrollView
+    //     horizontal
+    //     showsHorizontalScrollIndicator={false}
+    //     style={styles.categoriesContainer}>
+    //     <TouchableOpacity
+    //       style={[
+      //         styles.categoryItem,
+      //         selectedCategories.length === 0 && styles.selectedCategory,
+      //       ]}
+      //       onPress={() => setSelectedCategories([])}>
+      //       <Text style={styles.categoryText}>All</Text>
+      //     </TouchableOpacity>
+      //     {categories.map((category, index) => (
+        //       <TouchableOpacity
+        //          key={`${category.id}-${index}`}
+        //         style={[
+          //           styles.categoryItem,
+          //           selectedCategories.includes(category.name) &&
+          //           styles.selectedCategory,
+          //         ]}
+          //         onPress={() => toggleCategory(category.name)}>
+          //         <Text style={styles.categoryText}>{category.name}</Text>
+          //         {selectedCategories.includes(category.name) && (
   //           <TouchableOpacity
   //             style={styles.removeCategory}
   //             onPress={() => toggleCategory(category.name)}>
@@ -296,7 +296,7 @@ const Xprrt = ({}) => {
   //     ))}
   //   </ScrollView>
   // );
-
+  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>{/* Header content can go here */}</View>
@@ -309,15 +309,22 @@ const Xprrt = ({}) => {
         }}>
         <View style={styles.searchSection}>
           <TouchableOpacity
+              /////////////////////////searchresult////////////////////////////
             onPress={() => navigation.navigate('Xprtcategories', { itemName })}>
             <Text style={styles.title}> {itemName}</Text>
+         
+         {   childData&&childData.map((data)=>(
+          <Text>{data.name}</Text>
+         ))}
+           
           </TouchableOpacity>
-          <TextInput
+          {/* <TextInput
             style={styles.searchInput}
              value={searchQuery}
+            //  disable={true}
             // onChangeText={setSearchQuery}
             onSubmitEditing={handleSearch}
-          />
+          /> */}
         </View>
         <View
           style={{

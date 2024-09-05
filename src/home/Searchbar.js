@@ -14,9 +14,7 @@ const SearchBar = () => {
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [image,setImage] = useState('');
 
-  // const handleProfileOpen = () => {
-  //   navigation.navigate('Account2'); // Replace 'Profile' with the name of your profile screen
-  // };
+  
 
   useEffect(() => {
     setFilteredCategories(categoriesData);

@@ -73,7 +73,7 @@ export const Route = () => {
                      <Stack.Screen name='Homechild' component={Homechild} options={{headerShown:true}}/>
                      <Stack.Screen name='Superchildcategories' component={Superchildcategories} options={{headerShown:true}}/>
                      <Stack.Screen name='Homesubchild' component={Homesubchild} options={{headerShown:true}}/>
-                     <Stack.Screen name='Account2' component={Account2} options={{headerShown:true}}/>
+                     {/* <Stack.Screen name='Account2' component={Account2} options={{headerShown:true}}/> */}
                      <Stack.Screen name='Subcategories' component={Subcategories} options={{headerShown:true}}/>
                      <Stack.Screen name='Blogscreen' component={BlogsScreen} options={{headerShown:true}}/>
                      <Stack.Screen name='Blog' component={Blog} options={{headerShown:true}}/>
@@ -104,20 +104,17 @@ export const Route = () => {
   {/* ////////////////////////////////////professional */}
                          <Stack.Screen name='Welcome2' component={Welcome2}
                         options={{
-                            header: () => <Header title='Professional' showBackButton={false} />,
+                            header: () => <Header title='Professional' showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />,
                         }} />
 {/* ///////////////////////service */}
 
                     <Stack.Screen name='service' component={Service}
-                        options={{
-                            header: () => <Header title='service' />,
-                        }} />
+                        options={{ header: () => <Header title='Service' showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />, }} />
 
 {/*///////////////////////////////////////cover-image  */}
-                     <Stack.Screen name='coverimage' component={Coverimage}
-                        options={{
-                            header: () => <Header title='coverimage' />,
-                        }} />
+                     <Stack.Screen name='coverimage' component={Account2}
+                       options={{ header: () => <Header title='cover-image' showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />, }} />
+                    
 
 
 
@@ -132,7 +129,8 @@ export const Route = () => {
                             header: () => <Header title='Account Security' />,
                         }} />
                     <Stack.Screen name='About' component={About}
-                        options={{ header: () => <Header title='About' />, }} />
+                        
+                        options={{ header: () => <Header title='About' showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />, }} />
                     <Stack.Screen name='Settings' component={Settings}
                         options={{
                             header: () => <Header title='Setting' />,

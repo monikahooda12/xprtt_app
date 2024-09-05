@@ -78,7 +78,7 @@ export const Welcome = ({ route, navigation }) => {
       name: user.name,
       email: user.email,
       gender: user.gender,
-      // dob: user.dob,
+       dob: user.dob,
       locality: user.locality,
       address: user.address,
       city: user.city,
@@ -117,7 +117,7 @@ export const Welcome = ({ route, navigation }) => {
         <CustomText>Email</CustomText>
         <TextInput label="Email" value={user.email} onChangeText={text => handleInputChange('email', text)} />
 
-        {/* <View style={styles.container}> */}
+        <View style={styles.container}>
         <CustomText>Gender</CustomText>
         <SelectList 
   label='Gender' 
@@ -129,11 +129,11 @@ export const Welcome = ({ route, navigation }) => {
     borderTopWidth: 0,
     borderBottomWidth: 1,
     borderRadius:8,
-    borderBottomColor: COLORS.PRIMARY_LIGHTER,
+    borderBottomColor:'white',
   }}
 
 />
-{/* <CustomText>DOB</CustomText>
+<CustomText>DOB</CustomText>
           <TextInput style={{ flex: 1 }} label='DOB' value={dateOfBirth ? dateOfBirth : null} onPress={() => setShowDatePicker(true)} />
           {showDatePicker && (
             <DateTimePicker
@@ -143,8 +143,8 @@ export const Welcome = ({ route, navigation }) => {
               onChange={onChange}
               maximumDate={maxDate}
             />
-          )} */}
-        {/* </View> */}
+          )}
+        </View>
         <CustomText>Flate/house.no</CustomText>
         <TextInput label="Flat/House No./Building/Apartment" value={user.locality} onChangeText={text => handleInputChange('locality', text)} />
         <CustomText>Area/Sector</CustomText>
