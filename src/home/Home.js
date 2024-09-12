@@ -72,7 +72,7 @@ const Home = () => {
           <TouchableOpacity
             style={styles.viewAllButton}
             onPress={handleViewAllPress}
-          >
+          >   
             <Text style={styles.viewAllText}>View All</Text>
           </TouchableOpacity>
         </View>
@@ -91,7 +91,7 @@ const Home = () => {
           onApply={handleOnApply}
         />
 
-        <View>
+        <View style={{}}>
           <View style={styles.separator} />
         </View>
       </View>
@@ -103,8 +103,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLOR.white,
-    marginTop: 4,
-    padding: 15,
+    // marginTop: 4,
+    marginHorizontal:18,
+    marginTop:11
+
   },
   title: {
     fontFamily: 'Roboto-Black',
@@ -129,17 +131,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   headerRow: {
+    flex:1,
     flexDirection: 'row',
     justifyContent: 'space-between', // To space out the title and View All button
     alignItems: 'center', // Vertically align items in the center
     marginBottom: 20,
+    marginHorizontal:5
   },
-  separator: {
+  separator: {    
     width: '100%',
     backgroundColor: '#D8D8D8',
     height: 1,
     marginBottom: 20,
     marginTop: 10,
+    
   },
 });
 

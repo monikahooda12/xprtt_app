@@ -1,48 +1,3 @@
-
-// import React from 'react';
-// import { View } from 'react-native';
-// import { COLORS } from '../constants';
-// import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
-// import { CommonStyles } from '../styles/styles';
-// import { WebView } from 'react-native-webview';
-// import BlogsScreen from './Blogdata';
-
-
-// export const Blog = () => {
-//     return (
-//         <View style={{flex: 1, backgroundColor: COLORS.WHITE}}>
-//             <View 
-//             style={CommonStyles.horizontalLine}
-//             />
-
-//             {/* <View style={{ 
-//                  flex: 1,
-//                  paddingHorizontal: responsiveWidth(3.8), 
-//                  paddingTop: responsiveHeight(1),
-//             }}>
-//                 <Webview 
-//                     source={{ uri: "https://blog.xprrt.com/" }}
-//                     // style={{ flex: 1 }}
-//                 />
-//             </View> */}
-//             <WebView 
-//             injectedJavaScript={`
-//                               document.querySelector('.sticky').style.display = 'none';
-//                               document.querySelector('footer').style.display = 'none';
-//                             `}
-//                     source={{ uri: "https://blog.xprrt.com/" }}
-//                     // style={{ flex: 1 }}
-//                 />
-//         </View>
-//     );
-// };
-
-
-
-
-
-
-
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { WebView } from 'react-native-webview'; // Ensure this is imported correctly
@@ -64,17 +19,20 @@ export const Blog = ({ route }) => {
         tabBarIndicatorStyle: { backgroundColor: COLORS.SECONDARY },
         tabBarActiveTintColor: COLORS.PRIMARY,
         tabBarLabelStyle: {
-          color: COLORS.WHITE,
+          color: COLORS.BLACK,
           fontFamily: FONTS.BOLD,
-          fontSize: responsiveFontSize(1.8),
+           fontSize: responsiveFontSize(1.8),
         },
-        tabBarPressColor: 'transparent',
+         tabBarPressColor: 'transparent',
       }}
     >
       <Tab.Screen
          name="blog"
         component={BlogWebView} // Using the WebView component below
-        options={{ headerShown: true }}
+        options={{ headerShown: false,
+          tabBarStyle:{display:'none'},
+         }}
+        
         initialParams={{ url: "https://blog.xprrt.com/search/categories/" }}
         
       />
@@ -88,23 +46,44 @@ const BlogWebView = ({ route }) => {
 
   return (
     <WebView
-      injectedJavaScript={`
-        document.querySelector('.sticky').style.display = 'none';
-        document.querySelector('footer').style.display = 'none';
-
-
- // Remove z-index: 999 from any element
-    var elements = document.querySelectorAll('[style*="z-index: 999"]');
-    elements.forEach(function(element) {
-      element.style.zIndex = '0'; // Set z-index to 0 or any other lower value
-    });
-
-        
-      `}
-      source={{ uri: url }}
-      style={{ flex: 1 }}
-    />
-  );
+    injectedJavaScript={`
+      // Function to hide elements and adjust layout
+      function hideElements() {
+        // Hide sticky elements
+        var stickyElement = document.querySelector('.sticky');
+        if (stickyElement) stickyElement.style.display = 'none';
+  
+        // Hide footer element
+        var footerElement = document.querySelector('footer');
+        if (footerElement) footerElement.style.display = 'none';
+  
+        // Adjust the top margin to move content up
+        document.body.style.marginTop = "-5px" ;// Move the content up by setting margin-top to 0
+        document.body.style.paddingTop = "px"; // Also, ensure there's no padding at the top
+         document.body.style.backgroundColor = 'transparent';
+      }
+  
+      // Initial call to hide elements and adjust layout
+      hideElements();
+  
+      // Observe DOM changes to hide elements dynamically
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          hideElements();
+        });
+      });
+  
+      // Observe the entire document for changes
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
+    `}
+    source={{ uri: url }}
+    style={{ flex: 1 }}
+  />
+  
+    ) 
 };
 
 

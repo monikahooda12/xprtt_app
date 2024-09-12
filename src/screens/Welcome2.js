@@ -27,6 +27,7 @@ import { Language } from '../professinol/Language';
 import { Education } from '../professinol/Education';
 import { Portfolio } from '../professinol/Portfolio';
 import Experience from '../professinol/Expercience';
+import Occupation from '../professinol/Occupation';
 
 export const Welcome2 = ({route, navigation}) => {
   const maxDate = new Date();
@@ -146,22 +147,12 @@ export const Welcome2 = ({route, navigation}) => {
     showLoader();
 
     const params = {
-      // name: user.name,
-      // email: user.email,
-      // gender: user.gender,
-      // dob: user.dob,
-      // locality: user.locality,
-      // address: user.address,
-      // city: user.city,
-      // state: user.state,
-      // pincode: user.pincode,
-      // country: user.country,
       skill: user.skill,
       job_title: user.jobtitle,
       website: user.website,
       availability: user.availability,
       bio: user.bio,
-      //occupation: user.occupation,
+      occupation: user.occupation,
       language: user.language,
       education: user.education,
       portfolio: user.portfolio,
@@ -177,7 +168,7 @@ export const Welcome2 = ({route, navigation}) => {
       });
       await storeLocalData(LOCAL_DB.USER, response.data);
       hideLoader();
-      //navigation.replace('DashboardNavigator');
+      // navigation.replace('DashboardNavigator');
     } catch (error) {
       hideLoader();
     }
@@ -198,13 +189,13 @@ export const Welcome2 = ({route, navigation}) => {
           </View>
         )}
 
-        <CustomText>Job Title</CustomText>
+        {/* <CustomText>Job Title</CustomText> */}
         <TextInput
           label="Job title"
           value={user.jobtitle}
           onChangeText={text => handleInputChange('jobtitle', text)}
         />
-        <CustomText>web site</CustomText>
+        {/* <CustomText>web site</CustomText> */}
         <TextInput
           label="web site"
           value={user.website}
@@ -220,26 +211,27 @@ export const Welcome2 = ({route, navigation}) => {
           value={user.availability}
           onChangeText={text => handleInputChange('availability', text)}
         /> */}
-        <CustomText>Bio</CustomText>
+        {/* <CustomText>Bio</CustomText> */}
         <TextInput
           label="Bio"
           value={user.bio}
           onChangeText={text => handleInputChange('bio', text)}
         />
-        <CustomText>Occupation</CustomText>
-        {/* <TextInput
+        {/* <CustomText>Occupation</CustomText> */}
+         {/* <TextInput
           label="Occupation"
           value={user.occupation}
           onChangeText={text => handleInputChange('occupation', text)}
-        /> */}
+        />  */}
 
-        <Skill />
-        <Availability />
-        <Language />
-        <Education />
-        <Portfolio />
-        <Experience />
+        {/* <Skill /> */}
+        {/* <Availability /> */}
+        {/* <Language /> */}
+        {/* <Education /> */}
+        {/* <Portfolio /> */}
         {/* <Experience /> */}
+        {/* <Experience /> */}
+        <Occupation/>
       </View>
     )}
     keyExtractor={(_, index) => index.toString()}

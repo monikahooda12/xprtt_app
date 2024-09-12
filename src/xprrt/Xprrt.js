@@ -1,40 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import {
-  View,
-  StyleSheet,
-  Text,
-  ScrollView,
-  TextInput,
-  Image,
-  TouchableOpacity,
-  Dimensions,
-  SafeAreaView,
-  Modal,
-  ActivityIndicator,
-} from 'react-native';
+  View,StyleSheet,Text,ScrollView,TextInput,Image,TouchableOpacity,Dimensions,SafeAreaView,Modal,ActivityIndicator,
+  } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-//constants
-import { API } from '../constants';
-
-//api
+import { API, COLORS, FONTS } from '../constants';
 import { httpRequest } from '../api/http';
-
 //modals
 import Userfilter from '../Modals/FilterModal';
-
 import SearchBar from '../home/Searchbar';
 import SearchResults from '../home/Searchresult';
 import Coverimage from '../professinol/Coverimage';
 
+import { useSelector } from 'react-redux';
+import { responsiveFontSize, responsiveHeight } from 'react-native-responsive-dimensions';
+  
 const { width } = Dimensions.get('window');
 const cardWidth = width * 0.91;
 
 const Xprrt = ({}) => {
   const navigation = useNavigation();
+  const allCategories = useSelector(state=>state.categories.categories);
+  // console.log ("yyyyyyyyyyyyyyyyyy",JSON.stringify(allCategories))
   const [data, setData] = useState([]);
   const route = useRoute();
-  const { itemName, categoriesSlug,childData } = route.params || {};
+  const { childid, categoriesSlug,} = route.params || {};
   const [categories, setCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -44,14 +34,27 @@ const Xprrt = ({}) => {
   const [categoryNames, setCategoryNames] = useState([]);
 
 
+ const response = allCategories
+ .map((category) => category.child)
+ .flat()
+ .find((subCat) => subCat.id === childid);
+//  console.log("responsev",response.parent_id)
 
- // Safeguard: ensure childData is an array or fallback to an empty array
-//  const children = Array.isArray(childData) ? childData : [];
-
+const getMaincat = (id) => {
+  const cat = allCategories.find(item => item.id === id);
+  if (cat) {
+    return {
+      name: cat.name,
+      icon: cat.icon || 'ios-arrow-forward', // Assuming `icon` is part of your category data or use a default icon
+    };
+  } else {
+    return { name: '', icon: 'ios-arrow-forward' }; // Return both as undefined if not found
+  }
+};
 
 
   // console.log('itemName', itemName,childData );
-  console.log(JSON.stringify(childData))
+  console.log(JSON.stringify(childid))
   // console.log('navigation', navigation)
   const [filters, setFilters] = useState({
     experience: '',
@@ -66,7 +69,8 @@ const Xprrt = ({}) => {
   });
 
   useEffect(() => {
-    fetchUsers();
+     fetchUsers();
+     AlltoggleCategory();
   }, [payload.currentPage, route.params]);
 
   const fetchUsers = async () => {
@@ -86,6 +90,7 @@ const Xprrt = ({}) => {
 
         if (response.data) {
           const userData = response.data.list || [];
+          console.log("detailapi",JSON.stringify(userData))
           totalPages = response.data.totalPages || totalPages;
           if (categoriesSlug && categoriesSlug.length > 0) {
             const matchedCategories = userData
@@ -142,6 +147,7 @@ const Xprrt = ({}) => {
 
     if (users) setData(users);
   };
+  
 
   const handleSearch = () => {
     console.log('Search Query:', searchQuery);
@@ -150,6 +156,10 @@ const Xprrt = ({}) => {
   const defaultImage = 'https://via.placeholder.com/150'; // URL of the default image
 
   const renderProfileCard = () => {
+    // const allsubCategories=[]
+        
+    // response?.child.map((data)=>allsubCategories.push(data.name))
+    // setSelectedCategories(allsubCategories)
     const filteredData = data.filter(item => {
       if (selectedCategories.length === 0) {
         return true;
@@ -210,21 +220,7 @@ const Xprrt = ({}) => {
                     <Text style={styles.name}>{item.name}</Text>
 
  
-  {childData?.length > 0 ? (
-        <View>
-          <Text>Child Categories:</Text>
-          {childData.map((child, index) => (
-            <Text key={index}>{child.name}</Text>
-          ))}
-        </View>
-      ) : (
-        <Text>No child categories available</Text>
-      )} 
-
-
-
-                    
-                    <View style={styles.location}>
+      <View style={styles.location}>
                       <Image
                         source={require('../assets/icons/carbon_location-filled.png')}
                         style={{height: 19, width: 17}}
@@ -251,7 +247,7 @@ const Xprrt = ({}) => {
       </ScrollView>
     );
   };
-
+/////////////////////////////////searchpage data///////////////////////////
   const toggleCategory = categoryName => {
     setSelectedCategories(prevCategories => {
       if (prevCategories.includes(categoryName)) {
@@ -262,12 +258,15 @@ const Xprrt = ({}) => {
     });
   };
 
-//////////////////////////////////////////////////////////////////////////////////////////////
+ const AlltoggleCategory = () => {
+    const allsubCategories=[]
+        
+     response?.child.map((data)=>allsubCategories.push(data.name))
+     setSelectedCategories(allsubCategories)
+};
 
 
-
-
-  ///////////////////////////////slider////////
+/////////////////slider////////
 
 
 
@@ -284,42 +283,40 @@ const flattenItems = (items) => {
 };
 
 const renderCategories = () => {
-  // Check if childData exists
-  console.log("childData:", childData);
-
-  // Flatten the childData before rendering
-  const flattenedData = flattenItems(childData || []);
-  console.log("Flattened Data:", flattenedData);
+  
+  if (!response || !response.child || response.child.length === 0) {
+    return null; 
+  }
 
   return (
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      style={styles.categoriesContainer}>
+      style={styles.categoriesContainer}
+    >
+      {/* Show "All" option */}
+      {/* <TouchableOpacity
+        style={[
+          styles.categoryItem,
+          selectedCategories.length === 0 && styles.selectedCategory,
+        ]}
+        onPress={() =>AlltoggleCategory() 
+         
+        }
+      >
+        <Text style={styles.categoryText}>All</Text>
+      </TouchableOpacity> */}
 
-      {/* Show "All" option only when there is data */}
-      {flattenedData.length > 0 && (
-        <TouchableOpacity
-          style={[
-            styles.categoryItem,
-            selectedCategories.length === 0 && styles.selectedCategory,
-          ]}
-          onPress={() => setSelectedCategories([])}>
-          <Text style={styles.categoryText}>All</Text>
-          <Text style={styles.title}>{itemName}</Text>
-        </TouchableOpacity>
-      )}
-
-      {/* Iterate through flattenedData */}
-      {flattenedData.map((data) => (
+      {/* Iterate through childData */}
+      {response.child.map((data) => (
         <TouchableOpacity
           key={data.id}
           style={[
             styles.categoryItem,
             selectedCategories.includes(data.name) && styles.selectedCategory,
           ]}
-          onPress={() => toggleCategory(data.name)}>
-          
+          onPress={() => toggleCategory(data.name)}
+        >
           {/* Display the data.name */}
           <Text>{data.name}</Text>
 
@@ -327,7 +324,8 @@ const renderCategories = () => {
           {selectedCategories.includes(data.name) && (
             <TouchableOpacity
               style={styles.removeCategory}
-              onPress={() => toggleCategory(data.name)}>
+              onPress={() => toggleCategory(data.name)}
+            >
               <Text style={styles.removeCategoryText}>×</Text>
             </TouchableOpacity>
           )}
@@ -336,6 +334,7 @@ const renderCategories = () => {
     </ScrollView>
   );
 };
+
 
   
   
@@ -347,37 +346,35 @@ const renderCategories = () => {
       <View
         style={{flexDirection: 'row',alignItems: 'center',marginRight: 10, paddingRight: 40,}}>
         <View style={styles.searchSection}>
-          <TouchableOpacity
-    /////////////////////////////searchresult//////////////////////////////////////
-            onPress={() => navigation.navigate('Xprtcategories', { itemName })}>
-            <Text style={styles.title}> {itemName}</Text>
-         
-         {   childData&&childData.map((data)=>(
-           <TouchableOpacity
-           onPress={()=>({renderCategories})}>
+        
 
-           </TouchableOpacity>
-         ))}
-           
-          </TouchableOpacity>
+<TouchableOpacity
+  onPress={() => navigation.navigate('Xprtcategories', { childid })}
+  style={{ flexDirection: 'row', alignItems: 'center' }} // Align items in a row
+>
+  {/* Ensure getMaincat is returning an object with icon and name */}
+  {response && response.parent_id ? (
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      
+      <Image 
+        source={{ uri: getMaincat(response.parent_id)?.icon || 'https://example.com/default-image.png' }} 
+        style={{ width: 27, height: 27, marginRight: 5,borderRadius:50, borderWidth: 2, borderColor: 'black',marginTop:7 }} 
+      />
+      <Text style={styles.title}>
+        {getMaincat(response.parent_id)?.name}
+      </Text>
+      
+    </View>
+  ) : null}
+</TouchableOpacity>
 
 
-
-
-
-
-         
-        </View>
+{/* //////////////////////////////filter/////////////// */}
+  </View>
         <View
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingHorizontal: 19,
-            height: 48,
-            width: 60,
-            borderRadius: 6,
-            backgroundColor: '#6C63FF',
-          }}>
+            flexDirection: 'row',alignItems: 'center', paddingHorizontal: 19,height: 48,width: 60,borderRadius: 6,
+            backgroundColor: '#6C63FF',}}>
           <TouchableOpacity
             style={styles.filterButton}
             onPress={() => setFilterVisible(true)}>
@@ -399,14 +396,14 @@ const renderCategories = () => {
         </>
       )}
 {/* ////////////////total pages show//////////////////////// */}
-      <View style={styles.paginationInfo}>
+      {/* <View style={styles.paginationInfo}>
         <Text style={styles.paginationText}>
           Page {payload.currentPage + 1} of {payload.totalPages}
         </Text>
         <Text style={styles.paginationText}>
           Total Users: {payload.totalCount}
         </Text>
-      </View>
+      </View> */}
 {/* //////////////////////////////////////////filtermodal///////////// */}
       <Modal
         visible={isFilterVisible}
@@ -430,6 +427,12 @@ const renderCategories = () => {
 };
 
 const styles = StyleSheet.create({
+  title: {
+    marginTop: responsiveHeight(1),
+    fontFamily: FONTS.BOLD,
+    fontSize: responsiveFontSize(3),
+     color: COLORS.BLACK,
+  },
 
   closeButtonText:{
     color:'red',
@@ -452,7 +455,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: 'hidden',
     backgroundColor: 'white',
-    elevation: 5,
+    // elevation: 5,
   },
   backgroundImage: {
     width: '100%',

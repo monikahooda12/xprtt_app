@@ -39,6 +39,7 @@ import Categories from '../xprrt/Xprtcategories';
 
 import Xprtchildcategories from '../xprrt/Xprtchildcategories';
 import Xprtsubchildcategories from '../xprrt/Xprtsubchildcategories';
+import Xprtcategories from '../xprrt/Xprtcategories';
 
 
 
@@ -73,7 +74,7 @@ export const Route = () => {
                      <Stack.Screen name='Homechild' component={Homechild} options={{headerShown:true}}/>
                      <Stack.Screen name='Superchildcategories' component={Superchildcategories} options={{headerShown:true}}/>
                      <Stack.Screen name='Homesubchild' component={Homesubchild} options={{headerShown:true}}/>
-                     {/* <Stack.Screen name='Account2' component={Account2} options={{headerShown:true}}/> */}
+                     <Stack.Screen name='Xprtcategories' component={Xprtcategories} options={{headerShown:true}}/>
                      <Stack.Screen name='Subcategories' component={Subcategories} options={{headerShown:true}}/>
                      <Stack.Screen name='Blogscreen' component={BlogsScreen} options={{headerShown:true}}/>
                      <Stack.Screen name='Blog' component={Blog} options={{headerShown:true}}/>

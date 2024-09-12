@@ -72,12 +72,12 @@ const Xprtcategories = () => {
   const handleOnApply = Service => {
     // dispatch(setselectedServiceNames(selectedServicesNames));
     navigation.navigate("Xprrt",{categoriesSlug:Service})
-     console.log("?[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[",Service);
+    //  console.log("?[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[",Service);
   };
 
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.title}>Xprrt-categories</Text> */}
+      <Text style={styles.title}></Text>
      
       <SearchBar
         placeholder="Search categories..."

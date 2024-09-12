@@ -35,7 +35,7 @@ export const onboardData = [
         title:"Expand your network on Xprrt",
         description:"Connect with diverse professionals across various industries worldwide.",
         // image:require('../assets/lottie/onboard5.json')
-        image:constantimages.sliderimage1
+        image:constantimages.sliderimage4
     },
     
     

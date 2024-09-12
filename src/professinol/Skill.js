@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ScrollView, View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { TextInput } from "../components"; // Ensure this is correctly imported
 import { COLORS } from '../constants';
-import { CustomText } from '../components/textInputs/text';
+// import { CustomText } from '../components/textInputs/text';
 
 export const Skill = () => {
     const [skills, setSkills] = useState([{ id: Date.now(), name: '', level: '' }]);
@@ -30,14 +30,14 @@ export const Skill = () => {
                         <TouchableOpacity style={styles.removeButton} onPress={() => removeSkillField(skill.id)}>
                             <Text style={styles.removeButtonText}>x</Text>
                         </TouchableOpacity>
-                        <CustomText>Skill</CustomText>
+                        {/* <CustomText>Skill</CustomText> */}
                         <TextInput
                             label="Skill"
                             value={skill.name}
                             onChangeText={text => handleInputChange(skill.id, 'name', text)}
                             // style={styles.input}
                         />
-                         <CustomText>Skill Level</CustomText>
+                         {/* <CustomText>Skill Level</CustomText> */}
                         <TextInput
                             label="Skill Level"
                             value={skill.level}

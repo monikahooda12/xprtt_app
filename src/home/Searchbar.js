@@ -61,7 +61,6 @@ console.log("image",image)
    
    <View style={styles.container}>
 
-
       <TouchableOpacity 
         style={styles.inputContainer} 
         onPress={navigateToSearchResults}
@@ -71,7 +70,6 @@ console.log("image",image)
         source={require('../assets/icons/Icon.png')}
         style={styles.image}
       />
-
 
 
         {/* <FontAwesome name="search" size={20} color="gray" style={styles.searchIcon} /> */}

@@ -1,13 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
   View,
-  ScrollView,
-  RefreshControl,
-  Image,
-  useWindowDimensions,
-  Text,
-  StyleSheet,
-  SafeAreaView,
+  ScrollView, RefreshControl,Image,useWindowDimensions,Text,StyleSheet,SafeAreaView,
 } from 'react-native';
 import {
   News as NewsCard,
@@ -33,7 +27,7 @@ import Homeslider from './homeslider';
 
 import Homesubchild from '../home/homesubchild';
 
-import Subhome from '../Categories/Subhome';
+
 
 export const Dashboard = ({navigation}) => {
   const {width} = useWindowDimensions();
@@ -86,11 +80,13 @@ export const Dashboard = ({navigation}) => {
           <View style={{marginTop: 10}}>
             <Homeslider />
           </View>
-          <View style={{paddingHorizontal: 5}}>
+          <View style={{}}>
            <Home />
            
-          </View>
+          </View >
+          <View style={{marginBottom:150}}>
           <Homesubchild handleCategoryPress={handleCategoryPress} />
+          </View>
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -98,32 +94,32 @@ export const Dashboard = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  scrolling2: {
-    backgroundColor: 'red',
-    width: '100%',
-    padding: 10,
-    marginBottom: 10,
-  },
-  welcome: {
-    width: 100,
-    color: 'white',
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-     backgroundColor: '#F5FCFF',
-  },
-  image: {
-    width: 20,
-    height: 20,
-  },
-  scrolling1: {
-    width: 400,
-    padding: 10,
-     marginBottom: 10,
-  },
+  // scrolling2: {
+  //   backgroundColor: 'red',
+  //   width: '100%',
+  //   padding: 10,
+  //   marginBottom: 10,
+  // },
+  // welcome: {
+  //   width: 100,
+  //   color: 'white',
+  //   fontSize: 20,
+  //   fontWeight: 'bold',
+  //   textAlign: 'center',
+  // },
+  // container: {
+  //   flex: 1,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //    backgroundColor: '#F5FCFF',
+  // },
+  // image: {
+  //   width: 20,
+  //   height: 20,
+  // },
+  // scrolling1: {
+  //   width: 400,
+  //   padding: 10,
+  //    marginBottom: 10,
+  // },
 });

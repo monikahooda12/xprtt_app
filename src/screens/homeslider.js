@@ -68,7 +68,7 @@ function Homeslider() {
           position: 'absolute',
           flexDirection: 'row',
           bottom: 10,
-          columnGap: 5,
+           columnGap: 5,
           alignSelf: 'center',
         }}>
         {banners.map((_, index) => (

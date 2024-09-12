@@ -5,7 +5,7 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { httpRequest } from '../api/http';
 import { API } from '../constants';
 const GOOGLE_API_KEY = 'AIzaSyD8y4F3DecFx7ayX9ECDwAsOPnaLJb8QqU'; // Your Google API Key
-
+//  const ca = AIzaSyBm1sjZor8Z1jKqBGYEBdeCfXrTtICgeXQ
 const Userfilter = ({ onClose, onFilterApplied }) => {
   const [minExperience, setMinExperience] = useState(0);
   const [maxExperience, setMaxExperience] = useState(12);
@@ -99,7 +99,7 @@ const Userfilter = ({ onClose, onFilterApplied }) => {
         ? `&region=${encodeURIComponent(country)}`
         : '&region=ca';
       const countryRestrictions = '&components=country:ca';
-      const apiUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${keyword}&key=${'AIzaSyBm1sjZor8Z1jKqBGYEBdeCfXrTtICgeXQ'}`;
+      const apiUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${keyword}&key=${'AIzaSyD8y4F3DecFx7ayX9ECDwAsOPnaLJb8QqU'}`;
   
       fetch(apiUrl)
         .then(response => response.json())

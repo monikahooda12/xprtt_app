@@ -1,25 +1,22 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import {
   ActivityIndicator,
-  Alert,
   Dimensions,
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
   View,
+  FlatList,
+  Text,
+  StyleSheet,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Slick from 'react-native-slick';
 
 // constants
-import { API, COLORS, FONTS } from '../constants';
+import { API, COLORS } from '../constants';
 
 // api
 import { httpRequest } from '../api/http';
-import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
-import { commonStyles } from '../theme/Styles';
+import { CardGrid } from '../components/card'; // Import CardGrid
+import { responsiveHeight } from 'react-native-responsive-dimensions';
 
 const { width } = Dimensions.get('window');
 
@@ -28,8 +25,8 @@ const Subhome = ({ route }) => {
   const navigation = useNavigation();
   const [categoriesData, setCategoriesData] = useState([]);
   const [subCategoriesData, setSubCategoriesData] = useState({});
-  const [categories,setCategories] =  useState([]);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
+
   const getallcatergies = async () => {
     try {
       const response = await httpRequest({
@@ -43,14 +40,13 @@ const Subhome = ({ route }) => {
       const childcategory = childcategoriesArray[id];
 
       const subChildArray = {};
-
       childcategory.forEach(category => {
         subChildArray[category.name] = category.child;
       });
 
       setCategoriesData(childcategory);
       setSubCategoriesData(subChildArray);
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
@@ -63,30 +59,12 @@ const Subhome = ({ route }) => {
   }, [navigation]);
 
   const handleCategoryPress = category => {
-    console.log('category', category)
     navigation.navigate('Xprrt', { itemName: category.name, categoriesSlug: category.slug });
   };
 
   useEffect(() => {
     getallcatergies();
   }, []);
-
-  const RenderCategoryItem = ({ item }) => {
-    return (
-      <TouchableOpacity onPress={() => handleCategoryPress(item)}>
-        <View style={styles.categoryItem}>
-          <Image
-            source={{ uri: item.icon }}
-            style={styles.serviceIcon}
-            resizeMode="cover"
-          />
-          <Text style={[commonStyles,{color:COLORS.BLACK}]}>
-            {item.name || 'Unnamed Category'}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
 
   const renderSlider = (subCategories) => {
     const itemsPerSlide = 3;
@@ -103,23 +81,17 @@ const Subhome = ({ route }) => {
         loop={false}
         dot={<View style={styles.slickDot} />}
         activeDot={<View style={styles.slickActiveDot} />}
-        prevButton={
-          <View style={styles.arrowCircle}>
-            <Text style={styles.slickArrow}>‹</Text>
-          </View>
-        }
-        nextButton={
-          <View style={styles.arrowCircle}>
-            <Text style={styles.slickArrow}>›</Text>
-          </View>
-        }
+        prevButton={<View style={styles.arrowCircle}><Text style={styles.slickArrow}>‹</Text></View>}
+        nextButton={<View style={styles.arrowCircle}><Text style={styles.slickArrow}>›</Text></View>}
       >
-
         {slides.map((slide, index) => (
           <View key={index} style={styles.slide}>
-            {slide.map(subItem => (
-              <RenderCategoryItem key={subItem.id} item={subItem} />
-            ))}
+            <CardGrid items={slide.map(subItem => ({
+              icon: { uri: subItem.icon }, 
+              title: subItem.name,
+            }))}
+            onCardPress={handleCategoryPress}
+            />
           </View>
         ))}
       </Slick>
@@ -131,7 +103,7 @@ const Subhome = ({ route }) => {
       <View style={{ justifyContent: "center", flex: 1, alignItems: "center" }}>
         <ActivityIndicator size="large" color="#0000ff" />
       </View>
-    )
+    );
   }
 
   return (

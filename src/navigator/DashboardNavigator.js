@@ -12,6 +12,7 @@ import Parentcategories from '../Categories/Parentcategories';
 import Childcategories from '../Categories/Childcategories';
 import Subchildcategories from '../Categories/Subchildcategories';
 import Xprtcategories from '../xprrt/Xprtcategories';
+import Xprtchildcategories from '../xprrt/Xprtchildcategories';
 
 
 
@@ -36,8 +37,8 @@ function CategoriesStack() {
       <Stack.Screen name="Parentcategories" component={Parentcategories} options={{ header: () => <Header title='All Categories' showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />, }} />
       <Stack.Screen name="Childcategories" component={Childcategories} options={{ header: () => <Header title='Categories' showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />, }} />
       <Stack.Screen name="Subchildcategories" component={Subchildcategories} options={{ header: () => <Header title='Categories' showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />, }} />
-      {/* <Stack.Screen name="Childcategories" component={Childcategories} options={{ headerShown: false }} /> */}
-      {/* <Stack.Screen name="Subchildcategories" component={Subchildcategories} options={{ headerShown: false }} /> */}
+      
+      
       {/* Add more screens if needed for the Categories tab */}
     </Stack.Navigator>
   );
@@ -47,7 +48,8 @@ function XprrtStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Xprrt" component={Xprrt} options={{ header: () => <Header title='Xprrt Watch' showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />, }} />
-      <Stack.Screen name="Xprtcategories" component={Xprtcategories} options={{ headerShown: true }} />
+      {/* <Stack.Screen name="Xprtcategories" component={Xprtcategories} options={{ headerShown: true }} /> */}
+      {/* <Stack.Screen name="Xprtchildcategories" component={Xprtchildcategories} options={{ headerShown: true }} /> */}
       {/* Add more screens if needed for the Xprrt tab */}
     </Stack.Navigator>
   );
@@ -56,7 +58,7 @@ function XprrtStack() {
 function BlogStack() {
   return (
     <Stack.Navigator>
-       {/* <Stack.Screen name="Xprrt" component={Xprrt} options={{ header: () => <Header title='Xprrt Watch' showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />, }} /> */}
+       
       <Stack.Screen name="Blog" component={Blog} options={{ header: () => <Header title='Blog Watch' showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />, }} />
       {/* Add more screens if needed for the Blog tab */}
     </Stack.Navigator>
@@ -101,7 +103,7 @@ export const DashboardNavigator = () => {
               <HomeSvg color={focused ? COLORS.SECONDARY : COLORS.DESCRIPTION} />
               <Text style={{ color: focused ? COLORS.SECONDARY : COLORS.DESCRIPTION, fontFamily: FONTS.SEMI_BOLD, top: 5, fontSize: 13 }}>
                 Home
-              </Text>
+              </Text> 
             </View>
           ),
         }}
@@ -223,6 +225,6 @@ const styles = StyleSheet.create({
   tabContainer: {
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderRadius: 25,
+    //  borderRadius: 25,
   },
 });
