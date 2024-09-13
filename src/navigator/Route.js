@@ -22,15 +22,15 @@ import { Account2 } from '../screens/Account2';
 import Subcategories from '../Categories/Subcategories';
 import BlogsScreen from '../screens/Blogdata';
 import Service from '../professinol/service';
-import Coverimage from '../professinol/Coverimage';
-import Subchild from '../xprrt/Xprtchildcategories';
+
+
 
 import Subhome from '../Categories/Subhome';
 import Xprrt from '../xprrt/Xprrt';
 import Detailsuser from '../xprrt/Detailsuser';
 import SearchBar from '../home/Searchbar';
 import SearchResults from '../home/Searchresult';
-import Homechild from '../home/homechild';
+
 import Home from '../home/Home';
 import Homesubchild from '../home/homesubchild';
 import Xpertsubcat from '../xprrt/Xpertsubcat';
@@ -71,7 +71,7 @@ export const Route = () => {
                      <Stack.Screen name='Contactme' component={Contactme} options={{headerShown:true}}/>
                      <Stack.Screen name='Xprrt' component={Xprrt} options={{headerShown:true}}/>
                      <Stack.Screen name='Review' component={Review} options={{headerShown:true}}/>
-                     <Stack.Screen name='Homechild' component={Homechild} options={{headerShown:true}}/>
+                     
                      <Stack.Screen name='Superchildcategories' component={Superchildcategories} options={{headerShown:true}}/>
                      <Stack.Screen name='Homesubchild' component={Homesubchild} options={{headerShown:true}}/>
                      <Stack.Screen name='Xprtcategories' component={Xprtcategories} options={{headerShown:true}}/>

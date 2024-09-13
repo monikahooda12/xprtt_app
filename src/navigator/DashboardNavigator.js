@@ -35,8 +35,8 @@ function CategoriesStack() {
     <Stack.Navigator>
       {/* <Stack.Screen name="Parentcategories" component={Parentcategories} options={{ header: () => <Header title='X'  showBackButton={true} tintColor={COLORS.WHITE} backgroundColor={COLORS.PRIMARY} />, }} />  */}
       <Stack.Screen name="Parentcategories" component={Parentcategories} options={{ header: () => <Header title='All Categories' showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />, }} />
-      <Stack.Screen name="Childcategories" component={Childcategories} options={{ header: () => <Header title='Categories' showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />, }} />
-      <Stack.Screen name="Subchildcategories" component={Subchildcategories} options={{ header: () => <Header title='Categories' showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />, }} />
+      <Stack.Screen name="Childcategories" component={Childcategories} options={{ header: () => <Header  showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />, }} />
+      <Stack.Screen name="Subchildcategories" component={Subchildcategories} options={{ header: () => <Header  showBackButton={true} tintColor={COLORS.BLACK} backgroundColor={COLORS.PRIMARY} />, }} />
       
       
       {/* Add more screens if needed for the Categories tab */}

@@ -18,7 +18,6 @@ const OccupationModal = ({ isVisible, onClose, onSelectOccupation }) => {
         url: API.GET_CATEGORIES,
       });
 
-      // Recursive function to handle multiple levels of children
       const processChildren = (children) => {
         return children.map(child => ({
           id: child.id,
@@ -32,18 +31,6 @@ const OccupationModal = ({ isVisible, onClose, onSelectOccupation }) => {
         title: item.name,
         children: item.child ? processChildren(item.child) : [], // Process child items
       }));
-
-      // Log the fetched categories and their children
-      console.log("Fetched Categories:", categories);
-      categories.forEach(category => {
-        console.log("Category:", category.title);
-        category.children.forEach(child => {
-          console.log("Child:", child.title);
-          child.children.forEach(subChild => {
-            console.log("Sub-child:", subChild.title);
-          });
-        });
-      });
 
       setCategories(categories);
     } catch (error) {
@@ -60,22 +47,19 @@ const OccupationModal = ({ isVisible, onClose, onSelectOccupation }) => {
     }
   }, [isVisible]);
 
-  const handleCheckboxChange = (id, isChecked) => {
+  const handleCheckboxChange = (id, title, isChecked) => {
     setSelectedItems(prevState => ({
       ...prevState,
-      [id]: isChecked,
+      [id]: isChecked ? { id, title } : undefined, // Store both id and title if checked, remove if unchecked
     }));
   };
 
-
   const handleSave = () => {
-    const selectedSubChildren = Object.keys(selectedItems).filter(id => selectedItems[id]);
-    console.log("Selected Sub-Children IDs:", selectedSubChildren);
-    onSelectOccupation(selectedSubChildren); // Pass the selected IDs to the parent
+    const selectedSubChildren = Object.values(selectedItems).filter(item => item);
+    console.log("Selected Sub-Children:", selectedSubChildren);
+    onSelectOccupation(selectedSubChildren); // Pass the selected items (id and name) to the parent
     onClose(); // Close the modal
   };
-
-
 
   const renderChildren = (children, parentId) => {
     return children.map(child => (
@@ -83,7 +67,7 @@ const OccupationModal = ({ isVisible, onClose, onSelectOccupation }) => {
         <View style={styles.optionContainer}>
           <CheckBox
             value={!!selectedItems[child.id]}
-            onValueChange={(newValue) => handleCheckboxChange(child.id, newValue)}
+            onValueChange={(newValue) => handleCheckboxChange(child.id, child.title, newValue)}
           />
           <TouchableOpacity
             style={styles.option}
@@ -133,11 +117,9 @@ const OccupationModal = ({ isVisible, onClose, onSelectOccupation }) => {
               ))
             )}
 
-
-<TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+            <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
               <Text>Save</Text>
             </TouchableOpacity>
-
 
             <TouchableOpacity style={styles.closeButton} onPress={onClose}>
               <Text>Close</Text>

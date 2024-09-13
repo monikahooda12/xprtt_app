@@ -19,7 +19,6 @@ export * from './cards/balance';
 export * from './cards/option';
 export * from './cards/indices';
 export * from './cards/indicesListing';
-export * from './cards/currency';
 export * from './cards/contactus';
 export * from './cards/about';
 export * from './cards/faq';

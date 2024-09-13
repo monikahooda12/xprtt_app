@@ -6,7 +6,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { API, COLORS, FONTS } from '../constants';
 import { httpRequest } from '../api/http';
-//modals
+
 import Userfilter from '../Modals/FilterModal';
 import SearchBar from '../home/Searchbar';
 import SearchResults from '../home/Searchresult';
@@ -156,10 +156,6 @@ const getMaincat = (id) => {
   const defaultImage = 'https://via.placeholder.com/150'; // URL of the default image
 
   const renderProfileCard = () => {
-    // const allsubCategories=[]
-        
-    // response?.child.map((data)=>allsubCategories.push(data.name))
-    // setSelectedCategories(allsubCategories)
     const filteredData = data.filter(item => {
       if (selectedCategories.length === 0) {
         return true;
@@ -168,16 +164,15 @@ const getMaincat = (id) => {
         selectedCategories?.includes(category.name),
       );
     });
-
-
-
-    return (
+//////////////////////////////////////navigation detailuser wale p////////
+return (
       <ScrollView>
         {filteredData.map(item => (
           <TouchableOpacity
             key={item.registration_id}
             onPress={() => navigation.navigate('Detailsuser', { data: item, portfolio: item.professional.portfolio })}>
             <View style={styles.card}>
+            <ScrollView >
               {item.professional.cover_images
                 .slice(0, 1)
                 .map((coverImage, coverImageIndex) => (
@@ -187,6 +182,7 @@ const getMaincat = (id) => {
                     style={styles.backgroundImage}
                   />
                 ))}
+                </ScrollView>
 
               <View style={styles.overlay}>
                 <Text style={styles.experienceText}>
@@ -218,9 +214,7 @@ const getMaincat = (id) => {
                   }}>
                   <View>
                     <Text style={styles.name}>{item.name}</Text>
-
- 
-      <View style={styles.location}>
+                   <View style={styles.location}>
                       <Image
                         source={require('../assets/icons/carbon_location-filled.png')}
                         style={{height: 19, width: 17}}
@@ -294,21 +288,7 @@ const renderCategories = () => {
       showsHorizontalScrollIndicator={false}
       style={styles.categoriesContainer}
     >
-      {/* Show "All" option */}
-      {/* <TouchableOpacity
-        style={[
-          styles.categoryItem,
-          selectedCategories.length === 0 && styles.selectedCategory,
-        ]}
-        onPress={() =>AlltoggleCategory() 
-         
-        }
-      >
-        <Text style={styles.categoryText}>All</Text>
-      </TouchableOpacity> */}
-
-      {/* Iterate through childData */}
-      {response.child.map((data) => (
+       {response.child.map((data) => (
         <TouchableOpacity
           key={data.id}
           style={[
@@ -344,7 +324,7 @@ const renderCategories = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>{/* Header content can go here */}</View>
       <View
-        style={{flexDirection: 'row',alignItems: 'center',marginRight: 10, paddingRight: 40,}}>
+        style={{flexDirection: 'row',alignItems: 'center',marginRight: 10, paddingRight: 35,}}>
         <View style={styles.searchSection}>
         
 
@@ -352,7 +332,7 @@ const renderCategories = () => {
   onPress={() => navigation.navigate('Xprtcategories', { childid })}
   style={{ flexDirection: 'row', alignItems: 'center' }} // Align items in a row
 >
-  {/* Ensure getMaincat is returning an object with icon and name */}
+  {/*/////////////////// Ensure getMaincat is returning an object with icon and name /////////////////////////*/}
   {response && response.parent_id ? (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       
@@ -404,7 +384,7 @@ const renderCategories = () => {
           Total Users: {payload.totalCount}
         </Text>
       </View> */}
-{/* //////////////////////////////////////////filtermodal///////////// */}
+{/* //////////////////////////////////////////filtermodal////////////////////////////////////////////////// */}
       <Modal
         visible={isFilterVisible}
         animationType="slide"
@@ -429,9 +409,10 @@ const renderCategories = () => {
 const styles = StyleSheet.create({
   title: {
     marginTop: responsiveHeight(1),
-    fontFamily: FONTS.BOLD,
-    fontSize: responsiveFontSize(3),
+    // fontFamily: FONTS.BOLD,
+    fontSize: responsiveFontSize(2.2),
      color: COLORS.BLACK,
+     marginLeft:3,
   },
 
   closeButtonText:{
@@ -455,15 +436,16 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: 'hidden',
     backgroundColor: 'white',
-    // elevation: 5,
+     elevation: 2,
   },
   backgroundImage: {
+    
     width: '100%',
     height: 150,
-    resizeMode: 'stretch',
+    // resizeMode: 'stretch',
   },
   overlay: {
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0,0,0,0.9)',
     position: 'absolute',
     top: 135,
     left: 0,

@@ -163,9 +163,7 @@ export const Account = ({ navigation }) => {
                         <Text style={{ fontFamily: FONTS.BOLD, fontSize: responsiveFontSize(2.5), color: COLORS.WHITE }}>
                             {user.name}
                         </Text>
-                        <Text style={{ marginTop: responsiveHeight(0.8), fontFamily: FONTS.SEMI_BOLD, fontSize: responsiveFontSize(2), color: COLORS.DESCRIPTION }}>
-                            Referral Code: {user.referral_code}
-                        </Text>
+                       
                     </View>
                 </View>
 

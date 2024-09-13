@@ -98,12 +98,10 @@ const  navigation = useNavigation();
 
           <View style={styles.overlay}>
             <View style={styles.nameLocationContainer}>
-
-              <Text style={styles.name}>{data.name}</Text>
-             
-              <View style={styles.locationContainer}>
-             
-                <LazyImage
+           <Text style={styles.name}>{data.name}</Text>
+           <View>
+                <View style={styles.locationContainer}>
+                <Image
                   source={require('../assets/icons/carbon_location-filled.png')}
                   style={{height: 16, width: 16}}
                 />
@@ -111,7 +109,7 @@ const  navigation = useNavigation();
                 <Text style={styles.location}>
                   {data.city}, {data.state}
                 </Text>
-                
+                </View>
               </View>
             </View>
             <View style={styles.skillsContainer}>
@@ -448,12 +446,16 @@ const styles = StyleSheet.create({
   locationContainer: {
     flexDirection: 'row',
      alignItems: 'center',
-     marginVertical: 25,
+    //  marginVertical: 25,
+     marginTop:160,
+     
+     
   },
   location: {
     fontSize: 16,
-     color: '#fff',
-    // marginLeft: 5,
+     color:'white',
+    
+
   },
   //////coverimage k uper skill show.....
   skillsContainer: {

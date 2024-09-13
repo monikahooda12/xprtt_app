@@ -289,6 +289,7 @@ import { commonStyles } from '../theme/Styles';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import { Responsive } from '../theme/Layout';
 import { useNavigation } from '@react-navigation/native';
+import { CommonStyles } from '../styles/styles';
  const { width,height } = Dimensions.get('window');
  const SearchBar = ({ onFilterPress }) => (
   <View style={styles.searchBar}>
@@ -332,23 +333,34 @@ const CardGrid = ({ items, onCardPress }) => (
 const CommonLayout = ({ title, previousTitle, children, onTitlePress }) => {
     const navigation = useNavigation();
      return (
-       <SafeAreaView style={styles.safeArea}>
-         <View style={styles.container}>
-           <View style={styles.headerContainer}>
-             <View style={styles.tit}>
-               <TouchableOpacity onPress={() => navigation.goBack()}>
-                 <Text style={styles.title}>All Categories {`>`}</Text>
-               </TouchableOpacity>
-  
-               <TouchableOpacity onPress={onTitlePress}>
-                 <Text style={styles.title} ellipsizeMode="tail">
-                   {previousTitle ? ` ${previousTitle} > ${title}` : title}</Text>
-               </TouchableOpacity>
-             </View>
-           </View>
-           {children}
-         </View>
-       </SafeAreaView>
+      <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        <View style={styles.headerContainer}>
+          <View style={styles.titleContainer}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text style={styles.linkText}>All Categories</Text>
+            </TouchableOpacity>
+            <Text style={styles.separator}> {'>'} </Text>
+            {previousTitle && (
+              <>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                  <Text style={styles.linkText} numberOfLines={1}>{previousTitle}</Text>
+                </TouchableOpacity>
+                <Text style={styles.separator}> {'>'} </Text>
+              </>
+            )}
+            <TouchableOpacity onPress={onTitlePress}>
+              <Text style={styles.currentTitle} numberOfLines={1}>{title}</Text>
+            </TouchableOpacity>
+           
+          </View>
+          <View style={{ ...CommonStyles.horizontalLine }} />
+          
+          
+        </View>
+        {children}
+      </View>
+    </SafeAreaView>
      );
    };
 const CategorySection = ({ title, searchPlaceholder, isSearchbarHide, categories, onSearch, onCardPress, onFilterPress }) => (
@@ -361,6 +373,34 @@ const CategorySection = ({ title, searchPlaceholder, isSearchbarHide, categories
      </View>
    );
 const styles = StyleSheet.create({
+
+  
+  linkText: {
+    fontFamily: FONTS.ROBOTO_BLACK,
+     fontSize: responsiveFontSize(1.8),
+     fontWeight: 'bold',
+    color: COLORS.TEXT,
+  },
+  titleContainer: {
+    flexDirection: 'row',
+     alignItems: 'center',
+     flexWrap: 'nowrap',
+    // flex: 1,
+  },
+  currentTitle: {
+    fontFamily: FONTS.ROBOTO_BLACK,
+    fontSize: responsiveFontSize(1.8),
+    fontWeight: 'bold',
+    color: COLORS.TEXT,
+    flexShrink: 1,
+  },
+  separator: {
+    fontFamily: FONTS.ROBOTO_BLACK,
+    fontSize: responsiveFontSize(1.8),
+    fontWeight: 'bold',
+    color: COLORS.TEXT,
+    // marginHorizontal: 5,
+  },
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -416,44 +456,44 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   tit: {
-    fontSize: 20,
-    display: 'flex',
+     fontSize: 10,
+     display: 'flex',
     flexDirection: 'row',
     fontWeight: 'bold',
-    // marginBottom: 10,
+     
     numberOfLines: 1,
 
   },
 
 
-  safeArea: {
-    flex: 1,
-    backgroundColor: COLORS.PRIMARY,
-  },
+  // safeArea: {
+  //   // flex: 1,
+  //    backgroundColor: COLORS.PRIMARY,
+  // },
   container: {
     flex: 1,
     backgroundColor: COLORS.PRIMARY,
   },
-  headerContainer: {
+  // headerContainer: {
 
 
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
-    // paddingHorizontal:-3,
-  },
-  title: {
-    fontFamily: FONTS.ROBOTO_BLACK,
-    fontSize: responsiveFontSize(2),
-    paddingHorizontal: 5,
-    fontWeight: 'bold',
-    color: COLORS.TEXT,
+  //   flexDirection: 'row',
+  //    alignItems: 'center',
+  //     paddingHorizontal: 10,
+  //     paddingVertical: 15,
+  //     borderBottomWidth: 1,
+  //    borderBottomColor: '#e0e0e0',
+  //   // paddingHorizontal:-3,
+  // },
+  // title: {
+  //   fontFamily: FONTS.ROBOTO_BLACK,
+  //   fontSize: responsiveFontSize(1),
+  //   paddingHorizontal: 5,
+  //    fontWeight: 'bold',
+  //   color: COLORS.TEXT,
 
 
-  },
+  // },
 
 
 
@@ -484,7 +524,7 @@ const styles = StyleSheet.create({
   card: {
     alignItems: 'center',
     width: width / 3 - 20, // Adjust based on your layout needs
-      marginHorizontal: responsiveWidth(10),
+       marginHorizontal: responsiveWidth(10),
      marginVertical: 10,
   },
   cardIcon: {
@@ -516,10 +556,10 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: COLORS.PRIMARY,
     },
-    container: {
-      flex: 1,
-      backgroundColor: COLORS.PRIMARY,
-    },
+    // container: {
+    //   flex: 1,
+    //   backgroundColor: COLORS.PRIMARY,
+    // },
     headerContainer: {
       backgroundColor: COLORS.PRIMARY,
       paddingVertical: height * 0.02,

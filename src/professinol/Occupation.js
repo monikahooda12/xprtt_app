@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text } from 'react-native';
 import OccupationModal from '../Modals/OccuptionModal';
- 
 
 const Occupation = () => {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -20,10 +19,12 @@ const Occupation = () => {
   };
 
   // Function to handle selected occupation
-  const handleSelectOccupation = (selectedOccupationIds) => {
-    // Assuming you want to display the selected IDs for now
-    const selectedOccupations = selectedOccupationIds.join(', ');
-    handleInputChange('occupation', selectedOccupations);
+  const handleSelectOccupation = (selectedOccupations) => {
+    // Extract only the names (titles) of the selected occupations
+    const selectedOccupationNames = selectedOccupations.map(item => item.title).join(', ');
+    
+    // Update the input field with the selected occupation names
+    handleInputChange('occupation', selectedOccupationNames);
   };
 
   return (

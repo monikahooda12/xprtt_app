@@ -133,7 +133,7 @@ import { responsiveFontSize, responsiveHeight } from 'react-native-responsive-di
 
 const { width } = Dimensions.get('window');
 
-const Home = () => {
+const SearchResults = () => {
   const navigation = useNavigation();
   const [categoriesData, setCategoriesData] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
@@ -278,7 +278,7 @@ marginTop:-15,
   },
 });
 
-export default Home;
+export default SearchResults;
 
 
 

@@ -1,24 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  Modal,
-  Pressable,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import {View,Text,Modal,Pressable,StyleSheet,TouchableOpacity,ScrollView,} from 'react-native';
 import {responsiveWidth} from 'react-native-responsive-dimensions';
-
-//api
+import { useSelector } from 'react-redux';
 import {httpRequest} from '../api/http';
-
-//constants
 import {API, COLORS} from '../constants';
-
 //utils
 import {getLocalData, storeLocalData} from '../utils';
-
 //components
 import {TextInput, Button, SelectList} from '../components';
 import {CustomText} from '../components/textInputs/text';
@@ -31,7 +18,8 @@ const Service = () => {
   const [categories, setCategories] = useState([]);
   const [maincategory, setMainCategory] = useState('');
   const [projectTypes, setProjectTypes] = useState({});
-  const [button, setButton] = useState({});
+
+  const categoriesFromRedux = useSelector(state => state.categories.categories);
 
   useEffect(() => {
     fetchUserData();
@@ -41,9 +29,10 @@ const Service = () => {
     try {
       const catObj = await getLocalData('categories');
       console.log(mainCategory, 'mainCategory in data --services----');
+      console.log("redux", categoriesFromRedux)
 
       let index;
-      const categoryName = catObj.find((item, i) => {
+      const categoryName = categoriesFromRedux.find((item, i) => {
         if (item.name == mainCategory) {
           index = i;
           return true;
@@ -54,7 +43,7 @@ const Service = () => {
       console.log(index, 'categoryname------');
 
       if (index !== undefined) {
-        catObj[index].child.map(child =>
+        categoriesFromRedux[index].child.map(child =>
           setCategories(categories => [
             ...categories,
             {
@@ -82,14 +71,14 @@ const Service = () => {
 
       console.log('Response ', response?.data?.professional);
       const professionalObj = response?.data?.professional;
-      console.log(professionalObj?.main_category,"main category------value");
+      console.log(professionalObj?.main_category, "main category 84");
 
       professionalObj.service = professionalObj?.service?.length
         ? professionalObj.service
         : [{}]; // Ensure there's at least one service
 
       await storeLocalData('user', response?.data);
-      setServices(professionalObj.service); 
+      setServices(professionalObj.service);
       fetchCategories(professionalObj?.main_category);
 
       const initialProjectTypes = professionalObj.service.reduce(
@@ -139,7 +128,6 @@ const Service = () => {
     }
   };
 
-
   const handleAddService = () => {
     const updatedServices = [
       ...services,
@@ -175,24 +163,26 @@ const Service = () => {
     saveServices(updatedServices);
   };
 
-  const handleChangeProjectType = ((index, value) => {
-    setProjectTypes((prev) => ({ ...prev, [index]: value }));
-  });
-
-   const handleSubmit = async (values) => {
-    try {
-      const response = await httpRequest({
-        method: "PUT",
-        url: API.PROFILE_PROFESSIONAL,
-        params: values,
-      });
-      setButton(response); // Ensure that `response` contains valid data
-      // await updateProgress(response?.data); // Uncomment this if needed
-    } catch (error) {
-      console.error("Form submission failed:", error);
-    }
+  const handleChangeProjectType = (index, value) => {
+    setProjectTypes(prev => ({...prev, [index]: value}));
   };
 
+  const handleSubmit = async values => {
+    try {
+      const response = await httpRequest({
+        method: 'PUT',
+        url: API.PROFILE_PROFESSIONAL,
+        data: values,
+      });
+      if (response) {
+        console.log('Form submitted successfully!', response.data);
+      } else {
+        console.log('Form submission response not successful:', response);
+      }
+    } catch (error) {
+      console.error('Form submission failed:', error);
+    }
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -217,7 +207,7 @@ const Service = () => {
 
           <View style={styles.inputContainer}>
             <Pressable
-              onPress={(value) => {
+              onPress={value => {
                 handleChangeProjectType(index, value);
                 setProjectTypeModalVisible(true);
               }}>
@@ -289,10 +279,10 @@ const Service = () => {
       </TouchableOpacity>
 
       <Button
-      title="Submit"
-      onPress={() => handleSubmit(services)}
-      style={{ marginTop: 16 }}
-    />
+        name="Submit"
+        onPress={() => handleSubmit(services)}
+        style={{marginTop: 16}}
+      />
 
       <Modal
         animationType="slide"
@@ -304,9 +294,9 @@ const Service = () => {
             <SelectList onPress={() => handleProjectTypeChange('fixed')}>
               <Text style={styles.modalOption}>Fixed Project</Text>
             </SelectList>
-            <Pressable onPress={() => handleProjectTypeChange('hourly')}>
+            <SelectList onPress={() => handleProjectTypeChange('hourly')}>
               <Text style={styles.modalOption}>Hourly Based Project</Text>
-            </Pressable>
+            </SelectList>
             <Pressable onPress={() => setProjectTypeModalVisible(false)}>
               <Text style={styles.modalOptionCancel}>Cancel</Text>
             </Pressable>
@@ -344,10 +334,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: responsiveWidth(3),
-    backgroundColor: COLORS.PRIMARY,
+    // backgroundColor:black,
+     backgroundColor: COLORS.PRIMARY,
   },
   card: {
-    backgroundColor: 'transparent',
+    // backgroundColor: 'transparent',
     marginBottom: 10,
     elevation: 0, // Optional shadow effect
     borderRadius: 0,
@@ -374,7 +365,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   input: {
-    color: 'white',
+    color: 'rgba(0, 0, 0, 0.7)',
   },
   addButton: {},
   addButtonText: {
@@ -383,29 +374,31 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
   },
   pickerContainer: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 12,
-    marginBottom: 16,
-    backgroundColor: '#E0E0E0',
+     borderWidth: 1,
+     borderColor: '#ccc',
+     padding: 12,
+    borderRadius:8,
+     marginBottom: 16,
+    backgroundColor: 'white', // Black with 50% opacity
     marginHorizontal: 5,
+    
   },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#999',
+    backgroundColor: '#cccc',
   },
   modalContent: {
     backgroundColor: 'transparent',
-    padding: 20,
+    padding: 10,
     borderRadius: 8,
-    width: '50%',
+    width: '30%',
   },
   modalOption: {
     paddingVertical: 10,
     textAlign: 'center',
-    color: '#FFFFFF',
+    color: 'black',
     marginBottom: 8,
     borderRadius: 8,
   },

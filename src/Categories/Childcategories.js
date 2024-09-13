@@ -141,10 +141,10 @@ console.log(title,'titlesbsdk')
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.PRIMARY,
-  },
+   container: {
+      flex: 1,
+     backgroundColor: COLORS.PRIMARY,
+   },
 });
 
 export default Childcategories;

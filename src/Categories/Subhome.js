@@ -166,7 +166,8 @@ const styles = StyleSheet.create({
   },
   ////////////////////////////slider ///////// 
   slickWrapper: {
-    height: 180,
+    height: 220,
+    // paddingHorizontal:40,
   },
   slide: {
     flexDirection: 'row',

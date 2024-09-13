@@ -33,11 +33,6 @@ const Parentcategories = () => {
     navigation.navigate('Childcategories', { id: service.id });
   };
 
-
-
-
-  
-
   const getallcatergies = async () => {
     showLoader();
     try {
@@ -64,48 +59,13 @@ const Parentcategories = () => {
     getallcatergies();
   }, []);
 
-//   const handleSearch = text => {
-//     const filtered = categoriesData.filter(category =>
-//       category.title.toLowerCase().includes(text.toLowerCase())
-//     );
-//     setFilteredCategories(filtered);
-    // console.log("filteredCategories",filteredCategories)
-//   };
 
-  // const handleCheckboxToggle =async ( service) => {
-  //   // console.log("service",service)
-  //  await setSelectedServices(prevSelected => {
-  //     if (prevSelected.some(s => s.id === service.id)) {
-
-  //              return prevSelected.filter(s => s.id !== service.id);
-  //            } else {
-  //              return [...prevSelected, service];
-  //            }
-  //   } 
-  // );
-  // console.log("?[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[",selectedServices);
-
-  // const handleCheckboxToggle = (service) => {
-  //   setSelectedServices((prevSelected) => {
-  //     if (prevSelected.some(s => s.id === service.id)) {
-
-  //       return prevSelected.filter(s => s.id !== service.id);
-  //     } else {
-  //       return [...prevSelected, service];
-  //     }
-  //   });
-  // };
-// console.log("selectedServicesNames",selectedServicesNames)
-//     setSelectedServices(prevState => ({
-//       ...prevState,
-//       [serviceId]: !prevState[serviceId],
-//     }));
-   
+  
 
   const handleOnApply = Service => {
     // dispatch(setselectedServiceNames(selectedServicesNames));
     navigation.navigate("Xprrt",{categoriesSlug:Service})
-     console.log("?[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[",Service);
+     console.log("?Parnetcategories",Service);
   };
 
   return (
@@ -138,23 +98,23 @@ const Parentcategories = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: COLOR.white,
-    // marginTop: -20,
+    // flex: 1,
+     backgroundColor: COLOR.white,
+    
      padding: 15,
   },
   title: {
-     fontFamily: 'Roboto-Black',
-    fontSize: responsiveFontSize(3),
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#0F0F0F',
-    textAlign:'center'
+    //  fontFamily: 'Roboto-Black',
+    // fontSize: responsiveFontSize(3),
+    // fontWeight: 'bold',
+    // marginBottom: 20,
+    // color: '#0F0F0F',
+    // textAlign:'center'
   },
   noDataText: {
-    textAlign: 'center',
-    fontSize: 18,
-    color: '#000000',
+    // textAlign: 'center',
+    // fontSize: 18,
+    // color: '#000000',
     // marginTop: 20,
   },
 });

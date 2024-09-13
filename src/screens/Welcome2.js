@@ -224,12 +224,12 @@ export const Welcome2 = ({route, navigation}) => {
           onChangeText={text => handleInputChange('occupation', text)}
         />  */}
 
-        {/* <Skill /> */}
-        {/* <Availability /> */}
-        {/* <Language /> */}
-        {/* <Education /> */}
-        {/* <Portfolio /> */}
-        {/* <Experience /> */}
+        <Skill />
+        <Availability />
+        <Language />
+        <Education />
+        <Portfolio />
+        <Experience />
         {/* <Experience /> */}
         <Occupation/>
       </View>
